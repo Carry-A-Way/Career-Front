@@ -71,10 +71,10 @@ function App() {
         <Menubar />
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/signMentee" element={<SignupMentee />} />
+          <Route path="/signup/mentee" element={<SignupMentee />} />
           <Route path="/home" element={<SignupMentee />} />
-          <Route path="/signMentor" element={<SignupMentor />} />
-          <Route path="/findPassword" element={<FindPassword />} />
+          <Route path="/signup/mentor" element={<SignupMentor />} />
+          <Route path="/password" element={<FindPassword />} />
           <Route path="/restricted" element={<Restricted />} />
           {isLogin ? (
             <>

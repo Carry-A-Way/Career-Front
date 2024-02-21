@@ -9,6 +9,7 @@ export const ButtonDiv = ({
   onClick,
   height,
   disabled,
+  style,
 }) => {
   return (
     <StyledButtonDiv
@@ -17,6 +18,7 @@ export const ButtonDiv = ({
       }
       height={height}
       onClick={disabled ? () => {} : onClick}
+      style={style}
     >
       {children}
     </StyledButtonDiv>

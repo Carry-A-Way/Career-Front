@@ -20,3 +20,9 @@ export function getIdFromToken(token) {
   if (!decoded || decoded.id == "undefined") return -1;
   return decoded.id;
 }
+
+export function getUsernameFromToken(token) {
+  const decoded = decodeJwt(token);
+  if (!decoded || decoded.sub == "undefined") return -1;
+  return decoded.sub;
+}
