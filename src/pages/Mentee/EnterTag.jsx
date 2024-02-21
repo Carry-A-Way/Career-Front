@@ -5,12 +5,12 @@ import { colors } from "../../styles/common/Theme";
 import TagList from "../../components/List/TagList";
 import { fetchMenteeProfile } from "../../api/fetchProfile";
 import { useQuery } from "react-query";
-import { modifyMenteeProfile, modifyMenteeTag } from "../../api/modifyProfile";
+import { modifyMenteeTag } from "../../api/modifyProfile";
 import { ButtonDiv } from "../../components/Button/Button";
 
 const EnterTag = () => {
   const [tagList, setTagList] = useState([]);
-  const { data, isLoading } = useQuery("tag", fetchMenteeProfile, {
+  const { isLoading } = useQuery("tag", fetchMenteeProfile, {
     staleTime: 1000 * 60 * 10,
     onSuccess: (data) => {
       setTagList(!!data.tagList ? [...data.tagList] : []);
@@ -18,7 +18,7 @@ const EnterTag = () => {
   });
 
   const onInsertTag = () => {
-    modifyMenteeTag({ tagList: [...tagList] }, null);
+    modifyMenteeTag(tagList);
     window.alert("태그를 등록했습니다.");
   };
 
@@ -35,8 +35,12 @@ const EnterTag = () => {
         </p>
         <p>관심 학과, 원하는 상담 스타일 등을 작성해 주세요!</p>
       </Content>
-      {!!tagList && (
-        <TagList tagList={tagList} setTagList={setTagList} view={false} />
+      {isLoading ? (
+        <p>loading...</p>
+      ) : (
+        !!tagList && (
+          <TagList tagList={tagList} setTagList={setTagList} view={false} />
+        )
       )}
       <ButtonDiv size="large" height="2.7rem" onClick={onInsertTag}>
         등록하기
