@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import PointBox from "../../components/Box/PointBox";
 import MoveBox from "../../components/Box/MoveBox";
@@ -22,41 +22,7 @@ import {
 } from "../../constants";
 
 const Home = () => {
-  const [userName, setUserName] = useState("김성애");
-  // const [consultList, setConsultList] = useState([
-  //   {
-  //     id: 0,
-  //     name: "김성애",
-  //     startTime: new Date(2023, 3, 25, 13, 30, 0),
-  //     endTime: new Date(2023, 3, 25, 13, 50, 0),
-  //     consultMajor: "컴퓨터소프트웨어학부",
-  //     request: "어떤 공부를 해야할지 궁금해요.",
-  //   },
-  //   {
-  //     id: 1,
-  //     name: "신종민",
-  //     startTime: new Date(2023, 4, 21, 13, 30, 0),
-  //     endTime: new Date(2023, 4, 21, 13, 30, 0),
-  //     consultMajor: "전산학부",
-  //     request: "어떤 공부를 해야할지 궁금해요.",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "한재준",
-  //     startTime: new Date(2023, 5, 3, 13, 30, 0),
-  //     endTime: new Date(2023, 5, 3, 13, 30, 0),
-  //     consultMajor: "컴퓨터소프트웨어학부",
-  //     request: "어떤 공부를 해야할지 궁금해요.",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "채희문",
-  //     startTime: new Date(2023, 5, 3, 13, 30, 0),
-  //     endTime: new Date(2023, 5, 3, 13, 30, 0),
-  //     consultMajor: "화학공학과",
-  //     request: "잘할 수 있을까요?",
-  //   },
-  // ]);
+  const userName = "김성애";
   const { lastUpcomingConsult, upcomingConsult } = useGetConsult();
   const { cancelConsult } = useGetCancelConsult();
   const { completedConsult } = useGetCompletedConsult();

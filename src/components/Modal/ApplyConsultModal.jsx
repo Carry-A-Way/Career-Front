@@ -7,12 +7,10 @@ import MajorAutoComplete from "../List/MajorAutoComplete";
 import { useQuery } from "react-query";
 import { fetchMajorAutoComplete } from "../../api/fetchMajorList";
 import { ButtonDiv } from "../Button/Button";
-import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { getIdFromToken } from "../../auth/jwtFunctions";
 import { getCookie } from "../../cookie";
-import { applyConsult } from "../../api/applyConsult";
 import { localToIsoParse } from "../../utils/ParseFormat";
 
 const ApplyConsultModal = (props) => {

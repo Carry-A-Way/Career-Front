@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import styled from "styled-components";
 import { xScrollStyle } from "../../styles/common/Scroll";
 import MentorCard from "./MentorCard";

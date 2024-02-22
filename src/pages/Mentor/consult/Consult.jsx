@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import RecommendMenteeItem from "../../../components/List/RecommendMenteeItem";
 import ConsultList from "../../../components/List/ConsultList";
@@ -25,7 +25,7 @@ const Consult = () => {
   const { upcomingConsult } = useGetConsult();
   const { completedConsult } = useGetCompletedConsult();
   const { cancelConsult } = useGetCancelConsult();
-  const [recommend, setRecomment] = useState([
+  const recommend = [
     {
       title: "전산학부 고민입니다..",
       name: "김성애",
@@ -54,42 +54,7 @@ const Consult = () => {
       date: "2023-06-06",
       interest: "전자공학과, 컴퓨터공학과",
     },
-  ]);
-  // const [consultList, setConsultList] = useState([
-  //   {
-  //     id: 0,
-  //     name: "김성애",
-  //     startTime: new Date(2023, 3, 25, 13, 30, 0),
-  //     endTime: new Date(2023, 3, 25, 13, 50, 0),
-  //     consultMajor: "컴퓨터소프트웨어학부",
-  //     request: "어떤 공부를 해야할지 궁금해요.",
-  //   },
-  //   {
-  //     id: 1,
-  //     name: "신종민",
-  //     startTime: new Date(2023, 4, 21, 13, 30, 0),
-  //     endTime: new Date(2023, 4, 21, 13, 30, 0),
-  //     consultMajor: "전산학부",
-  //     request: "어떤 공부를 해야할지 궁금해요.",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "한재준",
-  //     startTime: new Date(2023, 5, 3, 13, 30, 0),
-  //     endTime: new Date(2023, 5, 3, 13, 30, 0),
-  //     consultMajor: "컴퓨터소프트웨어학부",
-  //     request: "어떤 공부를 해야할지 궁금해요.",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "채희문",
-  //     startTime: new Date(2023, 5, 3, 13, 30, 0),
-  //     endTime: new Date(2023, 5, 3, 13, 30, 0),
-  //     consultMajor: "화학공학과",
-  //     request: "잘할 수 있을까요?",
-  //   },
-  // ]);
-  // const [consultCount, setConsultCount] = useState(consultList.length);
+  ];
 
   return (
     <>

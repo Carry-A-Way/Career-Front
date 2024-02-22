@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import SubMenubar from "../../../components/Menubar/SubMenubar";
 import styled from "styled-components";
 import RecommendMenteeItem from "../../../components/List/RecommendMenteeItem";
@@ -17,7 +17,7 @@ const UpcomingConsult = () => {
   const subMenuList = MentorConsultMenu;
   const subMenuLink = MentorConsultLinkList;
   const { upcomingConsult } = useGetUpcomingConsult();
-  const [recommend, setRecomment] = useState([
+  const recommend = [
     {
       title: "전산학부 고민입니다..",
       name: "김성애",
@@ -46,7 +46,7 @@ const UpcomingConsult = () => {
       date: "2023-06-06",
       interest: "전자공학과, 컴퓨터공학과",
     },
-  ]);
+  ];
   return (
     <>
       <SubMenubar

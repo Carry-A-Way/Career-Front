@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { PopularMentors, Review, TotalMentors } from "../../settings/config";
 import styled from "styled-components";
 import { yScrollStyle } from "../../styles/common/Scroll";
 import { setDefaultImage } from "../../utils/DefaultValue";

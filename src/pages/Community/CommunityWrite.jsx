@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, { useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { SV_LOCAL } from "../../constants";
 import { getCookie } from "../../cookie";

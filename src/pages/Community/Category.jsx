@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faPencil } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
-import CategoryList from "../../components/List/CategoryItem";
 import { Link } from "react-router-dom";
 import SubMenubar from "../../components/Menubar/SubMenubar";
 import { CommunityMenu, CommunityMenuLinkList } from "../../settings/config";

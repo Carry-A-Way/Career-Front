@@ -10,7 +10,7 @@ export const fetchMentor = async (queryParams) => {
 
     switch (sortOption) {
       case 0: // 최신순
-        type = "recent";
+        type = "recently";
         break;
       case 1: // 후기 많은 순
         type = "rate";

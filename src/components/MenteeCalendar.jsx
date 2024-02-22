@@ -69,18 +69,18 @@ const MenteeCalendar = (props) => {
         ? "#dcdcdc98"
         : "white",
     };
-    if (!!target) {
-      if (
-        // 드래그할때
-        new Date(date) >= new Date(selectedSlot.start) &&
-        new Date(date) < new Date(selectedSlot.end)
-      ) {
-        if (!moment(selectedSlot.start).isBefore(today)) {
-          style = { backgroundColor: "#526684", border: "none" };
-        }
+    // if (!!target) {
+    if (
+      // 드래그할때
+      new Date(date) >= new Date(selectedSlot.start) &&
+      new Date(date) < new Date(selectedSlot.end)
+    ) {
+      if (!moment(selectedSlot.start).isBefore(today)) {
+        style = { backgroundColor: "#526684", border: "none" };
       }
-      return { style };
-    } else return null;
+    }
+    return { style };
+    // } else return null;
   };
 
   const eventPropGetter = (event, start) => {

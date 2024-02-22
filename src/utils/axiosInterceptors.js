@@ -1,6 +1,5 @@
 import axios from "axios";
 import { getGlobalNavigate } from "../hooks/useGlobalNavigate";
-import { useSelector, useDispatch } from "react-redux";
 import { setIsLogin } from "../store/isLoginSlice";
 
 export const setupAxiosInterceptors = (dispatch) => {

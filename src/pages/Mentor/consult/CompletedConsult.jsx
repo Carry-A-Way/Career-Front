@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import SubMenubar from "../../../components/Menubar/SubMenubar";
 import styled from "styled-components";
 import RecommendMenteeItem from "../../../components/List/RecommendMenteeItem";
 import ConsultList from "../../../components/List/ConsultList";
 import { ConsultListShort } from "../../../components/List/ConsultList";
 import HorizontalLine from "../../../components/Line/HorizontalLine";
-import useGetConsult from "../../../hooks/useGetConsult";
 import useGetCompletedConsult from "../../../hooks/useGetCompletedConsult";
 import { COMPLETED_CONSULT_TYPE } from "../../../constants";
 import { xScrollStyle, yScrollStyle } from "../../../styles/common/Scroll";
@@ -18,7 +17,7 @@ const CompletedConsult = () => {
   const subMenuList = MentorConsultMenu;
   const subMenuLink = MentorConsultLinkList;
   const { completedConsult } = useGetCompletedConsult();
-  const [recommend, setRecomment] = useState([
+  const recommend = [
     {
       title: "전산학부 고민입니다..",
       name: "김성애",
@@ -47,14 +46,13 @@ const CompletedConsult = () => {
       date: "2023-06-06",
       interest: "전자공학과, 컴퓨터공학과",
     },
-  ]);
+  ];
 
   return (
     <>
       <SubMenubar
         subMenuList={subMenuList}
         selectMenu={subMenuList[2]}
-        // setSubMenu={setSubMenu}
         subMenuLinkList={subMenuLink}
       />
       <Form>

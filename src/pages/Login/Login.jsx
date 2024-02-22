@@ -1,18 +1,16 @@
 import React from "react";
 import { useState } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { setCookie } from "../../cookie";
-import { SV_HOST, SV_LOCAL, FRONT_URL } from "../../constants";
+import { FRONT_URL } from "../../constants";
 import { setIsMentor } from "../../store/isMentorSlice";
 import { useDispatch } from "react-redux";
 import { setIsLogin } from "../../store/isLoginSlice";
 import styled from "styled-components";
-import { Button, ButtonDiv } from "../../components/Button/Button";
-import { colors } from "../../styles/common/Theme";
+import { Button } from "../../components/Button/Button";
 import VerticalLine from "../../components/Line/VerticalLine";
 import { handleLogin } from "../../api/login";
-import { getIdFromToken, getUsernameFromToken } from "../../auth/jwtFunctions";
+import { getUsernameFromToken } from "../../auth/jwtFunctions";
 
 function Login() {
   const [id, setId] = useState("");

@@ -27,10 +27,7 @@ import {
 } from "../../utils/ParseFormat";
 import { checkValidNickname } from "../../api/checkValid";
 import { CompareObjects } from "../../utils/CompareObjects";
-import {
-  modifyMenteeProfile,
-  modifyMentorProfile,
-} from "../../api/modifyProfile";
+import { modifyMenteeProfile } from "../../api/modifyProfile";
 import AlertModal from "../../components/Modal/AlertModal";
 import BottomFixButton from "../../components/Button/BottomFixButton";
 
@@ -444,13 +441,4 @@ const ProfileImg = styled.img`
   margin-bottom: 10px;
   object-fit: cover;
   cursor: pointer;
-`;
-
-const ImageWrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 8rem);
-  grid-template-rows: repeat(2, 8rem);
-  width: 100%;
-  height: 100%;
-  gap: 10px;
 `;

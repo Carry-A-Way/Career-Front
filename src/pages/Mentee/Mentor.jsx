@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import SubMenubar from "../../components/Menubar/SubMenubar";
 import styled from "styled-components";
 import PointBox from "../../components/Box/PointBox";
@@ -11,22 +11,14 @@ import {
   faTicket,
 } from "@fortawesome/free-solid-svg-icons";
 import HorizontalLine from "../../components/Line/HorizontalLine";
-import MentorList from "../../components/List/MentorList";
-import { colors } from "../../styles/common/Theme";
-import {
-  MenteeMentorLinkList,
-  MenteeMentorMenu,
-  PopularMentors,
-  RecommendMentors,
-} from "../../settings/config";
-import { MenteeHeader } from "../../styles/common/Mentee";
+import { MenteeMentorLinkList, MenteeMentorMenu } from "../../settings/config";
 import RecommendMentorList from "../../components/List/RecommendMentorList";
 import PopularMentorList from "../../components/List/PopularMentorList";
 const Mentor = () => {
   const subMenuList = MenteeMentorMenu;
   const subMenuLinkList = MenteeMentorLinkList;
   const subMenu = subMenuList[0];
-  const [userName, setUserName] = useState("김성애");
+  const userName = "김성애";
   return (
     <>
       <SubMenubar
@@ -137,36 +129,6 @@ const NameDiv = styled.div`
   }
 `;
 
-const Header = styled.div`
-  border: 1px solid black;
-  width: 8rem;
-  padding: 0.5rem 2rem;
-  background-color: #334b6c;
-  color: white;
-  border-radius: 1.5rem;
-  text-align: center;
-  font-size: 1.2rem;
-  font-weight: 500;
-`;
-
-const SortList = styled.div`
-  div {
-    border: 2px solid black;
-    padding: 0.5rem 1rem;
-    text-align: center;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    &:hover {
-      background-color: ${colors.primaryBlue};
-      color: white;
-    }
-  }
-  margin: 1rem 0;
-  display: flex;
-  gap: 1rem;
-`;
 const LineGap = styled.div`
   width: 100%;
   margin: 4rem 0;

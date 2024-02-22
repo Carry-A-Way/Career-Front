@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { ButtonDiv } from "../../components/Button/Button";
 import MenuLine from "../../components/Line/MenuLine";
 import HorizontalLine from "../../components/Line/HorizontalLine";
@@ -44,7 +44,7 @@ function Signup() {
     // activeImg: [],
   });
 
-  const [careerFile, setCareerFile] = useState([]);
+  // const [careerFile, setCareerFile] = useState([]);
 
   // const fileUploadIdx = useRef(0);
   // const onUploadFile = (e) => {

@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { MenteeHeader, MentorCardGrid } from "../../styles/common/Mentee";
+import { MentorCardGrid } from "../../styles/common/mentee/MentorCard";
+import { MenteeHeader } from "../../styles/common/mentee/MenteeForm";
 import {
   MenteeMentorLinkList,
   MenteeMentorMenu,

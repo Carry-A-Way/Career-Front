@@ -5,15 +5,11 @@ import { getCookie } from "../cookie";
 
 export const applyConsult = async (data) => {
   try {
-    const response = await axios.post(
-      `${SV_LOCAL}/${APPLY_CONSULT_TO_MENTOR}`,
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${getCookie("jwtToken")}`,
-        },
-      }
-    );
+    await axios.post(`${SV_LOCAL}/${APPLY_CONSULT_TO_MENTOR}`, data, {
+      headers: {
+        Authorization: `Bearer ${getCookie("jwtToken")}`,
+      },
+    });
   } catch (err) {
     console.error(err);
   }

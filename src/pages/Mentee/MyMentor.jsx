@@ -10,7 +10,7 @@ import styled from "styled-components";
 import MentorDetailCard from "../../components/List/MentorDetailCard";
 import MentorCard from "../../components/List/MentorCard";
 import { xScrollStyle } from "../../styles/common/Scroll";
-import { MenteeHeader } from "../../styles/common/Mentee";
+import { MenteeHeader } from "../../styles/common/mentee/MenteeForm";
 import { ButtonDiv } from "../../components/Button/Button";
 import { useNavigate } from "react-router-dom";
 import HorizontalLine from "../../components/Line/HorizontalLine";

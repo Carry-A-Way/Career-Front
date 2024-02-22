@@ -1,10 +1,8 @@
 import MentorList from "./MentorList";
 import { ButtonDiv } from "../Button/Button";
 import styled from "styled-components";
-import { colors } from "../../styles/common/Theme";
 import { useNavigate } from "react-router-dom";
-import { MenteeHeader } from "../../styles/common/Mentee";
-import { RecommendMentors } from "../../settings/config";
+import { MenteeHeader } from "../../styles/common/mentee/MenteeForm";
 
 const RecommendMentorList = () => {
   const navigate = useNavigate();

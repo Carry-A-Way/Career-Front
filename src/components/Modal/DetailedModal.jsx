@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { dateTimeParse, timeParse } from "../../utils/ParseFormat";
+import React, { useState } from "react";
+import { dateTimeParse } from "../../utils/ParseFormat";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
@@ -71,6 +71,8 @@ const DetailedModal = (props) => {
         return "";
       case CANCEL_CONSULT_TYPE: // 3
         return `취소 사유 : ${detailObject.reason}`;
+      default:
+        return "";
     }
   };
 
@@ -83,6 +85,8 @@ const DetailedModal = (props) => {
       case COMPLETED_CONSULT_TYPE: // 2
         return "";
       case CANCEL_CONSULT_TYPE: // 3
+        return "";
+      default:
         return "";
     }
   };

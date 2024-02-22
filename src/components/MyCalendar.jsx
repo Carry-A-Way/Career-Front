@@ -14,7 +14,7 @@ const MyCalendar = () => {
   const [possibleTimeList, setPossibleTimeList] = useState([]);
   const [isUpdatePossibleTime, setIsUpdatePossibleTime] = useState(true);
   const today = moment();
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  // const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState({
     start: "",
     end: "",

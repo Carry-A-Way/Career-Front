@@ -1,17 +1,10 @@
 import React, { useEffect } from "react";
-import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Menubar from "./components/Menubar/Menubar";
 import Login from "./pages/Login/Login";
 import SignupMentee from "./pages/Mentee/Signup";
 import SignupMentor from "./pages/Mentor/Signup";
 import FindPassword from "./pages/FindPassword/FindPassword";
-import Home from "./pages/Home/Home";
 import "./App.css";
 import HomeMentor from "./pages/Mentor/Home";
 import Setting from "./pages/Mentor/Setting";
@@ -51,7 +44,6 @@ import {
 import UserCard from "./pages/UserCard";
 import ConsultMentorCard from "./pages/ConsultMentorCard";
 import MenteeSchedule from "./pages/Mentee/Schedule";
-import { FRONT_URL } from "./constants";
 function App() {
   const isLogin = useSelector((state) => state.isLogin.value);
   const isMentor = useSelector((state) => state.isMentor.value);

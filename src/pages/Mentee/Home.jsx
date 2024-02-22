@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import PointBox from "../../components/Box/PointBox";
 import MoveBox from "../../components/Box/MoveBox";
@@ -12,14 +12,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import EventList from "../../components/List/EventList";
-import MentorList from "../../components/List/MentorList";
 import { colors } from "../../styles/common/Theme";
-import Button from "../../components/Button/Button";
 import RecommendMentorList from "../../components/List/RecommendMentorList";
 import PopularMentorList from "../../components/List/PopularMentorList";
-import { MenteeHeader } from "../../styles/common/Mentee";
+import { MenteeHeader } from "../../styles/common/mentee/MenteeForm";
 const Home = () => {
-  const [userName, setUserName] = useState("김성애");
+  const userName = "김성애";
 
   return (
     <Form>

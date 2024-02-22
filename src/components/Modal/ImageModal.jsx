@@ -22,7 +22,7 @@ const ImageModal = (props) => {
           }}
           onClick={() => setSelectImg(selectImg - 1)}
         />
-        <img src={imgList[selectImg]} alt="image" />
+        <img src={imgList[selectImg]} alt={`img-${selectImg}`} />
         <FontAwesomeIcon
           className="icon"
           icon={faChevronRight}

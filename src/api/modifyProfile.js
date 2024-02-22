@@ -54,7 +54,6 @@ export const modifyMenteeProfile = async (
 };
 
 export const modifyMenteeTag = async (tagList) => {
-  const formData = new FormData();
   // {tagList = [{ idx: 3}]} 형식으로 보내야함
   const jsonData = { tagList: [...tagList] };
   try {

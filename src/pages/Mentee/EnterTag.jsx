@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { MenteeHeader } from "../../styles/common/Mentee";
+import { MenteeHeader } from "../../styles/common/mentee/MenteeForm";
 import { colors } from "../../styles/common/Theme";
 import TagList from "../../components/List/TagList";
 import { fetchMenteeProfile } from "../../api/fetchProfile";
@@ -66,20 +66,4 @@ const Content = styled.div`
   font-size: 1.5rem;
   font-weight: 600;
   gap: 1rem;
-`;
-
-const EnterButton = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${colors.primaryBlue};
-  border-radius: 5px;
-  color: white;
-  border: 1px solid #2f5383;
-  font-size: 1.1rem;
-  font-weight: 600;
-  padding: 0.5rem 2rem;
-  box-sizing: border-box;
-  cursor: pointer;
-  height: 3rem;
 `;

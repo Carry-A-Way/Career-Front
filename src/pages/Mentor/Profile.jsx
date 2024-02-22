@@ -34,7 +34,6 @@ import { useQuery } from "react-query";
 import {
   birthHypenParse,
   birthOnlyNumberParse,
-  jsonParse,
   phoneNumberParse,
 } from "../../utils/ParseFormat";
 import { checkValidNickname } from "../../api/checkValid";

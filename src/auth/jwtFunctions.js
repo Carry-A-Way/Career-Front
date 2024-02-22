@@ -17,12 +17,12 @@ export function isTokenExpired(token) {
 
 export function getIdFromToken(token) {
   const decoded = decodeJwt(token);
-  if (!decoded || decoded.id == "undefined") return -1;
+  if (!decoded || decoded.id === "undefined") return -1;
   return decoded.id;
 }
 
 export function getUsernameFromToken(token) {
   const decoded = decodeJwt(token);
-  if (!decoded || decoded.sub == "undefined") return -1;
+  if (!decoded || decoded.sub === "undefined") return -1;
   return decoded.sub;
 }

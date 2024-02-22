@@ -190,7 +190,7 @@ export const RecommendMentors = [
     ],
     consultMajor1: "화학과",
     consultMajor2: "화학공학과",
-    consultMajor2: "물리학과",
+    consultMajor3: "물리학과",
     profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
 ];
@@ -257,7 +257,7 @@ export const TotalRecommendMentors = [
     ],
     consultMajor1: "화학과",
     consultMajor2: "화학공학과",
-    consultMajor2: "물리학과",
+    consultMajor3: "물리학과",
     profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
   {
@@ -321,7 +321,7 @@ export const TotalRecommendMentors = [
     ],
     consultMajor1: "화학과",
     consultMajor2: "화학공학과",
-    consultMajor2: "물리학과",
+    consultMajor3: "물리학과",
     profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
   {
@@ -385,7 +385,7 @@ export const TotalRecommendMentors = [
     ],
     consultMajor1: "화학과",
     consultMajor2: "화학공학과",
-    consultMajor2: "물리학과",
+    consultMajor3: "물리학과",
     profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
 ];
@@ -452,7 +452,7 @@ export const PopularMentors = [
     ],
     consultMajor1: "화학과",
     consultMajor2: "화학공학과",
-    consultMajor2: "물리학과",
+    consultMajor3: "물리학과",
     profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
   {
@@ -516,7 +516,7 @@ export const PopularMentors = [
     ],
     consultMajor1: "화학과",
     consultMajor2: "화학공학과",
-    consultMajor2: "물리학과",
+    consultMajor3: "물리학과",
     profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
 ];
@@ -583,7 +583,7 @@ export const TotalPopularMentors = [
     ],
     consultMajor1: "화학과",
     consultMajor2: "화학공학과",
-    consultMajor2: "물리학과",
+    consultMajor3: "물리학과",
     profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
   {
@@ -647,7 +647,7 @@ export const TotalPopularMentors = [
     ],
     consultMajor1: "화학과",
     consultMajor2: "화학공학과",
-    consultMajor2: "물리학과",
+    consultMajor3: "물리학과",
     profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
   {
@@ -711,7 +711,7 @@ export const TotalPopularMentors = [
     ],
     consultMajor1: "화학과",
     consultMajor2: "화학공학과",
-    consultMajor2: "물리학과",
+    consultMajor3: "물리학과",
     profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
   {
@@ -775,7 +775,7 @@ export const TotalPopularMentors = [
     ],
     consultMajor1: "화학과",
     consultMajor2: "화학공학과",
-    consultMajor2: "물리학과",
+    consultMajor3: "물리학과",
     profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
 ];
@@ -842,7 +842,7 @@ export const TotalMentors = [
     ],
     consultMajor1: "화학과",
     consultMajor2: "화학공학과",
-    consultMajor2: "물리학과",
+    consultMajor3: "물리학과",
     profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
   {
@@ -906,7 +906,7 @@ export const TotalMentors = [
     ],
     consultMajor1: "화학과",
     consultMajor2: "화학공학과",
-    consultMajor2: "물리학과",
+    consultMajor3: "물리학과",
     profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
   {
@@ -970,7 +970,7 @@ export const TotalMentors = [
     ],
     consultMajor1: "화학과",
     consultMajor2: "화학공학과",
-    consultMajor2: "물리학과",
+    consultMajor3: "물리학과",
     profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
   {
@@ -1034,7 +1034,7 @@ export const TotalMentors = [
     ],
     consultMajor1: "화학과",
     consultMajor2: "화학공학과",
-    consultMajor2: "물리학과",
+    consultMajor3: "물리학과",
     profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
   {
@@ -1098,7 +1098,7 @@ export const TotalMentors = [
     ],
     consultMajor1: "화학과",
     consultMajor2: "화학공학과",
-    consultMajor2: "물리학과",
+    consultMajor3: "물리학과",
     profileImg: "https://img.hankyung.com/photo/202001/BF.21480816.1.jpg",
   },
 ];
@@ -1129,6 +1129,6 @@ export const PossibleDateList = [
         end: "19:0",
       },
     ],
-    date: "2024-02-18",
+    date: "2024-02-22",
   },
 ];

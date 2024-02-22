@@ -49,15 +49,3 @@ const SubMenu = styled.div`
     cursor: pointer;
   }
 `;
-
-const SubMenuItem = styled.div`
-  height: 100%;
-  font-size: 1.3rem;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  color: ${colors.primaryBlue};
-  font-weight: 500;
-  cursor: pointer;
-`;

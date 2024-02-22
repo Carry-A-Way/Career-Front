@@ -1,7 +1,7 @@
 import MentorList from "./MentorList";
 import { ButtonDiv } from "../Button/Button";
 import styled from "styled-components";
-import { MenteeHeader } from "../../styles/common/Mentee";
+import { MenteeHeader } from "../../styles/common/mentee/MenteeForm";
 import { PopularMentors } from "../../settings/config";
 import { useNavigate } from "react-router-dom";
 

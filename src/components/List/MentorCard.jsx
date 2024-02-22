@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown } from "@fortawesome/free-solid-svg-icons";
@@ -6,9 +5,6 @@ import { colors } from "../../styles/common/Theme";
 import { MentorCardSize } from "../../styles/common/Size";
 import { setDefaultImage } from "../../utils/DefaultValue";
 import { calculateAge } from "../../utils/ParseFormat";
-import { DefaultImg } from "../../settings/config";
-import { fetchUserInfo } from "../../api/fetchUser";
-import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { USER_CARD_INFO } from "../../settings/url";
 

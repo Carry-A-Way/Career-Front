@@ -1,11 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { TotalPopularMentors } from "../../settings/config";
-import {
-  MenteeHeader,
-  MentorCardGrid,
-  MentorDetailCardGrid,
-} from "../../styles/common/Mentee";
+import { MentorDetailCardGrid } from "../../styles/common/mentee/MentorCard";
+import { MenteeHeader } from "../../styles/common/mentee/MenteeForm";
 import MentorDetailCard from "../../components/List/MentorDetailCard";
 
 const ConsultMentor = () => {
@@ -28,12 +25,4 @@ const StyledLayout = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 3rem;
-`;
-
-const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  grid-template-rows: repeat(4, auto);
-  grid-auto-rows: auto;
-  gap: 2rem;
 `;

@@ -3,7 +3,8 @@ import { MenteeMentorLinkList, MenteeMentorMenu } from "../../settings/config";
 import SubMenubar from "../../components/Menubar/SubMenubar";
 import styled from "styled-components";
 import { colors } from "../../styles/common/Theme";
-import { MenteeHeader, MentorCardGrid } from "../../styles/common/Mentee";
+import { MentorCardGrid } from "../../styles/common/mentee/MentorCard";
+import { MenteeHeader } from "../../styles/common/mentee/MenteeForm";
 import Input from "../../components/Input/Input";
 import { Button } from "../../components/Button/Button";
 import MentorCard from "../../components/List/MentorCard";
@@ -19,7 +20,7 @@ const FindMentor = () => {
   const SortOptions = ["최신순", "후기 많은순", "수강 많은순"];
   const [keyword, setKeyword] = useState("");
   const [tmpKeyword, setTmpKeyword] = useState("");
-  const [sort, setSort] = useState(1);
+  const [sort, setSort] = useState(0);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const INPUT_WIDTH = "35rem";
   const INPUT_HEIGHT = "3rem";

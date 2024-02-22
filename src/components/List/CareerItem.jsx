@@ -1,4 +1,3 @@
-import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import Input from "../Input/Input";

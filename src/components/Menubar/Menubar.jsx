@@ -4,7 +4,7 @@ import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { getCookie, setCookie } from "../../cookie";
+import { setCookie } from "../../cookie";
 import { FRONT_URL } from "../../constants";
 import { useSelector, useDispatch } from "react-redux";
 import { setIsLogin } from "../../store/isLoginSlice";
@@ -14,7 +14,6 @@ import { setupAxiosInterceptors } from "../../utils/axiosInterceptors";
 
 const Menubar = () => {
   useGlobalNavigate();
-  const [login, setLogin] = useState("로그인");
   const [signup, setSignup] = useState("회원가입");
   const [signupSelect, setSignupSelect] = useState(false);
   const [leftMenu, setLeftMenu] = useState(["홈", "멘토", "게시판"]);
