@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import Input from "../Input/Input";
-import { InputForm } from "../../styles/common/FoamComponents";
+import { InputForm } from "../../styles/common/FormComponents";
 import { Button } from "../Button/Button";
 import MajorAutoComplete from "./MajorAutoComplete";
 import { fetchMajorAutoComplete } from "../../api/fetchMajorList";

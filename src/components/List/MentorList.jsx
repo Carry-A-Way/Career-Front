@@ -22,4 +22,5 @@ const MentorContainer = styled.div`
   overflow: auto;
   ${xScrollStyle}
   padding: 1rem;
+  box-sizing: border-box;
 `;

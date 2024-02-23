@@ -24,7 +24,7 @@ import {
   FileItem,
   FileUploadBtn,
   ValidWrapper,
-} from "../../styles/common/FoamComponents";
+} from "../../styles/common/FormComponents";
 import TitleWithBar from "../../components/Input/InputWithTitle";
 import ReviewList from "../../components/List/ReviewList";
 import { ScrollUp } from "../../components/Scroll";

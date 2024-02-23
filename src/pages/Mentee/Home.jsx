@@ -1,57 +1,21 @@
 import React from "react";
 import styled from "styled-components";
-import PointBox from "../../components/Box/PointBox";
-import MoveBox from "../../components/Box/MoveBox";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUser,
-  faAngleRight,
-  faCalendar,
-  faTicket,
-  faArrowRight,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import EventList from "../../components/List/EventList";
 import { colors } from "../../styles/common/Theme";
 import RecommendMentorList from "../../components/List/RecommendMentorList";
 import PopularMentorList from "../../components/List/PopularMentorList";
 import { MenteeHeader } from "../../styles/common/mentee/MenteeForm";
+import { GridRightCol, TwoColGrid } from "../../styles/common/Layout";
+import MenteeLeftForm from "../../components/MenteeLeftForm";
 const Home = () => {
-  const userName = "김성애";
-
   return (
-    <Form>
-      <FormLeft>
-        <Wrapper>
-          <NameDiv>
-            <span>{userName}</span>님 반갑습니다!
-          </NameDiv>
-        </Wrapper>
-        <PointBox point="10,000" />
-        <MoveBox>
-          <div>
-            <FontAwesomeIcon icon={faUser} />
-            <span>친구 초대하기</span>
-          </div>
-          <FontAwesomeIcon icon={faAngleRight} />
-        </MoveBox>
-        <MoveBox>
-          <div>
-            <FontAwesomeIcon icon={faCalendar} />
-            <span>상담 예약하기</span>
-          </div>
-          <FontAwesomeIcon icon={faAngleRight} />
-        </MoveBox>
-        <MoveBox>
-          <div>
-            <FontAwesomeIcon icon={faTicket} />
-            <span>이용권 구매하기</span>
-          </div>
-          <FontAwesomeIcon icon={faAngleRight} />
-        </MoveBox>
-      </FormLeft>
+    <TwoColGrid>
+      <MenteeLeftForm />
       {/* <VerticalLine /> */}
-      <FormRight>
+      <GridRightCol>
         <Wrapper>
           <EventList />
         </Wrapper>
@@ -91,40 +55,12 @@ const Home = () => {
         <Wrapper>
           <PopularMentorList />
         </Wrapper>
-      </FormRight>
-    </Form>
+      </GridRightCol>
+    </TwoColGrid>
   );
 };
 
 export default Home;
-
-const Form = styled.div`
-  height: 70%;
-  display: flex;
-  margin: 60px 0;
-  justify-content: center;
-  box-sizing: border-box;
-`;
-
-const FormLeft = styled.div`
-  min-width: 20rem;
-  height: 73vh;
-  min-height: 50rem;
-  display: flex;
-  flex-direction: column;
-  margin: 0 6rem;
-  margin-top: 2rem;
-`;
-
-const FormRight = styled.div`
-  width: 57rem;
-  min-height: 73vh;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 0 6rem;
-  border-left: 1px solid #bcbcbc;
-`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -150,18 +86,6 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: flex-end;
     margin-top: 1rem;
-  }
-`;
-
-const NameDiv = styled.div`
-  font-size: 1.7rem;
-  font-weight: 500;
-  width: 100%;
-  span {
-    font-size: 2rem;
-    font-weight: 600;
-    color: #334b6c;
-    padding-right: 1rem;
   }
 `;
 

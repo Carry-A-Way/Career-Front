@@ -12,7 +12,7 @@ import { colors } from "../../styles/common/Theme";
 import { useNavigate } from "react-router-dom";
 import { checkValidNickname, checkValidUsername } from "../../api/checkValid";
 import TitleWithBar from "../../components/Input/InputWithTitle";
-import { Label, Radio, ValidWrapper } from "../../styles/common/FoamComponents";
+import { Label, Radio, ValidWrapper } from "../../styles/common/FormComponents";
 import { phoneNumberParse } from "../../utils/ParseFormat";
 function Signup() {
   const navigator = useNavigate();

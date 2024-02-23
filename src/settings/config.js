@@ -40,6 +40,37 @@ export const MenteeMentorLinkList = [
 //   "기타",
 // ];
 
+export const RecommendMenteeList = [
+  {
+    title: "전산학부 고민입니다..",
+    name: "김성애",
+    grade: "고등학교 2학년",
+    date: "2023-06-06",
+    interest: "전자공학과, 컴퓨터공학과",
+  },
+  {
+    title: "전산학부 고민입니다..",
+    name: "김성애",
+    grade: "고등학교 2학년",
+    date: "2023-06-06",
+    interest: "전자공학과, 컴퓨터공학과",
+  },
+  {
+    title: "전산학부 고민입니다..",
+    name: "김성애",
+    grade: "고등학교 2학년",
+    date: "2023-06-06",
+    interest: "전자공학과, 컴퓨터공학과",
+  },
+  {
+    title: "전산학부 고민입니다..",
+    name: "김성애",
+    grade: "고등학교 2학년",
+    date: "2023-06-06",
+    interest: "전자공학과, 컴퓨터공학과",
+  },
+];
+
 export const CommunityCategoryList = [
   {
     title: "진로",

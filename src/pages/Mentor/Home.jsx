@@ -1,15 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import PointBox from "../../components/Box/PointBox";
-import MoveBox from "../../components/Box/MoveBox";
 import { ButtonDiv } from "../../components/Button/Button";
 import ConsultList from "../../components/List/ConsultList";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUser,
-  faAngleRight,
-  faCalendar,
-} from "@fortawesome/free-solid-svg-icons";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import useGetConsult from "../../hooks/useGetConsult";
 import { useNavigate } from "react-router-dom";
@@ -20,39 +12,19 @@ import {
   COMPLETED_CONSULT_TYPE,
   UPCOMING_CONSULT_TYPE,
 } from "../../constants";
+import { GridRightCol, TwoColGrid } from "../../styles/common/Layout";
+import MentorLeftForm from "../../components/MentorLeftForm";
 
 const Home = () => {
-  const userName = "김성애";
   const { lastUpcomingConsult, upcomingConsult } = useGetConsult();
   const { cancelConsult } = useGetCancelConsult();
   const { completedConsult } = useGetCompletedConsult();
   const navigate = useNavigate();
   return (
-    <Form>
-      <FormLeft>
-        <Wrapper>
-          <NameDiv>
-            <span>{userName}</span>님 반갑습니다!
-          </NameDiv>
-        </Wrapper>
-        <PointBox point="10,000" />
-        <MoveBox>
-          <div>
-            <FontAwesomeIcon icon={faUser} />
-            <span>친구 초대하기</span>
-          </div>
-          <FontAwesomeIcon icon={faAngleRight} />
-        </MoveBox>
-        <MoveBox>
-          <div onClick={() => navigate(`/schedule`)}>
-            <FontAwesomeIcon icon={faCalendar} />
-            <span>시간표 확인하기</span>
-          </div>
-          <FontAwesomeIcon icon={faAngleRight} />
-        </MoveBox>
-      </FormLeft>
+    <TwoColGrid>
+      <MentorLeftForm />
       {/* <VerticalLine /> */}
-      <FormRight>
+      <GridRightCol>
         <Wrapper>
           <header>곧 진행될 상담</header>
           {!lastUpcomingConsult.length ? (
@@ -130,48 +102,18 @@ const Home = () => {
             </Consult>
           )}
         </Wrapper>
-      </FormRight>
-    </Form>
+      </GridRightCol>
+    </TwoColGrid>
   );
 };
 
 export default Home;
 
-const Form = styled.div`
-  height: 70%;
-  display: flex;
-  margin: 60px 0;
-  justify-content: center;
-  box-sizing: border-box;
-`;
-
-const FormLeft = styled.div`
-  min-width: 20rem;
-  min-height: 73vh;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  margin: 0 6rem;
-  margin-top: 2rem;
-`;
-
-const FormRight = styled.div`
-  min-width: 70vh;
-  max-width: 90rem;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 0 6rem;
-  border-left: 1px solid #bcbcbc;
-`;
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin: 20px 0;
   > header {
-    margin-top: 2rem;
     font-size: 1.5rem;
     font-weight: 600;
   }
@@ -195,17 +137,5 @@ const Consult = styled.div`
     margin-bottom: 10px;
     text-align: center;
     width: 100%;
-  }
-`;
-
-const NameDiv = styled.div`
-  font-size: 1.7rem;
-  font-weight: 500;
-  width: 100%;
-  span {
-    font-size: 2rem;
-    font-weight: 600;
-    color: #334b6c;
-    padding-right: 1rem;
   }
 `;

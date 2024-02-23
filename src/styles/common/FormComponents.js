@@ -7,6 +7,7 @@ export const Form = styled.div`
   display: flex;
   margin-top: 60px;
   justify-content: center;
+  box-sizing: border-box;
 `;
 
 export const FormHalf = styled.div`

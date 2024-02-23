@@ -14,7 +14,7 @@ import {
   InputForm,
   Radio,
   ValidWrapper,
-} from "../../styles/common/FoamComponents";
+} from "../../styles/common/FormComponents";
 import TitleWithBar from "../../components/Input/InputWithTitle";
 import { ScrollUp } from "../../components/Scroll";
 import TagList from "../../components/List/TagList";

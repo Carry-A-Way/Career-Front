@@ -15,7 +15,6 @@ const MoveWrapper = styled.div`
   background-color: #fcfcfc;
   font-size: 1.5rem;
   padding: 1rem;
-  margin-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
