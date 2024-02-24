@@ -2,3 +2,6 @@ test2 fix2
 
 "start": "env-cmd -f ./.env.local react-scripts start",
     "build": "env-cmd -f ./.env.local react-scripts build",
+
+
+seongae 2/24 test
