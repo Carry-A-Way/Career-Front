@@ -37,6 +37,7 @@ const CancelConsult = () => {
       />
       <TwoColGrid className="two-col-grid__long">
         <GridLeftCol>
+          <SectionHeader>추천 학생</SectionHeader>
           <RecommendMentee />
         </GridLeftCol>
         <GridRightCol>

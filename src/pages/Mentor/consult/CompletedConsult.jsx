@@ -17,6 +17,7 @@ import {
   TwoColGrid,
 } from "../../../styles/common/Layout";
 import {
+  ConsultWrapper,
   Section,
   SectionHeader,
 } from "../../../styles/common/mentor/MentorForm";
@@ -36,6 +37,7 @@ const CompletedConsult = () => {
       />
       <TwoColGrid>
         <GridLeftCol>
+          <SectionHeader>추천 학생</SectionHeader>
           <RecommendMentee />
         </GridLeftCol>
         <GridRightCol>
@@ -72,24 +74,3 @@ const CompletedConsult = () => {
 };
 
 export default CompletedConsult;
-
-const ConsultWrapper = styled.div`
-  width: 100%;
-  min-height: 20rem;
-  /* height: 26vh; */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  font-size: 1.3rem;
-  color: #909090;
-  position: relative;
-  margin-top: 2rem;
-  overflow-x: auto;
-  ${xScrollStyle}
-  > span {
-    margin-bottom: 10px;
-    text-align: center;
-    width: 100%;
-  }
-`;

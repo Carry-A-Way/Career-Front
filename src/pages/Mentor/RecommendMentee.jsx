@@ -1,19 +1,13 @@
 import React from "react";
-import {
-  RecommendWrapper,
-  SectionHeader,
-} from "../../styles/common/mentor/MentorForm";
+import { RecommendWrapper } from "../../styles/common/mentor/MentorForm";
 import RecommendMenteeItem from "../../components/List/RecommendMenteeItem";
 import { RecommendMenteeList } from "../../settings/config";
 
-const RecommendMentee = () => {
+const RecommendMentee = ({ longHeight }) => {
   return (
-    <>
-      <SectionHeader>추천 학생</SectionHeader>
-      <RecommendWrapper className="recommend-wrapper__long">
-        <RecommendMenteeItem recommendList={RecommendMenteeList} />
-      </RecommendWrapper>
-    </>
+    <RecommendWrapper className={longHeight ? "recommend-wrapper__long" : ""}>
+      <RecommendMenteeItem recommendList={RecommendMenteeList} />
+    </RecommendWrapper>
   );
 };
 

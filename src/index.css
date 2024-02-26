@@ -53,6 +53,6 @@ code {
   color: red;
 }
 
-div.two-col-grid__long .recommend-wrapper__long {
-  max-height: 100vh;
+.recommend-wrapper__long {
+  max-height: 100vh !important;
 }
