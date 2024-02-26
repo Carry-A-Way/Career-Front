@@ -1,12 +1,10 @@
 import React from "react";
 import SubMenubar from "../../../components/Menubar/SubMenubar";
-import styled from "styled-components";
 import ConsultList from "../../../components/List/ConsultList";
 import { ConsultListShort } from "../../../components/List/ConsultList";
 import HorizontalLine from "../../../components/Line/HorizontalLine";
 import useGetCompletedConsult from "../../../hooks/useGetCompletedConsult";
 import { COMPLETED_CONSULT_TYPE } from "../../../constants";
-import { xScrollStyle } from "../../../styles/common/Scroll";
 import {
   MentorConsultLinkList,
   MentorConsultMenu,

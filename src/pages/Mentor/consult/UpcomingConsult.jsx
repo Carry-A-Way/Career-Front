@@ -1,13 +1,11 @@
 import React from "react";
 import SubMenubar from "../../../components/Menubar/SubMenubar";
-import styled from "styled-components";
 import RecommendMenteeItem from "../../../components/List/RecommendMenteeItem";
 import ConsultList from "../../../components/List/ConsultList";
 import { ConsultListShort } from "../../../components/List/ConsultList";
 import HorizontalLine from "../../../components/Line/HorizontalLine";
 import useGetUpcomingConsult from "../../../hooks/useGetUpcomingConsult";
 import { UPCOMING_CONSULT_TYPE } from "../../../constants";
-import { xScrollStyle } from "../../../styles/common/Scroll";
 import {
   MentorConsultLinkList,
   MentorConsultMenu,

@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import ConsultList from "../../../components/List/ConsultList";
 // import { ConsultListShort } from "../../../components/List/ConsultList";
 import HorizontalLine from "../../../components/Line/HorizontalLine";
@@ -12,7 +11,6 @@ import {
   COMPLETED_CONSULT_TYPE,
   UPCOMING_CONSULT_TYPE,
 } from "../../../constants";
-import { xScrollStyle } from "../../../styles/common/Scroll";
 import {
   MentorConsultLinkList,
   MentorConsultMenu,
