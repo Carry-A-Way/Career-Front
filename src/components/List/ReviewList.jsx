@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-regular-svg-icons";
 import { faStar as faStarFull } from "@fortawesome/free-solid-svg-icons";
-import { middleNameParse } from "../../utils/ParseFormat";
+import { dateParse, middleNameParse } from "../../utils/ParseFormat";
 
 const ReviewList = ({ review }) => {
   const scoreToStar = (score) => {
@@ -20,7 +20,7 @@ const ReviewList = ({ review }) => {
   const averageScore = () => {
     var sum = 0;
     for (var i = 0; i < review.length; i++) {
-      sum += review[i].score;
+      sum += review[i].rate;
     }
     return Math.round((sum / review.length) * 10) / 10;
   };
@@ -36,9 +36,10 @@ const ReviewList = ({ review }) => {
       <tbody>
         {review.map((item) => (
           <tr key={item.id}>
-            <td>{item.content}</td>
-            <td>{middleNameParse(item.writer)}</td>
-            <td>{scoreToStar(item.score)}</td>
+            <td>{item.comment}</td>
+            {/* <td>{middleNameParse(item.writer)}</td> */}
+            <td>{dateParse(item.createdAt)}</td>
+            <td>{scoreToStar(item.rate)}</td>
           </tr>
         ))}
       </tbody>

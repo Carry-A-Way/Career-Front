@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 import ProfileImage from "../components/Image/ProfileImage";
 import SchoolItem from "../components/List/SchoolItem";
 import ReviewList from "../components/List/ReviewList";
-import { FAQ, Review } from "../settings/config";
+import { FAQ } from "../settings/config";
 import FAQList from "../components/List/FAQList";
 import { calculateAge } from "../utils/ParseFormat";
 import BottomFixButton from "../components/Button/BottomFixButton";
@@ -98,7 +98,7 @@ const UserCard = () => {
                 {userData.isTutor ? "멘토" : "멘티"}의 학력
               </div>
               {userData.schoolList.map((school, idx) => (
-                <SchoolItemShow item={school} index={idx} />
+                <SchoolItemShow item={school} index={idx} key={idx} />
               ))}
             </CenterContainer>
           )}
@@ -108,14 +108,14 @@ const UserCard = () => {
                 {userData.isTutor ? "멘토" : "멘티"}의 경력
               </div>
               {userData.schoolList.map((school, idx) => (
-                <SchoolItem item={school} index={idx} view={true} />
+                <SchoolItem item={school} index={idx} view={true} key={idx} />
               ))}
             </CenterContainer>
           )}
-          {userData.isTutor && (
+          {userData.isTutor && userData.review?.lenght > 0 && (
             <CenterContainer>
               <div className="title">멘토가 받은 후기</div>
-              <ReviewList review={Review} />
+              <ReviewList review={userData.review} />
             </CenterContainer>
           )}
           {userData.isTutor && (

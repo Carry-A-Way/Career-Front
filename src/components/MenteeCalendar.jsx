@@ -28,7 +28,8 @@ const MenteeCalendar = (props) => {
   });
   const [applyModalOpen, setApplyModalOpen] = useState(false);
   const [applyFormOpen, setApplyFormOpen] = useState(false);
-  const isCustomTimeCell = (start) => {
+  const [isPossibleConsult, setIsPossibleConsult] = useState(false);
+  const isCustomTimeCell = (start, end) => {
     let customStartTime = new Date();
     let customEndTime = new Date();
     let check = false;
@@ -43,9 +44,10 @@ const MenteeCalendar = (props) => {
           possibleTime.possibleTimeList.some((time) => {
             customStartTime = new Date(possibleTime.date + " " + time.start);
             customEndTime = new Date(possibleTime.date + " " + time.end);
-
             if (start >= customStartTime && start < customEndTime) {
               // 시간 범위안에 포함되면 true
+              // console.log(customStartTime, customEndTime, start, end);
+
               check = true;
               return true;
             }
@@ -167,18 +169,42 @@ const MenteeCalendar = (props) => {
     const formattedStartDate = momentStart.format("YYYY.MM.DD HH:mm");
     const formattedEndDate = momentEnd.format("YYYY.MM.DD HH:mm");
 
+    console.log("select", formattedStartDate, formattedEndDate);
     setSelectedSlot({ start: formattedStartDate, end: formattedEndDate });
     const today = new Date();
     const beforeToday = date.start <= today;
     if (!beforeToday) {
       setApplyModalOpen(true);
     }
+    setIsPossibleConsult(onCheckPossibleTime(date.start, date.end));
+    console.log(onCheckPossibleTime(date.start, date.end));
+  };
+
+  const onCheckPossibleTime = (start, end) => {
+    let startTime = new Date();
+    let endTime = new Date();
+    return (
+      !!possibleTimeList &&
+      possibleTimeList.some((possibleTime) => {
+        return possibleTime.possibleTimeList.some((time) => {
+          startTime = new Date(possibleTime.date + " " + time.start);
+          endTime = new Date(possibleTime.date + " " + time.end);
+          console.log(startTime, endTime, start, end);
+          if (start >= startTime && end <= endTime) {
+            // 시간 범위안에 포함되면 true
+            console.log("return true");
+            return true;
+          }
+        });
+      })
+    );
   };
 
   const renderApplyModal = () => {
-    const isSelected = isCustomTimeCell(selectedSlot.start);
+    console.log(isPossibleConsult);
     if (target === null) onCloseModal();
-    else if (isSelected) {
+    else if (isPossibleConsult) {
+      console.log("here");
       return (
         <ModalWrapper onClick={onCloseModal}>
           <Modal onClick={(e) => e.stopPropagation()}>
@@ -195,7 +221,7 @@ const MenteeCalendar = (props) => {
               <div
                 className="button"
                 onClick={() => {
-                  //   onApplyConsult();
+                  // onApplyConsult();
                   setApplyModalOpen(false);
                   setApplyFormOpen(true);
                 }}
@@ -222,57 +248,57 @@ const MenteeCalendar = (props) => {
     }
   };
 
-  const onApplyConsult = () => {
-    const formattedStartDate = moment(new Date(selectedSlot.start)).format(
-      "YYYY-MM-DDTHH:mm:ss.S"
-    );
-    const formattedEndDate = moment(new Date(selectedSlot.end)).format(
-      "YYYY-MM-DDTHH:mm:ss.S"
-    );
-    axios
-      .post(
-        `${SV_LOCAL}/calendar/mentor/insert/possible/time`,
-        {
-          start: formattedStartDate,
-          end: formattedEndDate,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("jwtToken")}`,
-          },
-        }
-      )
-      .then((res) => {
-        setIsUpdatePossibleTime(true);
-      })
-      .catch((err) => console.error(err));
-  };
+  // const onApplyConsult =() => {
+  //   const formattedStartDate = moment(new Date(selectedSlot.start)).format(
+  //     "YYYY-MM-DDTHH:mm:ss.S"
+  //   );
+  //   const formattedEndDate = moment(new Date(selectedSlot.end)).format(
+  //     "YYYY-MM-DDTHH:mm:ss.S"
+  //   );
+  //   axios
+  //     .post(
+  //       `${SV_LOCAL}/calendar/mentor/insert/possible/time`,
+  //       {
+  //         start: formattedStartDate,
+  //         end: formattedEndDate,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${getCookie("jwtToken")}`,
+  //         },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       setIsUpdatePossibleTime(true);
+  //     })
+  //     .catch((err) => console.error(err));
+  // };
 
-  const onDeletePossibleTime = () => {
-    const formattedStartDate = moment(new Date(selectedSlot.start)).format(
-      "YYYY-MM-DDTHH:mm:00.0"
-    );
-    const formattedEndDate = moment(new Date(selectedSlot.end)).format(
-      "YYYY-MM-DDTHH:mm:00.0"
-    );
-    axios
-      .post(
-        `${SV_LOCAL}/calendar/mentor/delete/possible/time`,
-        {
-          start: formattedStartDate,
-          end: formattedEndDate,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("jwtToken")}`,
-          },
-        }
-      )
-      .then((res) => {
-        setIsUpdatePossibleTime(true);
-      })
-      .catch((err) => console.error(err));
-  };
+  // const onDeletePossibleTime = () => {
+  //   const formattedStartDate = moment(new Date(selectedSlot.start)).format(
+  //     "YYYY-MM-DDTHH:mm:00.0"
+  //   );
+  //   const formattedEndDate = moment(new Date(selectedSlot.end)).format(
+  //     "YYYY-MM-DDTHH:mm:00.0"
+  //   );
+  //   axios
+  //     .post(
+  //       `${SV_LOCAL}/calendar/mentor/delete/possible/time`,
+  //       {
+  //         start: formattedStartDate,
+  //         end: formattedEndDate,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${getCookie("jwtToken")}`,
+  //         },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       setIsUpdatePossibleTime(true);
+  //     })
+  //     .catch((err) => console.error(err));
+  // };
 
   const onCloseModal = () => {
     setApplyModalOpen(false);

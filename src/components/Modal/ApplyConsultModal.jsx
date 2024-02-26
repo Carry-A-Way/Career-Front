@@ -12,6 +12,7 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { getIdFromToken } from "../../auth/jwtFunctions";
 import { getCookie } from "../../cookie";
 import { localToIsoParse } from "../../utils/ParseFormat";
+import { applyConsult } from "../../api/applyConsult";
 
 const ApplyConsultModal = (props) => {
   const { setModalClose, startTime, endTime, mentor } = props;
@@ -50,8 +51,8 @@ const ApplyConsultModal = (props) => {
       questions: consultQuestion,
     };
     console.log(data);
-    // applyConsult(data);
-    // setModalClose();
+    applyConsult(data);
+    setModalClose();
   };
   return (
     <ModalWrapper>
