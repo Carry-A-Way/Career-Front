@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import { getCookie } from "../../cookie";
 import { SV_LOCAL } from "../../constants";
+import { colors } from "../../styles/common/Theme";
 
 const MenteeScheduleList = () => {
   const [pendingConsult, setPendingConsult] = useState([]);
@@ -302,7 +303,7 @@ const List = styled.div`
     display: flex;
     align-items: center;
     padding: 0.5rem 1rem;
-    background-color: #516684;
+    background-color: ${colors.primaryBlue};
     color: white;
     gap: 0.5rem;
     li {

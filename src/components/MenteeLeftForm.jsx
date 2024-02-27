@@ -15,11 +15,13 @@ const MenteeLeftForm = () => {
   const userName = "김성애";
 
   return (
-    <GridLeftCol>
+    <GridLeftCol style={{ width: "30rem" }}>
       <NameContainer>
         <span>{userName}</span>님 반갑습니다!
       </NameContainer>
-      <PointBox point="10,000" />
+      <StyledWrapper>
+        <PointBox point="10,000" />
+      </StyledWrapper>
       <MoveBox>
         <div>
           <FontAwesomeIcon icon={faUser} />
@@ -47,10 +49,15 @@ const MenteeLeftForm = () => {
 
 export default MenteeLeftForm;
 
+const StyledWrapper = styled.div`
+  width: 100%;
+  margin: 1rem 0 2rem 0;
+`;
 const NameContainer = styled.div`
   font-size: 1.7rem;
   font-weight: 500;
-  width: 22rem;
+  width: 100%;
+  max-width: 25rem;
   span {
     font-size: 2rem;
     font-weight: 600;

@@ -125,7 +125,7 @@ const ListWrapper = styled.div`
   }
 `;
 const List = styled.div`
-  max-height: 50rem;
+  max-height: 30rem;
   overflow-y: auto;
   ${yScrollStyle}
   font-size: 1rem;
