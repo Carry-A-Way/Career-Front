@@ -10,7 +10,7 @@ import styled from "styled-components";
 import { Button } from "../../components/Button/Button";
 import VerticalLine from "../../components/Line/VerticalLine";
 import { handleLogin } from "../../api/login";
-import { getUsernameFromToken } from "../../auth/jwtFunctions";
+import { getNicknameFromToken } from "../../auth/jwtFunctions";
 
 function Login() {
   const [id, setId] = useState("");
@@ -31,7 +31,7 @@ function Login() {
         secure: true,
         sameSite: "none",
       });
-      window.alert(`${getUsernameFromToken(jwtToken)}님 환영합니다!`);
+      window.alert(`${getNicknameFromToken(jwtToken)}님 환영합니다!`);
       if (payload.isTutor) navigate("/mentor");
       else navigate("/mentee");
     } else window.alert("로그인 정보가 없습니다.");

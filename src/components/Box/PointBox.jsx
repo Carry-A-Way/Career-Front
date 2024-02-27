@@ -1,15 +1,15 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
-const PointBox = ({ point }) => {
+const PointBox = ({ point, style }) => {
   return (
-    <PointWrapper>
+    <PointWrapper style={style}>
       <header>내 포인트 잔액</header>
       <main>
         <span>{point.toLocaleString() || 0} </span> 원
       </main>
       <footer>
-        <span>포인트 환급 신청</span>
+        <span>포인트 충전하기</span>
         <FontAwesomeIcon icon={faAngleRight} style={{ cursor: "pointer" }} />
       </footer>
     </PointWrapper>

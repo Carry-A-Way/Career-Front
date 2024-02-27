@@ -177,7 +177,6 @@ const MenteeCalendar = (props) => {
       setApplyModalOpen(true);
     }
     setIsPossibleConsult(onCheckPossibleTime(date.start, date.end));
-    console.log(onCheckPossibleTime(date.start, date.end));
   };
 
   const onCheckPossibleTime = (start, end) => {
@@ -199,10 +198,8 @@ const MenteeCalendar = (props) => {
   };
 
   const renderApplyModal = () => {
-    console.log(isPossibleConsult);
     if (target === null) onCloseModal();
     else if (isPossibleConsult) {
-      console.log("here");
       return (
         <ModalWrapper onClick={onCloseModal}>
           <Modal onClick={(e) => e.stopPropagation()}>

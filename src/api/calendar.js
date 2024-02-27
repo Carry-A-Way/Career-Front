@@ -3,7 +3,6 @@ import { getCookie } from "../cookie";
 import { SV_LOCAL } from "../constants";
 
 export const fetchMentorCalendar = async (mentorId) => {
-  console.log(mentorId);
   try {
     const response = await axios.get(`${SV_LOCAL}/calendar/mentor/view`, {
       params: {
