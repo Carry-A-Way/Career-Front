@@ -36,8 +36,12 @@ const TagList = ({ tagList, setTagList, view }) => {
     setIsInputFocused(false);
   };
 
-  const { data: keywordData } = useQuery(tmpTag, () =>
-    fetchMajorAutoComplete(tmpTag)
+  const { data: keywordData } = useQuery(
+    tmpTag,
+    () => fetchMajorAutoComplete(tmpTag),
+    {
+      refetchOnWindowFocus: false,
+    }
   );
 
   useEffect(() => {

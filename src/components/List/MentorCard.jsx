@@ -1,12 +1,16 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCrown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCrown,
+  faHeart as faHeartFull,
+} from "@fortawesome/free-solid-svg-icons";
 import { colors } from "../../styles/common/Theme";
 import { MentorCardSize } from "../../styles/common/Size";
 import { setDefaultImage } from "../../utils/DefaultValue";
 import { calculateAge } from "../../utils/ParseFormat";
 import { useNavigate } from "react-router-dom";
 import { USER_CARD_INFO } from "../../settings/url";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
 
 const MentorCard = ({ mentor, rank }) => {
   const { profileImg, name, birth, schoolList } = mentor;
@@ -33,10 +37,13 @@ const MentorCard = ({ mentor, rank }) => {
   const onMoveUserPage = () => {
     navigate(`/${USER_CARD_INFO}?userId=${mentor.id}`);
   };
+  const onToggleHeart = (e) => {
+    e.stopPropagation();
+  };
   return (
     <>
       <StyledContainer onClick={onMoveUserPage}>
-        {rank ? (
+        {/* {rank ? (
           <FontAwesomeIcon
             className="icon"
             icon={faCrown}
@@ -44,7 +51,12 @@ const MentorCard = ({ mentor, rank }) => {
           />
         ) : (
           ""
-        )}
+        )} */}
+        <FontAwesomeIcon
+          icon={mentor.heart ? faHeartFull : faHeart}
+          className="heart-icon"
+          onClick={onToggleHeart}
+        />
         <img alt="" src={setDefaultImage(profileImg)} />
         <div className="content">
           <header>
@@ -91,7 +103,7 @@ const StyledContainer = styled.div`
   position: relative;
   cursor: pointer;
   box-shadow: 1px 1px 10px ${colors.primaryBlue};
-  .icon {
+  /* .icon {
     position: absolute;
     top: 10px;
     left: 10px;
@@ -99,6 +111,13 @@ const StyledContainer = styled.div`
     background-color: #00000061;
     padding: 10px;
     border-radius: 50%;
+  } */
+  .heart-icon {
+    position: absolute;
+    top: calc(${MentorCardSize.width} - 1rem);
+    right: 1rem;
+    font-size: 1.5rem;
+    color: gray;
   }
   img {
     width: ${MentorCardSize.width};

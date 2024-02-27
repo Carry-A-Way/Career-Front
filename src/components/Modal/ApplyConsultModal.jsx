@@ -26,8 +26,12 @@ const ApplyConsultModal = (props) => {
   const [consultQuestion, setConsultQuestion] = useState(""); // 상담 질문
   const [isInputFocused, setIsInputFocused] = useState(false);
 
-  const { data: keywordData } = useQuery(consultMajor, () =>
-    fetchMajorAutoComplete(consultMajor)
+  const { data: keywordData } = useQuery(
+    consultMajor,
+    () => fetchMajorAutoComplete(consultMajor),
+    {
+      refetchOnWindowFocus: false,
+    }
   );
 
   const INPUT_WIDTH = "25rem";

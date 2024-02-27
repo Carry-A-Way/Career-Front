@@ -33,17 +33,26 @@ const FindMentor = () => {
     setIsInputFocused(false);
   };
 
-  const { data: mentorData } = useQuery(["findMentor", { sort, keyword }], () =>
-    fetchMentor({
-      keyword,
-      sortOption: sort,
-      page: 0,
-      size: 10,
-    })
+  const { data: mentorData } = useQuery(
+    ["findMentor", { sort, keyword }],
+    () =>
+      fetchMentor({
+        keyword,
+        sortOption: sort,
+        page: 0,
+        size: 10,
+      }),
+    {
+      refetchOnWindowFocus: false,
+    }
   );
 
-  const { data: keywordData } = useQuery(tmpKeyword, () =>
-    fetchMajorAutoComplete(tmpKeyword)
+  const { data: keywordData } = useQuery(
+    tmpKeyword,
+    () => fetchMajorAutoComplete(tmpKeyword),
+    {
+      refetchOnWindowFocus: false,
+    }
   );
 
   // console.log(keywordData);
