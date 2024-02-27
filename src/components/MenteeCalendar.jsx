@@ -12,6 +12,8 @@ import { ModalWrapper } from "../styles/common/ModalComponent";
 import ApplyConsultModal from "./Modal/ApplyConsultModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { fetchMentorCalendar } from "../api/calendar";
+import { useQuery } from "react-query";
 
 const localizer = momentLocalizer(moment);
 const MenteeCalendar = (props) => {
@@ -19,9 +21,7 @@ const MenteeCalendar = (props) => {
   // state 0 이면 수락전, 1이면 수락완료-상담전, 2이면 상담완료
   const [events, setEvents] = useState([]);
   const [possibleTimeList, setPossibleTimeList] = useState(PossibleDateList);
-  const [isUpdatePossibleTime, setIsUpdatePossibleTime] = useState(true);
   const today = moment();
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState({
     start: "",
     end: "",
@@ -29,7 +29,7 @@ const MenteeCalendar = (props) => {
   const [applyModalOpen, setApplyModalOpen] = useState(false);
   const [applyFormOpen, setApplyFormOpen] = useState(false);
   const [isPossibleConsult, setIsPossibleConsult] = useState(false);
-  const isCustomTimeCell = (start, end) => {
+  const isCustomTimeCell = (start) => {
     let customStartTime = new Date();
     let customEndTime = new Date();
     let check = false;
@@ -46,8 +46,6 @@ const MenteeCalendar = (props) => {
             customEndTime = new Date(possibleTime.date + " " + time.end);
             if (start >= customStartTime && start < customEndTime) {
               // 시간 범위안에 포함되면 true
-              // console.log(customStartTime, customEndTime, start, end);
-
               check = true;
               return true;
             }
@@ -97,39 +95,28 @@ const MenteeCalendar = (props) => {
     if (!event.status) {
       style.opacity = "0.8";
       style.borderColor = "white";
-      style.color = "white";
+      style.color = isPastDate ? "#3b3b3b" : "white";
       style.borderStyle = "dashed";
     }
-
-    style.class = !event.status ? "reserved-event" : "regular-event";
 
     return { style };
   };
 
-  useEffect(() => {
-    let mentorId;
-    if (!!target) mentorId = 57;
-    else mentorId = null;
-    axios
-      .get(`${SV_LOCAL}/calendar/mentor/view`, {
-        params: {
-          mentorId: mentorId,
-        },
-        headers: {
-          Authorization: `Bearer ${getCookie("jwtToken")}`,
-        },
-      })
-      .then((res) => {
-        const consultDataList = res.data.object;
+  const { data, refetch } = useQuery(
+    [target],
+    () => fetchMentorCalendar(target.id),
+    {
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        const consultDataList = data;
         const tmpList = [...consultDataList.lastUpcomingConsult];
-        tmpList.push(...consultDataList.previousConsult);
         tmpList.push(...consultDataList.upcomingConsult);
         const convertEvents = [];
         tmpList.forEach((item) =>
           convertEvents.push({
             ...item,
             id: item.consultId,
-            title: item.student.nickname,
+            title: item.status ? "상담 예정" : "상담 대기",
             start: new Date(item.startTime),
             end: new Date(item.endTime),
             status: item.status,
@@ -140,36 +127,52 @@ const MenteeCalendar = (props) => {
           (event) => event.status !== 3
         );
         setEvents(filteredEvents);
-      })
-      .catch((err) => console.error(err));
-  }, [target]);
-  //   useEffect(() => {
-  //     if (isUpdatePossibleTime) {
-  //       axios
-  //         .post(
-  //           `${SV_LOCAL}/calendar/mentor/get/possible/time`,
-  //           {},
-  //           {
-  //             headers: {
-  //               Authorization: `Bearer ${getCookie("jwtToken")}`,
-  //             },
-  //           }
-  //         )
-  //         .then((res) => {
-  //           if (res.data.dateList) setPossibleTimeList([...res.data.dateList]);
-  //           setIsUpdatePossibleTime(false);
-  //         })
-  //         .catch((err) => console.error(err));
-  //     }
-  //   }, [isUpdatePossibleTime]);
+      },
+    }
+  );
+
+  // useEffect(() => {
+  //   let mentorId;
+  //   if (!!target) {
+  //     axios
+  //       .get(`${SV_LOCAL}/calendar/mentor/view`, {
+  //         params: {
+  //           mentorId: mentorId,
+  //         },
+  //         headers: {
+  //           Authorization: `Bearer ${getCookie("jwtToken")}`,
+  //         },
+  //       })
+  //       .then((res) => {
+  //         const consultDataList = res.data;
+  //         const tmpList = [...consultDataList.lastUpcomingConsult];
+  //         tmpList.push(...consultDataList.upcomingConsult);
+  //         const convertEvents = [];
+  //         tmpList.forEach((item) =>
+  //           convertEvents.push({
+  //             ...item,
+  //             id: item.consultId,
+  //             title: item.status ? "상담 예정" : "상담 대기",
+  //             start: new Date(item.startTime),
+  //             end: new Date(item.endTime),
+  //             status: item.status,
+  //           })
+  //         );
+  //         const filteredEvents = convertEvents.filter(
+  //           // 거절된 상담을 시간표에 표시되지 않도록 작업
+  //           (event) => event.status !== 3
+  //         );
+  //         setEvents(filteredEvents);
+  //       })
+  //       .catch((err) => console.error(err));
+  //   }
+  // }, [target]);
 
   const handleSelectSlot = (date) => {
     const momentStart = moment(new Date(date.start));
     const momentEnd = moment(new Date(date.end));
     const formattedStartDate = momentStart.format("YYYY.MM.DD HH:mm");
     const formattedEndDate = momentEnd.format("YYYY.MM.DD HH:mm");
-
-    console.log("select", formattedStartDate, formattedEndDate);
     setSelectedSlot({ start: formattedStartDate, end: formattedEndDate });
     const today = new Date();
     const beforeToday = date.start <= today;
@@ -189,10 +192,8 @@ const MenteeCalendar = (props) => {
         return possibleTime.possibleTimeList.some((time) => {
           startTime = new Date(possibleTime.date + " " + time.start);
           endTime = new Date(possibleTime.date + " " + time.end);
-          console.log(startTime, endTime, start, end);
           if (start >= startTime && end <= endTime) {
             // 시간 범위안에 포함되면 true
-            console.log("return true");
             return true;
           }
         });
@@ -247,58 +248,6 @@ const MenteeCalendar = (props) => {
       );
     }
   };
-
-  // const onApplyConsult =() => {
-  //   const formattedStartDate = moment(new Date(selectedSlot.start)).format(
-  //     "YYYY-MM-DDTHH:mm:ss.S"
-  //   );
-  //   const formattedEndDate = moment(new Date(selectedSlot.end)).format(
-  //     "YYYY-MM-DDTHH:mm:ss.S"
-  //   );
-  //   axios
-  //     .post(
-  //       `${SV_LOCAL}/calendar/mentor/insert/possible/time`,
-  //       {
-  //         start: formattedStartDate,
-  //         end: formattedEndDate,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${getCookie("jwtToken")}`,
-  //         },
-  //       }
-  //     )
-  //     .then((res) => {
-  //       setIsUpdatePossibleTime(true);
-  //     })
-  //     .catch((err) => console.error(err));
-  // };
-
-  // const onDeletePossibleTime = () => {
-  //   const formattedStartDate = moment(new Date(selectedSlot.start)).format(
-  //     "YYYY-MM-DDTHH:mm:00.0"
-  //   );
-  //   const formattedEndDate = moment(new Date(selectedSlot.end)).format(
-  //     "YYYY-MM-DDTHH:mm:00.0"
-  //   );
-  //   axios
-  //     .post(
-  //       `${SV_LOCAL}/calendar/mentor/delete/possible/time`,
-  //       {
-  //         start: formattedStartDate,
-  //         end: formattedEndDate,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${getCookie("jwtToken")}`,
-  //         },
-  //       }
-  //     )
-  //     .then((res) => {
-  //       setIsUpdatePossibleTime(true);
-  //     })
-  //     .catch((err) => console.error(err));
-  // };
 
   const onCloseModal = () => {
     setApplyModalOpen(false);

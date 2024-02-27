@@ -16,13 +16,18 @@ const MentorRecommendList = (props) => {
     setTarget(mentor);
   };
 
-  const { data, isLoading } = useQuery("recommend-mentor", () =>
-    fetchMentor({
-      keyword: "",
-      sortOption: 1,
-      page: 0,
-      size: 20,
-    })
+  const { data, isLoading } = useQuery(
+    "recommend-mentor",
+    () =>
+      fetchMentor({
+        keyword: "",
+        sortOption: 1,
+        page: 0,
+        size: 20,
+      }),
+    {
+      refetchOnWindowFocus: false,
+    }
   );
   if (isLoading) return <ListWrapper>Loading...</ListWrapper>;
   else
