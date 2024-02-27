@@ -75,7 +75,7 @@ button.rbc-input::-moz-focus-inner {
 }
 
 .rbc-event-label {
-  font-size: 1rem !important;
+  font-size: 0.9rem;
   padding: 0 !important;
   margin-bottom: 5px;
 }
@@ -106,9 +106,12 @@ button.rbc-input::-moz-focus-inner {
   text-align: center;
   vertical-align: middle;
   font-weight: bold;
-  font-size: 90%;
+  font-size: 1rem;
   min-height: 0;
   border-bottom: 1px solid #ddd;
+}
+.rbc-header button {
+  font-size: 1rem;
 }
 .rbc-header + .rbc-header {
   border-left: 1px solid #ddd;
@@ -185,7 +188,7 @@ button.rbc-input::-moz-focus-inner {
   -ms-flex-align: center;
   align-items: center;
   margin-bottom: 10px;
-  font-size: 16px;
+  font-size: 1rem;
 }
 .rbc-toolbar .rbc-toolbar-label {
   -webkit-box-flex: 1;
@@ -239,6 +242,11 @@ button.rbc-input::-moz-focus-inner {
   display: inline-block;
   white-space: nowrap;
 }
+
+.rbc-btn-group button {
+  font-size: 1rem;
+}
+
 .rbc-btn-group > button:first-child:not(:last-child) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -303,10 +311,10 @@ button.rbc-input::-moz-focus-inner {
 .rbc-day-slot .rbc-background-event:focus {
   outline: 5px auto #3b99fc;
 }
-
+/* 
 .rbc-event-label {
   font-size: 80%;
-}
+} */
 
 .rbc-event-overlaps {
   -webkit-box-shadow: -1px 1px 5px 0px rgba(51, 51, 51, 0.5);
@@ -564,7 +572,7 @@ button.rbc-input::-moz-focus-inner {
 
 .rbc-timeslot-group {
   border-bottom: 1px solid #ddd;
-  min-height: 40px;
+  min-height: 2.5rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -607,7 +615,7 @@ button.rbc-input::-moz-focus-inner {
   display: -ms-flexbox;
   display: flex;
   max-height: 100%;
-  min-height: 20px;
+  min-height: 1.3rem;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -ms-flex-flow: column wrap;
@@ -636,7 +644,7 @@ button.rbc-input::-moz-focus-inner {
   word-wrap: break-word;
   line-height: 1;
   height: 100%;
-  min-height: 1em;
+  min-height: 1.3em;
 }
 .rbc-day-slot .rbc-time-slot {
   border-top: 1px solid #f7f7f7;
@@ -745,7 +753,7 @@ button.rbc-input::-moz-focus-inner {
 .rbc-time-view .rbc-row {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  min-height: 20px;
+  min-height: 1.3rem;
 }
 
 .rbc-time-header {

@@ -102,34 +102,31 @@ const MenteeCalendar = (props) => {
     return { style };
   };
 
-  const { data, refetch } = useQuery(
-    [target],
-    () => fetchMentorCalendar(target.id),
-    {
-      refetchOnWindowFocus: false,
-      onSuccess: (data) => {
-        const consultDataList = data;
-        const tmpList = [...consultDataList.lastUpcomingConsult];
-        tmpList.push(...consultDataList.upcomingConsult);
-        const convertEvents = [];
-        tmpList.forEach((item) =>
-          convertEvents.push({
-            ...item,
-            id: item.consultId,
-            title: item.status ? "상담 예정" : "상담 대기",
-            start: new Date(item.startTime),
-            end: new Date(item.endTime),
-            status: item.status,
-          })
-        );
-        const filteredEvents = convertEvents.filter(
-          // 거절된 상담을 시간표에 표시되지 않도록 작업
-          (event) => event.status !== 3
-        );
-        setEvents(filteredEvents);
-      },
-    }
-  );
+  const { refetch } = useQuery([target], () => fetchMentorCalendar(target.id), {
+    refetchOnWindowFocus: false,
+    enabled: !!target,
+    onSuccess: (data) => {
+      const consultDataList = data;
+      const tmpList = [...consultDataList.lastUpcomingConsult];
+      tmpList.push(...consultDataList.upcomingConsult);
+      const convertEvents = [];
+      tmpList.forEach((item) =>
+        convertEvents.push({
+          ...item,
+          id: item.consultId,
+          title: item.status ? "상담 예정" : "상담 대기",
+          start: new Date(item.startTime),
+          end: new Date(item.endTime),
+          status: item.status,
+        })
+      );
+      const filteredEvents = convertEvents.filter(
+        // 거절된 상담을 시간표에 표시되지 않도록 작업
+        (event) => event.status !== 3
+      );
+      setEvents(filteredEvents);
+    },
+  });
 
   // useEffect(() => {
   //   let mentorId;
@@ -261,7 +258,13 @@ const MenteeCalendar = (props) => {
           {!!target ? `${target.name} 멘토의 시간표` : "내 시간표"}
         </div>
         {!!target && (
-          <ButtonDiv height="2rem" onClick={() => setTarget(null)}>
+          <ButtonDiv
+            height="2rem"
+            onClick={() => {
+              setTarget(null);
+              setEvents([]);
+            }}
+          >
             내 시간표 보기
           </ButtonDiv>
         )}
