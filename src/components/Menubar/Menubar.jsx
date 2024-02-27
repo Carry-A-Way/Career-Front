@@ -4,13 +4,14 @@ import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { setCookie } from "../../cookie";
+import { getCookie, setCookie } from "../../cookie";
 import { FRONT_URL } from "../../constants";
 import { useSelector, useDispatch } from "react-redux";
 import { setIsLogin } from "../../store/isLoginSlice";
 import { colors } from "../../styles/common/Theme";
 import { useGlobalNavigate } from "../../hooks/useGlobalNavigate";
 import { setupAxiosInterceptors } from "../../utils/axiosInterceptors";
+import { getUsernameFromToken } from "../../auth/jwtFunctions";
 
 const Menubar = () => {
   useGlobalNavigate();
@@ -124,7 +125,7 @@ const Menubar = () => {
               />
               <div className="menubar-content">
                 {isMentor ? "멘토" : "멘티"}
-                <span>김성애</span>
+                <span>{getUsernameFromToken(getCookie("jwtToken"))}</span>
               </div>
               <div className="menubar-icon">
                 <FontAwesomeIcon onClick={toggleSubSelect} icon={faAngleDown} />

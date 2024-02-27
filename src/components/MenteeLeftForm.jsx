@@ -10,9 +10,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import PointBox from "./Box/PointBox";
 import MoveBox from "./Box/MoveBox";
+import { getUsernameFromToken } from "../auth/jwtFunctions";
+import { getCookie } from "../cookie";
 
 const MenteeLeftForm = () => {
-  const userName = "김성애";
+  const userName = getUsernameFromToken(getCookie("jwtToken"));
 
   return (
     <GridLeftCol style={{ width: "30rem" }}>

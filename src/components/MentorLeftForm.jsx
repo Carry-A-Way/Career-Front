@@ -9,9 +9,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import PointBox from "./Box/PointBox";
 import MoveBox from "./Box/MoveBox";
+import { getUsernameFromToken } from "../auth/jwtFunctions";
+import { getCookie } from "../cookie";
 
 const MentorLeftForm = () => {
-  const userName = "김성애";
+  const userName = getUsernameFromToken(getCookie("jwtToken"));
 
   return (
     <GridLeftCol>
