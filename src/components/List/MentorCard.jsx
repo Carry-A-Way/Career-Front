@@ -11,8 +11,12 @@ import { calculateAge } from "../../utils/ParseFormat";
 import { useNavigate } from "react-router-dom";
 import { USER_CARD_INFO } from "../../settings/url";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import {
+  deleteHeartToMentor,
+  insertHeartToMentor,
+} from "../../api/heartMentor";
 
-const MentorCard = ({ mentor, rank }) => {
+const MentorCard = ({ mentor, rank, refetch }) => {
   const { profileImg, name, birth, schoolList } = mentor;
   const majorList = [
     mentor.consultMajor1,
@@ -37,8 +41,15 @@ const MentorCard = ({ mentor, rank }) => {
   const onMoveUserPage = () => {
     navigate(`/${USER_CARD_INFO}?userId=${mentor.id}`);
   };
-  const onToggleHeart = (e) => {
+  const onToggleHeart = async (e) => {
     e.stopPropagation();
+    if (mentor.heart) {
+      await deleteHeartToMentor(mentor.id);
+    } else {
+      await insertHeartToMentor(mentor.id);
+    }
+    if (!!refetch) refetch();
+    else window.location.reload();
   };
   return (
     <>
@@ -54,7 +65,7 @@ const MentorCard = ({ mentor, rank }) => {
         )} */}
         <FontAwesomeIcon
           icon={mentor.heart ? faHeartFull : faHeart}
-          className="heart-icon"
+          className={mentor.heart ? "heart-icon heart-full" : "heart-icon"}
           onClick={onToggleHeart}
         />
         <img alt="" src={setDefaultImage(profileImg)} />
@@ -118,6 +129,10 @@ const StyledContainer = styled.div`
     right: 1rem;
     font-size: 1.5rem;
     color: gray;
+    cursor: pointer;
+  }
+  .heart-full {
+    color: red;
   }
   img {
     width: ${MentorCardSize.width};

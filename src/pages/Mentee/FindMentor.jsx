@@ -33,7 +33,7 @@ const FindMentor = () => {
     setIsInputFocused(false);
   };
 
-  const { data: mentorData } = useQuery(
+  const { data: mentorData, refetch } = useQuery(
     ["findMentor", { sort, keyword }],
     () =>
       fetchMentor({
@@ -110,7 +110,7 @@ const FindMentor = () => {
         {!!mentorData ? ( // !isLoading 넣기???
           <MentorCardGrid>
             {mentorData.map((item, idx) => (
-              <MentorCard key={idx} mentor={item} />
+              <MentorCard key={idx} mentor={item} refetch={refetch} />
             ))}
           </MentorCardGrid>
         ) : (
