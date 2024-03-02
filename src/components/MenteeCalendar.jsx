@@ -1,11 +1,8 @@
 import moment from "moment/moment";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "../styles/big-calendar.css";
 import styled from "styled-components";
-import { SV_LOCAL } from "../constants";
-import axios from "axios";
-import { getCookie } from "../cookie";
 import { ButtonDiv } from "./Button/Button";
 import { PossibleDateList } from "../settings/config";
 import { ModalWrapper } from "../styles/common/ModalComponent";

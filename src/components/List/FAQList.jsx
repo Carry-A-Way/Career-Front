@@ -1,5 +1,4 @@
 import React from "react";
-import { FAQ } from "../../settings/config";
 import styled from "styled-components";
 import { colors } from "../../styles/common/Theme";
 

@@ -3,7 +3,6 @@ import {
   MenteeMentorLinkList,
   MenteeMentorMenu,
   RecommendMentors,
-  TotalRecommendMentors,
 } from "../../settings/config";
 import SubMenubar from "../../components/Menubar/SubMenubar";
 import styled from "styled-components";
@@ -14,6 +13,8 @@ import { MenteeHeader } from "../../styles/common/mentee/MenteeForm";
 import { ButtonDiv } from "../../components/Button/Button";
 import { useNavigate } from "react-router-dom";
 import HorizontalLine from "../../components/Line/HorizontalLine";
+import { useQuery } from "react-query";
+import { fetchHeartMentorList } from "../../api/heartMentor";
 
 const MyMentor = () => {
   const subMenuList = MenteeMentorMenu;
@@ -21,6 +22,13 @@ const MyMentor = () => {
   const subMenu = subMenuList[2];
   const navigate = useNavigate();
 
+  const {
+    data: heartMentorList,
+    isLoading,
+    refetch,
+  } = useQuery("heart-mentor", () => fetchHeartMentorList(), {
+    refetchOnWindowFocus: false,
+  });
   return (
     <>
       <SubMenubar
@@ -31,11 +39,13 @@ const MyMentor = () => {
       <StyledLayout>
         <ListContainer>
           <MenteeHeader>내가 찜한 멘토</MenteeHeader>
-          {TotalRecommendMentors && TotalRecommendMentors.length ? (
+          {isLoading ? (
+            <div>loading...</div>
+          ) : heartMentorList && heartMentorList.length ? (
             <>
               <MentorWrapper>
-                {TotalRecommendMentors.map((mentor) => (
-                  <MentorCard mentor={mentor} />
+                {heartMentorList.map((mentor) => (
+                  <MentorCard mentor={mentor} refetch={refetch} />
                 ))}
               </MentorWrapper>
               <div className="button-wrapper">
