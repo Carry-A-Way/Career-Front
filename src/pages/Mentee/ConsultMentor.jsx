@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { TotalPopularMentors } from "../../settings/config";
 import { MentorDetailCardGrid } from "../../styles/common/mentee/MentorCard";
 import { MenteeHeader } from "../../styles/common/mentee/MenteeForm";
-import MentorDetailCard from "../../components/List/MentorDetailCard";
+import MentorDetailCard from "../../components/Card/MentorDetailCard";
 
 const ConsultMentor = () => {
   return (

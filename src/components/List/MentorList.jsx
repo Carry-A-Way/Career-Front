@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { xScrollStyle } from "../../styles/common/Scroll";
-import MentorCard from "./MentorCard";
+import MentorCard from "../Card/MentorCard";
 
 const MentorList = ({ mentors, rank }) => {
   return (

@@ -7,7 +7,7 @@ import {
   TotalRecommendMentors,
 } from "../../settings/config";
 import SubMenubar from "../../components/Menubar/SubMenubar";
-import MentorCard from "../../components/List/MentorCard";
+import MentorCard from "../../components/Card/MentorCard";
 
 const RecommendMentor = () => {
   const subMenuList = MenteeMentorMenu;

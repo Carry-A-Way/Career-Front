@@ -7,7 +7,7 @@ import { MentorCardGrid } from "../../styles/common/mentee/MentorCard";
 import { MenteeHeader } from "../../styles/common/mentee/MenteeForm";
 import Input from "../../components/Input/Input";
 import { Button } from "../../components/Button/Button";
-import MentorCard from "../../components/List/MentorCard";
+import MentorCard from "../../components/Card/MentorCard";
 import { useQuery } from "react-query";
 import { fetchMentor } from "../../api/fetchMentor";
 import { fetchMajorAutoComplete } from "../../api/fetchMajorList";

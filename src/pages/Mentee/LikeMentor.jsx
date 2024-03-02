@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { MentorCardGrid } from "../../styles/common/mentee/MentorCard";
 import { MenteeHeader } from "../../styles/common/mentee/MenteeForm";
-import MentorCard from "../../components/List/MentorCard";
+import MentorCard from "../../components/Card/MentorCard";
 import { useQuery } from "react-query";
 import { fetchHeartMentorList } from "../../api/heartMentor";
 
