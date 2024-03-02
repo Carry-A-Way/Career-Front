@@ -4,17 +4,18 @@ import {
   faCrown,
   faHeart as faHeartFull,
 } from "@fortawesome/free-solid-svg-icons";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { colors } from "../../styles/common/Theme";
 import { MentorCardSize } from "../../styles/common/Size";
 import { setDefaultImage } from "../../utils/DefaultValue";
 import { calculateAge } from "../../utils/ParseFormat";
 import { useNavigate } from "react-router-dom";
 import { USER_CARD_INFO } from "../../settings/url";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import {
   deleteHeartToMentor,
   insertHeartToMentor,
 } from "../../api/heartMentor";
+import Wage from "../Wage/Wage";
 
 const MentorCard = ({ mentor, rank, refetch }) => {
   const { profileImg, name, birth, schoolList } = mentor;
@@ -68,8 +69,11 @@ const MentorCard = ({ mentor, rank, refetch }) => {
           className={mentor.heart ? "heart-icon heart-full" : "heart-icon"}
           onClick={onToggleHeart}
         />
+        <WageWrapper>
+          <Wage wage={mentor.wage} />
+        </WageWrapper>
         <img alt="" src={setDefaultImage(profileImg)} />
-        <div className="content">
+        <Content>
           <header>
             {name} {!!birth && `(${calculateAge(birth)})`}
           </header>
@@ -95,7 +99,7 @@ const MentorCard = ({ mentor, rank, refetch }) => {
                 (major, idx) => !!major && <span key={idx}>#{major}</span>
               )}
           </footer>
-        </div>
+        </Content>
       </StyledContainer>
       {/* {isDetailOpen && <MentorDetailInfo setModalClose={setModalClose} />} */}
     </>
@@ -142,44 +146,52 @@ const StyledContainer = styled.div`
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }
-  .content {
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  text-align: center;
+  font-size: 1rem;
+  background-color: #f5f5f5;
+  box-sizing: border-box;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  font-weight: 500;
+  flex: 1;
+  padding: 1rem;
+  header {
+    font-size: 1.2rem;
+    height: 20%;
+  }
+  main {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-    text-align: center;
-    font-size: 1rem;
-    background-color: #f5f5f5;
-    box-sizing: border-box;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    font-weight: 500;
-    flex: 1;
-    padding: 1rem;
-    header {
-      font-size: 1.2rem;
-      height: 20%;
-    }
-    main {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      height: 40%;
-      gap: 5px;
-    }
-    footer {
-      display: flex;
-      gap: 3px;
-      width: 100%;
-      font-size: 0.9rem;
-      flex-wrap: wrap;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      justify-content: center;
-      align-items: center;
-      height: 40%;
-    }
+    justify-content: center;
+    height: 40%;
+    gap: 5px;
   }
+  footer {
+    display: flex;
+    gap: 3px;
+    width: 100%;
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    justify-content: center;
+    align-items: center;
+    height: 40%;
+  }
+`;
+
+const WageWrapper = styled.div`
+  position: absolute;
+  top: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
 `;

@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 import ProfileImage from "../components/Image/ProfileImage";
 import SchoolItem from "../components/List/SchoolItem";
 import ReviewList from "../components/List/ReviewList";
-import { FAQ } from "../settings/config";
+// import { FAQ } from "../settings/config";
 import FAQList from "../components/List/FAQList";
 import { calculateAge } from "../utils/ParseFormat";
 import BottomFixButton from "../components/Button/BottomFixButton";
@@ -20,6 +20,7 @@ import {
   UserCardLayout,
 } from "../styles/common/UserCard";
 import SchoolItemShow from "../components/List/SchoolItemShow";
+import Wage from "../components/Wage/Wage";
 
 const UserCard = () => {
   const location = useLocation();
@@ -64,6 +65,7 @@ const UserCard = () => {
                 {calculateAge(userData.birth)})
               </div>
               {univName()}
+              <Wage wage={userData.wage} />
             </NameWrapper>
             <TagWrapper>
               {userData.consultMajor1 && <Tag>#{userData.consultMajor1}</Tag>}
@@ -81,7 +83,9 @@ const UserCard = () => {
           <CenterContainer>
             <div className="title">멘토의 소개글</div>
             <TextBox>
-              {userData.introduce ? userData.introduce : "소개글이 없습니다."}
+              {userData.introduce
+                ? userData.introduce
+                : "등록된 소개글이 없습니다."}
             </TextBox>
           </CenterContainer>
           <CenterContainer>
@@ -89,39 +93,56 @@ const UserCard = () => {
             <TextBox>
               {userData.introduce
                 ? userData.introduce
-                : "라이프 관련 글이 없습니다."}
+                : "등록된 라이프 정보가 없습니다."}
             </TextBox>
           </CenterContainer>
-          {userData.isTutor && userData.schoolList?.length > 0 && (
+          {userData.isTutor && (
             <CenterContainer>
               <div className="title">
                 {userData.isTutor ? "멘토" : "멘티"}의 학력
               </div>
-              {userData.schoolList.map((school, idx) => (
-                <SchoolItemShow item={school} index={idx} key={idx} />
-              ))}
+              {userData.schoolList?.length > 0 ? (
+                userData.schoolList.map((school, idx) => (
+                  <SchoolItemShow item={school} index={idx} key={idx} />
+                ))
+              ) : (
+                <span>등록된 학력이 없습니다.</span>
+              )}
             </CenterContainer>
           )}
-          {userData.isTutor && userData.schoolList?.length > 0 && (
+          {userData.isTutor && (
             <CenterContainer>
               <div className="title">
                 {userData.isTutor ? "멘토" : "멘티"}의 경력
               </div>
-              {userData.schoolList.map((school, idx) => (
-                <SchoolItem item={school} index={idx} view={true} key={idx} />
-              ))}
+
+              {userData.career?.length > 0 ? (
+                userData.career.map((careerItem, idx) => (
+                  <SchoolItemShow item={careerItem} index={idx} key={idx} />
+                ))
+              ) : (
+                <span>등록된 경력이 없습니다.</span>
+              )}
             </CenterContainer>
           )}
-          {userData.isTutor && userData.review?.lenght > 0 && (
+          {userData.isTutor && (
             <CenterContainer>
               <div className="title">멘토가 받은 후기</div>
-              <ReviewList review={userData.review} />
+              {userData.review?.lenght > 0 ? (
+                <ReviewList review={userData.review} />
+              ) : (
+                <span>등록된 후기가 없습니다.</span>
+              )}
             </CenterContainer>
           )}
           {userData.isTutor && (
             <CenterContainer>
               <div className="title">대표 질문 FAQ</div>
-              <FAQList FAQ={FAQ} />
+              {userData.faq.length > 0 ? (
+                <FAQList FAQ={userData.faq} />
+              ) : (
+                <span>등록된 대표 질문이 없습니다.</span>
+              )}
             </CenterContainer>
           )}
         </UserCardLayout>

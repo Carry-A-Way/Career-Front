@@ -12,8 +12,17 @@ import { setDefaultImage } from "../../utils/DefaultValue";
 import { DefaultImg } from "../../settings/config";
 import { useNavigate } from "react-router-dom";
 import { CONSULT_MENTOR_INFO } from "../../settings/url";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart as faHeartFull } from "@fortawesome/free-solid-svg-icons";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import {
+  deleteHeartToMentor,
+  insertHeartToMentor,
+} from "../../api/heartMentor";
+import Wage from "../Wage/Wage";
+import { MentorDetailCardSize } from "../../styles/common/Size";
 
-const MentorDetailCard = ({ mentor, consult }) => {
+const MentorDetailCard = ({ mentor, consult, refetch }) => {
   const { profileImg, name, birth, schoolList } = mentor;
   const majorList = [
     mentor.consultMajor1,
@@ -62,8 +71,28 @@ const MentorDetailCard = ({ mentor, consult }) => {
   useEffect(() => {
     checkConsultTime();
   }, []);
+
+  const onToggleHeart = async (e) => {
+    e.stopPropagation();
+    if (mentor.heart) {
+      await deleteHeartToMentor(mentor.id);
+    } else {
+      await insertHeartToMentor(mentor.id);
+    }
+    if (!!refetch) refetch();
+    else window.location.reload();
+  };
+
   return (
     <StyledContainer>
+      <FontAwesomeIcon
+        icon={mentor.heart ? faHeartFull : faHeart}
+        className={mentor.heart ? "heart-icon heart-full" : "heart-icon"}
+        onClick={onToggleHeart}
+      />
+      <WageWrapper>
+        <Wage wage={mentor.wage} />
+      </WageWrapper>
       <ProfileWrapper>
         <img
           alt=""
@@ -73,7 +102,7 @@ const MentorDetailCard = ({ mentor, consult }) => {
             e.target.src = DefaultImg;
           }}
         />
-        <div className="content">
+        <Content>
           <header>
             {name} {!!birth && `(${calculateAge(birth)})`}
           </header>
@@ -99,7 +128,7 @@ const MentorDetailCard = ({ mentor, consult }) => {
                 (major, idx) => !!major && <span key={idx}>#{major}</span>
               )}
           </footer>
-        </div>
+        </Content>
       </ProfileWrapper>
       <InfoWrapper>
         <div className="main">
@@ -152,6 +181,18 @@ const StyledContainer = styled.div`
   box-shadow: 1px 1px 10px ${colors.primaryBlue};
   border: 1px solid black;
   border-radius: 10px;
+  position: relative;
+  .heart-icon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    color: gray;
+    cursor: pointer;
+  }
+  .heart-full {
+    color: red;
+  }
 `;
 const ProfileWrapper = styled.div`
   display: flex;
@@ -175,38 +216,38 @@ const ProfileWrapper = styled.div`
     object-position: center;
     border-top-left-radius: 10px;
   }
-  .content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    gap: 10px;
-    text-align: center;
-    font-size: 1rem;
-    height: 11rem;
-    background-color: #f5f5f5;
-    box-sizing: border-box;
-    border-bottom-left-radius: 10px;
-    font-weight: 500;
-    header {
-      font-size: 1.2rem;
-    }
-    main {
-      display: flex;
-      flex-direction: column;
-    }
-    footer {
-      display: flex;
-      gap: 10px;
-      width: 100%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      justify-content: center;
-    }
-  }
 `;
 
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 10px;
+  text-align: center;
+  font-size: 1rem;
+  height: 11rem;
+  background-color: #f5f5f5;
+  box-sizing: border-box;
+  border-bottom-left-radius: 10px;
+  font-weight: 500;
+  header {
+    font-size: 1.2rem;
+  }
+  main {
+    display: flex;
+    flex-direction: column;
+  }
+  footer {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    justify-content: center;
+  }
+`;
 const InfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -293,4 +334,11 @@ const InfoWrapper = styled.div`
 
 const LeftTime = styled.div`
   margin: 0 auto;
+`;
+
+const WageWrapper = styled.div`
+  position: absolute;
+  top: -1rem;
+  left: 50%;
+  /* transform: translateX(-50%); */
 `;

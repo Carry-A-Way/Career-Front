@@ -1,18 +1,22 @@
 import styled from "styled-components";
-const MentorFeeBox = ({ target, fee }) => {
+const MentorFeeBox = ({ target, wage }) => {
   return (
-    <PointWrapper>
+    <StyledWrapper>
       <header>{target.name} 멘토의 상담 가격</header>
       <main>
-        <span>30분당 {fee.toLocaleString() || 0} </span> 원
+        {wage !== -1 ? (
+          <span>30분당 {wage.toLocaleString() || 0} 원</span>
+        ) : (
+          <span>가격 미설정</span>
+        )}
       </main>
-    </PointWrapper>
+    </StyledWrapper>
   );
 };
 
 export default MentorFeeBox;
 
-const PointWrapper = styled.div`
+const StyledWrapper = styled.div`
   width: 100%;
   height: 12rem;
   border: 1px solid #c7c5c5;

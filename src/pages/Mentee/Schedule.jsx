@@ -5,29 +5,20 @@ import MenteeScheduleList from "../../components/List/MenteeScheduleList";
 import MentorRecommendList from "../../components/List/MentorRecommendList";
 import MenteeCalendar from "../../components/MenteeCalendar";
 import PointBox from "../../components/Box/PointBox";
-import MentorFeeBox from "../../components/Box/MentorFeeBox";
+import MentorFeeBox from "../../components/Wage/WageBox";
 // import { colors } from "../../styles/common/Theme";
 
 const MenteeSchedule = () => {
   const [target, setTarget] = useState(null); // 타겟 시간표. 디폴트는 본인
   const point = 12000;
-  const fee = 11000;
   return (
     <ScheduleLayout>
       <MenteeCalendar target={target} setTarget={setTarget} />
       <Right>
         <MenteeScheduleList />
         <MentorRecommendList target={target} setTarget={setTarget} />
-        {target === null && (
-          <PointBox
-            point={point}
-            // style={{
-            //   backgroundColor: `${colors.primaryBlue}`,
-            //   color: "white",
-            // }}
-          />
-        )}
-        {!!target && <MentorFeeBox target={target} fee={fee} />}
+        {target === null && <PointBox point={point} />}
+        {!!target && <MentorFeeBox target={target} wage={target.wage} />}
       </Right>
     </ScheduleLayout>
   );
