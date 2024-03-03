@@ -47,7 +47,7 @@ const Form = styled.div`
   background-color: ${(props) => props.color || "white"};
   border: 1px solid ${colors.primaryBlue};
   border-radius: 10px;
-  width: 28rem;
+  width: 25rem;
   min-height: 18rem;
   height: 100%;
   color: black;

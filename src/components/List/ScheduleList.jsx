@@ -198,7 +198,7 @@ const ScheduleList = () => {
                   textAlign: "center",
                 }}
               >
-                대기중인 상담이 없습니다.
+                수락 대기중인 상담이 없습니다.
               </li>
             </ul>
           )}

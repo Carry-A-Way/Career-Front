@@ -44,7 +44,10 @@ export default MentorLeftForm;
 const NameContainer = styled.div`
   font-size: 1.7rem;
   font-weight: 500;
-  width: 22rem;
+  /* width: 22rem; */
+  width: 100%;
+  text-align: center;
+  margin-bottom: 1rem;
   span {
     font-size: 2rem;
     font-weight: 600;

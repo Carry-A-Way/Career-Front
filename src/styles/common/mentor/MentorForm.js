@@ -3,7 +3,8 @@ import { xScrollStyle, yScrollStyle } from "../Scroll";
 
 export const RecommendWrapper = styled.div`
   height: auto;
-  max-height: 73vh;
+  /* max-height: 73vh; */
+  max-height: 53rem;
   overflow-y: auto;
   ${yScrollStyle}
   display: flex;
@@ -26,8 +27,9 @@ export const SectionHeader = styled.h2`
 
 export const ConsultWrapper = styled.div`
   width: 100%;
-  min-height: 20rem;
-  height: 26vh;
+  /* min-height: 20rem; */
+  /* height: 26vh; */
+  height: 20rem;
   display: flex;
   flex-direction: column;
   justify-content: center;

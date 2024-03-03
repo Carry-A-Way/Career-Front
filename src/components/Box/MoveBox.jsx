@@ -9,7 +9,7 @@ export default MoveBox;
 
 const MoveWrapper = styled.div`
   width: 100%;
-  max-width: 25rem;
+  /* max-width: 25rem; */
   border: 1px solid #c7c5c5;
   border-radius: 10px;
   background-color: #fcfcfc;

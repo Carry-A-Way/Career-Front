@@ -44,6 +44,7 @@ import {
 import UserCard from "./pages/UserCard";
 import ConsultMentorCard from "./pages/ConsultMentorCard";
 import MenteeSchedule from "./pages/Mentee/Schedule";
+import PendingConsult from "./pages/Mentor/consult/PendingConsult";
 function App() {
   const isLogin = useSelector((state) => state.isLogin.value);
   const isMentor = useSelector((state) => state.isMentor.value);
@@ -92,6 +93,10 @@ function App() {
                   <Route path="/mentor/setting" element={<Setting />} />
                   <Route path="/mentor/profile" element={<MentorProfile />} />
                   <Route path="/mentor/consult" element={<ConsultMentor />} />
+                  <Route
+                    path="/mentor/consult/pending"
+                    element={<PendingConsult />}
+                  />
                   <Route
                     path="/mentor/consult/upcoming"
                     element={<UpcomingConsult />}

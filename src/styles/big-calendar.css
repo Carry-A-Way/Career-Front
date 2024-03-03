@@ -315,7 +315,6 @@ button.rbc-input::-moz-focus-inner {
 .rbc-event-label {
   font-size: 80%;
 } */
-
 .rbc-event-overlaps {
   -webkit-box-shadow: -1px 1px 5px 0px rgba(51, 51, 51, 0.5);
   box-shadow: -1px 1px 5px 0px rgba(51, 51, 51, 0.5);

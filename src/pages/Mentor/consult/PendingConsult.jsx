@@ -1,12 +1,16 @@
-import React from "react";
 import SubMenubar from "../../../components/Menubar/SubMenubar";
+import RecommendMenteeItem from "../../../components/List/RecommendMenteeItem";
 import ConsultList from "../../../components/List/ConsultList";
 import { ConsultListShort } from "../../../components/List/ConsultList";
 import HorizontalLine from "../../../components/Line/HorizontalLine";
-import { COMPLETED_CONSULT_TYPE } from "../../../constants";
+import {
+  PENDING_CONSULT_TYPE,
+  UPCOMING_CONSULT_TYPE,
+} from "../../../constants";
 import {
   MentorConsultLinkList,
   MentorConsultMenu,
+  RecommendMenteeList,
 } from "../../../settings/config";
 import {
   GridLeftCol,
@@ -15,19 +19,19 @@ import {
 } from "../../../styles/common/Layout";
 import {
   ConsultWrapper,
+  RecommendWrapper,
   Section,
   SectionHeader,
 } from "../../../styles/common/mentor/MentorForm";
-import RecommendMentee from "../RecommendMentee";
 import { useQuery } from "react-query";
 import { getMentorConsultWithStatus } from "../../../api/fetchConsult";
 
-const CompletedConsult = () => {
+const PendingConsult = () => {
   const subMenuList = MentorConsultMenu;
   const subMenuLink = MentorConsultLinkList;
-  const { data: completedConsult, isLoading } = useQuery(
-    ["consult", COMPLETED_CONSULT_TYPE],
-    () => getMentorConsultWithStatus(COMPLETED_CONSULT_TYPE),
+  const { data: pendingConsult, isLoading } = useQuery(
+    ["consult", PENDING_CONSULT_TYPE],
+    () => getMentorConsultWithStatus(PENDING_CONSULT_TYPE),
     {
       refetchOnWindowFocus: false,
     }
@@ -36,13 +40,16 @@ const CompletedConsult = () => {
     <>
       <SubMenubar
         subMenuList={subMenuList}
-        selectMenu={subMenuList[3]}
+        selectMenu={subMenuList[1]}
+        // setSubMenu={setSubMenu}
         subMenuLinkList={subMenuLink}
       />
       <TwoColGrid>
         <GridLeftCol>
           <SectionHeader>추천 학생</SectionHeader>
-          <RecommendMentee />
+          <RecommendWrapper>
+            <RecommendMenteeItem recommendList={RecommendMenteeList} />
+          </RecommendWrapper>
         </GridLeftCol>
         {isLoading ? (
           <div>loading...</div>
@@ -50,18 +57,17 @@ const CompletedConsult = () => {
           <GridRightCol>
             <Section>
               <SectionHeader>
-                완료된 상담 ({completedConsult.length})
+                수락전 상담 ({pendingConsult.length})
               </SectionHeader>
-              {!completedConsult.length ? (
+              {pendingConsult && !pendingConsult.length ? (
                 <ConsultWrapper>
-                  <span>완료된 상담이 없습니다.</span>
+                  <span>수락 대기중인 상담이 없습니다.</span>
                 </ConsultWrapper>
               ) : (
                 <ConsultWrapper>
                   <ConsultList
-                    consultList={completedConsult}
-                    color="#D9D9D9" // 나중에 state 로 바꾸는 게 어떨까..
-                    type={COMPLETED_CONSULT_TYPE}
+                    consultList={pendingConsult}
+                    type={PENDING_CONSULT_TYPE}
                   />
                 </ConsultWrapper>
               )}
@@ -69,9 +75,8 @@ const CompletedConsult = () => {
             <HorizontalLine />
             <Section>
               <ConsultListShort
-                consultList={completedConsult}
-                color="#D9D9D9"
-                type={COMPLETED_CONSULT_TYPE}
+                consultList={pendingConsult}
+                type={UPCOMING_CONSULT_TYPE}
               />
             </Section>
           </GridRightCol>
@@ -81,4 +86,4 @@ const CompletedConsult = () => {
   );
 };
 
-export default CompletedConsult;
+export default PendingConsult;

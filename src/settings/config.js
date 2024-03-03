@@ -10,12 +10,14 @@ export const CommunityMenuLinkList = [
 // mentor/consult
 export const MentorConsultMenu = [
   "전체보기",
+  "수락전 상담",
   "예정된 상담",
   "완료된 상담",
   "취소한 상담",
 ];
 export const MentorConsultLinkList = [
   "/mentor/consult",
+  "/mentor/consult/pending",
   "/mentor/consult/upcoming",
   "/mentor/consult/completed",
   "/mentor/consult/cancel",
@@ -41,6 +43,34 @@ export const MenteeMentorLinkList = [
 // ];
 
 export const RecommendMenteeList = [
+  {
+    title: "전산학부 고민입니다..",
+    name: "김성애",
+    grade: "고등학교 2학년",
+    date: "2023-06-06",
+    interest: "전자공학과, 컴퓨터공학과",
+  },
+  {
+    title: "전산학부 고민입니다..",
+    name: "김성애",
+    grade: "고등학교 2학년",
+    date: "2023-06-06",
+    interest: "전자공학과, 컴퓨터공학과",
+  },
+  {
+    title: "전산학부 고민입니다..",
+    name: "김성애",
+    grade: "고등학교 2학년",
+    date: "2023-06-06",
+    interest: "전자공학과, 컴퓨터공학과",
+  },
+  {
+    title: "전산학부 고민입니다..",
+    name: "김성애",
+    grade: "고등학교 2학년",
+    date: "2023-06-06",
+    interest: "전자공학과, 컴퓨터공학과",
+  },
   {
     title: "전산학부 고민입니다..",
     name: "김성애",
@@ -1161,5 +1191,45 @@ export const PossibleDateList = [
       },
     ],
     date: "2024-02-28",
+  },
+  {
+    possibleTimeList: [
+      {
+        start: "19:0",
+        end: "23:0",
+      },
+    ],
+    date: "2024-03-02",
+  },
+  {
+    possibleTimeList: [
+      {
+        start: "11:30",
+        end: "18:30",
+      },
+    ],
+    date: "2024-03-03",
+  },
+  {
+    possibleTimeList: [
+      {
+        start: "9:30",
+        end: "16:0",
+      },
+      {
+        start: "19:0",
+        end: "24:0",
+      },
+    ],
+    date: "2024-03-04",
+  },
+  {
+    possibleTimeList: [
+      {
+        start: "10:30",
+        end: "18:30",
+      },
+    ],
+    date: "2024-03-05",
   },
 ];

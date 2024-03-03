@@ -11,6 +11,7 @@ export const TwoColGrid = styled.div`
 
 export const GridLeftCol = styled.section`
   min-width: 20rem;
+  max-width: 30rem;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -29,4 +30,16 @@ export const GridRightCol = styled.section`
   padding-top: 2rem;
   box-sizing: border-box;
   border-left: 1px solid #bcbcbc;
+`;
+
+export const ScheduleLayout = styled.div`
+  display: flex;
+  gap: 5rem;
+  margin: 60px auto;
+  min-width: 70rem;
+  min-height: 50rem;
+  height: 80vh;
+  max-height: 67rem;
+  justify-content: center;
+  box-sizing: border-box;
 `;

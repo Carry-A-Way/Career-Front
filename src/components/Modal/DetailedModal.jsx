@@ -18,12 +18,13 @@ const DetailedModal = (props) => {
   const [detailObject, setDetailObject] = useState({
     ...item,
   });
+  console.log(item);
   const acceptConsult = async () => {
     try {
       await axios.post(
         `${SV_LOCAL}/calendar/mentor/accept`,
         {
-          consultId: detailObject.object.consultId,
+          consultId: detailObject.consultId,
         },
         {
           headers: {
