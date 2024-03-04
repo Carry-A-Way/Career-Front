@@ -24,14 +24,14 @@ import {
   SectionHeader,
 } from "../../../styles/common/mentor/MentorForm";
 import { useQuery } from "react-query";
-import { getMentorConsultWithStatus } from "../../../api/fetchConsult";
+import { fetchMentorConsultWithStatus } from "../../../api/fetchConsult";
 
 const PendingConsult = () => {
   const subMenuList = MentorConsultMenu;
   const subMenuLink = MentorConsultLinkList;
   const { data: pendingConsult, isLoading } = useQuery(
     ["consult", PENDING_CONSULT_TYPE],
-    () => getMentorConsultWithStatus(PENDING_CONSULT_TYPE),
+    () => fetchMentorConsultWithStatus(PENDING_CONSULT_TYPE),
     {
       refetchOnWindowFocus: false,
     }

@@ -25,8 +25,8 @@ import {
 import RecommendMentee from "../RecommendMentee";
 import { useQuery } from "react-query";
 import {
-  getMentorConsult,
-  getMentorConsultWithStatus,
+  fetchMentorConsult,
+  fetchMentorConsultWithStatus,
 } from "../../../api/fetchConsult";
 
 const Consult = () => {
@@ -35,12 +35,12 @@ const Consult = () => {
   // const { upcomingConsult } = useGetConsult();
   // const { completedConsult } = useGetCompletedConsult();
   // const { cancelConsult } = useGetCancelConsult();
-  const { data, isLoading } = useQuery("consult", () => getMentorConsult(), {
+  const { data, isLoading } = useQuery("consult", () => fetchMentorConsult(), {
     refetchOnWindowFocus: false,
   });
   const { data: cancelConsult } = useQuery(
     ["consult", CANCEL_CONSULT_TYPE],
-    () => getMentorConsultWithStatus(CANCEL_CONSULT_TYPE),
+    () => fetchMentorConsultWithStatus(CANCEL_CONSULT_TYPE),
     {
       refetchOnWindowFocus: false,
     }

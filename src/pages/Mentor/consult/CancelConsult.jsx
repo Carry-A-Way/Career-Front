@@ -20,14 +20,14 @@ import {
 } from "../../../styles/common/mentor/MentorForm";
 import RecommendMentee from "../RecommendMentee";
 import { useQuery } from "react-query";
-import { getMentorConsultWithStatus } from "../../../api/fetchConsult";
+import { fetchMentorConsultWithStatus } from "../../../api/fetchConsult";
 
 const CancelConsult = () => {
   const subMenuList = MentorConsultMenu;
   const subMenuLink = MentorConsultLinkList;
   const { data: cancelConsult, isLoading } = useQuery(
     ["consult", CANCEL_CONSULT_TYPE],
-    () => getMentorConsultWithStatus(CANCEL_CONSULT_TYPE),
+    () => fetchMentorConsultWithStatus(CANCEL_CONSULT_TYPE),
     {
       refetchOnWindowFocus: false,
     }
