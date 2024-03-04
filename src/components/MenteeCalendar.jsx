@@ -11,13 +11,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { fetchMentorCalendar } from "../api/calendar";
 import { useQuery } from "react-query";
+import { fetchMentorPossibleTime } from "../api/possibleTime";
+import ColorInfo from "./ColorInfo";
 
 const localizer = momentLocalizer(moment);
 const MenteeCalendar = (props) => {
   const { target, setTarget } = props;
   // state 0 이면 수락전, 1이면 수락완료-상담전, 2이면 상담완료
   const [events, setEvents] = useState([]);
-  const [possibleTimeList, setPossibleTimeList] = useState(PossibleDateList);
+  //const [possibleTimeList, setPossibleTimeList] = useState(PossibleDateList);
   const today = moment();
   const [selectedSlot, setSelectedSlot] = useState({
     start: "",
@@ -26,6 +28,15 @@ const MenteeCalendar = (props) => {
   const [applyModalOpen, setApplyModalOpen] = useState(false);
   const [applyFormOpen, setApplyFormOpen] = useState(false);
   const [isPossibleConsult, setIsPossibleConsult] = useState(false);
+
+  const { data: possibleTimeList } = useQuery(
+    ["possible", target?.id],
+    () => fetchMentorPossibleTime(target.id),
+    {
+      refetchOnWindowFocus: false,
+      enabled: !!target?.id,
+    }
+  );
   const isCustomTimeCell = (start) => {
     let customStartTime = new Date();
     let customEndTime = new Date();
@@ -247,22 +258,26 @@ const MenteeCalendar = (props) => {
 
   return (
     <CalendarContainer>
-      <header>
-        <div className="header-title">
+      <Header>
+        <ColorInfoWrapper>
+          <ColorInfo color="yellow">멘토 상담 가능 시간</ColorInfo>
+        </ColorInfoWrapper>
+        <Title>
           {!!target ? `${target.name} 멘토의 시간표` : "내 시간표"}
-        </div>
-        {!!target && (
-          <ButtonDiv
-            height="2rem"
-            onClick={() => {
-              setTarget(null);
-              setEvents([]);
-            }}
-          >
-            내 시간표 보기
-          </ButtonDiv>
-        )}
-      </header>
+          {!!target && (
+            <ButtonDiv
+              height="2rem"
+              onClick={() => {
+                setTarget(null);
+                setEvents([]);
+              }}
+            >
+              내 시간표 보기
+            </ButtonDiv>
+          )}
+        </Title>
+      </Header>
+
       <Calendar
         localizer={localizer}
         events={events}
@@ -300,12 +315,37 @@ const CalendarContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-  .header-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-    text-align: center;
-    margin-bottom: 8px;
-  }
+`;
+
+const Header = styled.header`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  position: relative;
+`;
+
+const Title = styled.nav`
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 8px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+
+const ColorInfoWrapper = styled.nav`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 1px solid #d6d6d6;
+  border-radius: 0.4rem;
+  background-color: #fafafa;
 `;
 
 const Modal = styled.div`

@@ -12,7 +12,6 @@ export const fetchMentorCalendar = async (mentorId) => {
         Authorization: `Bearer ${getCookie("jwtToken")}`,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (err) {
     console.log(err);
