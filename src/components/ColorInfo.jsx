@@ -14,10 +14,12 @@ export default ColorInfo;
 
 const ColorInfoContainer = styled.div`
   display: flex;
+  align-items: center;
   gap: 1rem;
   .color__circle {
     width: 1rem;
     height: 1rem;
     border-radius: 50%;
+    border: 0.5px solid #bebebe;
   }
 `;

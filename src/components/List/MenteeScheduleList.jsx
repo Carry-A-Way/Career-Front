@@ -69,19 +69,36 @@ const MenteeScheduleList = () => {
     else document.body.style.overflow = "auto";
   }, [isDetailOpen]);
 
+  // useEffect(() => {
+  //   axios
+  //     .get(`${SV_LOCAL}/consultation/mentor`, {
+  //       headers: {
+  //         Authorization: `Bearer ${getCookie("jwtToken")}`,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       const consultDataList = res.data.object;
+  //       setPendingConsult([...consultDataList.lastUpcomingConsult]);
+  //       setUpcomingConsult([...consultDataList.upcomingConsult]);
+  //     })
+  //     .catch((err) => console.error(err));
+  // }, []);
+
   useEffect(() => {
-    axios
-      .get(`${SV_LOCAL}/consultation/mentor`, {
-        headers: {
-          Authorization: `Bearer ${getCookie("jwtToken")}`,
-        },
-      })
-      .then((res) => {
-        const consultDataList = res.data.object;
-        setPendingConsult([...consultDataList.lastUpcomingConsult]);
-        setUpcomingConsult([...consultDataList.upcomingConsult]);
-      })
-      .catch((err) => console.error(err));
+    const fetchScheduled = async () => {
+      try {
+        const response = await axios.get(`${SV_LOCAL}/consultation/scheduled`, {
+          headers: {
+            Authorization: `Bearer ${getCookie("jwtToken")}`,
+          },
+        });
+        console.log(response);
+        setUpcomingConsult(response.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchScheduled();
   }, []);
   return (
     <>
@@ -90,7 +107,7 @@ const MenteeScheduleList = () => {
           <h1 className="list-title">예정된 상담 ({upcomingConsult.length})</h1>
           <ul className="header">
             <li>No</li>
-            <li>닉네임</li>
+            <li>멘토</li>
             <li>날짜</li>
             <li>시간</li>
             <li></li>
@@ -113,16 +130,16 @@ const MenteeScheduleList = () => {
               </li>
             </ul>
           )}
-          {upcomingConsult &&
+          {!!upcomingConsult &&
             upcomingConsult.map((upcoming, upcomingIdx) => (
               <Fragment key={upcoming.id}>
                 <ul className="main">
                   <li>{upcomingIdx + 1}</li>
-                  <li>{upcoming.student.nickname}</li>
-                  <li>{dateParse(upcoming.startTime)}</li>
+                  <li>{upcoming.name}</li>
+                  <li>{dateParse(upcoming.briefConsultRespDto.startTime)}</li>
                   <li>
-                    {timeParse(upcoming.startTime)} ~{" "}
-                    {timeParse(upcoming.endTime)}
+                    {timeParse(upcoming.briefConsultRespDto.startTime)} ~{" "}
+                    {timeParse(upcoming.briefConsultRespDto.endTime)}
                   </li>
                   <li>
                     {upcomingDetailId === upcomingIdx ? (
@@ -148,16 +165,22 @@ const MenteeScheduleList = () => {
                   <div className="main-detail">
                     <div className="main-detail__item">
                       <span className="item__title">- 상담할 전공 : </span>
-                      <span className="item__content">{upcoming.major}</span>
+                      <span className="item__content">
+                        {upcoming.briefConsultRespDto.major}
+                      </span>
                     </div>
                     <div className="main-detail__item">
                       <span className="item__title">- 상담 방식 : </span>
-                      <span className="item__content">{upcoming.flow}</span>
+                      <span className="item__content">
+                        {upcoming.briefConsultRespDto.flow}
+                      </span>
                     </div>
                     <div className="main-detail__item">
                       <span className="item__title">- 주요 질문 : </span>
                       <div className="question-wrapper">
-                        <p className="item__content">{upcoming.questions}</p>
+                        <p className="item__content">
+                          {upcoming.briefConsultRespDto.questions}
+                        </p>
                       </div>
                     </div>
                     <button

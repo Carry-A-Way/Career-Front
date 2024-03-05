@@ -2,7 +2,7 @@ import axios from "axios";
 import { SV_LOCAL } from "../constants";
 import { getCookie } from "../cookie";
 
-export const getMentorConsultWithStatus = async (status) => {
+export const fetchMentorConsultWithStatus = async (status) => {
   try {
     const response = await axios.get(
       `${SV_LOCAL}/consultation/list-by-status`,
@@ -21,7 +21,7 @@ export const getMentorConsultWithStatus = async (status) => {
   }
 };
 
-export const getMentorConsult = async () => {
+export const fetchMentorConsult = async () => {
   try {
     const response = await axios.get(`${SV_LOCAL}/consultation/mentor`, {
       headers: {
