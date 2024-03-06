@@ -1,11 +1,12 @@
 import axios from "axios";
 import { SV_LOCAL } from "../constants";
 import { getCookie } from "../cookie";
+import { MENTOR_POSSIBLE_CONSULT_TIME } from "../settings/url";
 
 export const fetchMentorPossibleTime = async (mentorId) => {
   try {
     const response = await axios.post(
-      `${SV_LOCAL}/calendar/mentee/get/possible/time?mentorId=${mentorId}`,
+      `${SV_LOCAL}/${MENTOR_POSSIBLE_CONSULT_TIME}?mentorId=${mentorId}`,
       {},
       {
         headers: {

@@ -26,7 +26,7 @@ import RecommendMentee from "../RecommendMentee";
 import { useQuery } from "react-query";
 import {
   fetchMentorConsult,
-  fetchMentorConsultWithStatus,
+  fetchConsultWithStatus,
 } from "../../../api/fetchConsult";
 
 const Consult = () => {
@@ -40,7 +40,7 @@ const Consult = () => {
   });
   const { data: cancelConsult } = useQuery(
     ["consult", CANCEL_CONSULT_TYPE],
-    () => fetchMentorConsultWithStatus(CANCEL_CONSULT_TYPE),
+    () => fetchConsultWithStatus(CANCEL_CONSULT_TYPE),
     {
       refetchOnWindowFocus: false,
     }

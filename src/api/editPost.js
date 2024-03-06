@@ -1,15 +1,20 @@
 import axios from "axios";
 import { SV_LOCAL } from "../constants";
 import { getCookie } from "../cookie";
+import {
+  ADD_COMMENT,
+  ADD_RECOMMENT,
+  EDIT_COMMENT,
+  EDIT_RECOMMENT,
+} from "../settings/url";
 
 export const onEnterComment = async (postId, commentInput) => {
   try {
     await axios.post(
-      `${SV_LOCAL}/community/comment/add`,
+      `${SV_LOCAL}/${ADD_COMMENT}`,
       { articleId: postId, content: commentInput },
       {
         headers: {
-          "ngrok-skip-browser-warning": "69420",
           Authorization: `Bearer ${getCookie("jwtToken")}`,
         },
       }
@@ -23,7 +28,7 @@ export const onEnterComment = async (postId, commentInput) => {
 export const onEditCommentContent = async (id, content) => {
   try {
     await axios.post(
-      `${SV_LOCAL}/community/comment/modify`,
+      `${SV_LOCAL}/${EDIT_COMMENT}`,
       {
         id: id,
         content: content,
@@ -43,7 +48,7 @@ export const onEditCommentContent = async (id, content) => {
 export const onEditRecommentContent = async (id, content) => {
   try {
     await axios.post(
-      `${SV_LOCAL}/community/recomment/modify`,
+      `${SV_LOCAL}/${EDIT_RECOMMENT}`,
       {
         id: id,
         content: content,
@@ -63,7 +68,7 @@ export const onEditRecommentContent = async (id, content) => {
 export const onEnterRecomment = async (postId, commentId, content) => {
   try {
     await axios.post(
-      `${SV_LOCAL}/community/recomment/add`,
+      `${SV_LOCAL}/${ADD_RECOMMENT}`,
       {
         articleId: postId,
         commentId: commentId,

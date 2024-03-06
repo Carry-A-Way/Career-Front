@@ -1,11 +1,12 @@
 import axios from "axios";
 import { SV_LOCAL } from "../constants";
 import { getCookie } from "../cookie";
+import { SEARCH_MENTOR } from "../settings/url";
 
 export const fetchMentor = async (queryParams) => {
   const { keyword, size, page, sortOption } = queryParams;
   try {
-    const url = `${SV_LOCAL}/search/mentor`;
+    const url = `${SV_LOCAL}/${SEARCH_MENTOR}`;
     let type;
 
     switch (sortOption) {

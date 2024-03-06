@@ -1,20 +1,18 @@
 import axios from "axios";
 import { SV_LOCAL } from "../constants";
 import { getCookie } from "../cookie";
+import { CONSULT_WITH_STATUS, MENTOR_CONSULT_LIST } from "../settings/url";
 
-export const fetchMentorConsultWithStatus = async (status) => {
+export const fetchConsultWithStatus = async (status) => {
   try {
-    const response = await axios.get(
-      `${SV_LOCAL}/consultation/list-by-status`,
-      {
-        params: {
-          status: status,
-        },
-        headers: {
-          Authorization: `Bearer ${getCookie("jwtToken")}`,
-        },
-      }
-    );
+    const response = await axios.get(`${SV_LOCAL}/${CONSULT_WITH_STATUS}`, {
+      params: {
+        status: status,
+      },
+      headers: {
+        Authorization: `Bearer ${getCookie("jwtToken")}`,
+      },
+    });
     return response.data.object;
   } catch (err) {
     console.error(err);
@@ -23,7 +21,7 @@ export const fetchMentorConsultWithStatus = async (status) => {
 
 export const fetchMentorConsult = async () => {
   try {
-    const response = await axios.get(`${SV_LOCAL}/consultation/mentor`, {
+    const response = await axios.get(`${SV_LOCAL}/${MENTOR_CONSULT_LIST}`, {
       headers: {
         Authorization: `Bearer ${getCookie("jwtToken")}`,
       },

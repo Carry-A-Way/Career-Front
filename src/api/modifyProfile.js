@@ -1,6 +1,11 @@
 import axios from "axios";
 import { SV_LOCAL } from "../constants";
 import { getCookie } from "../cookie";
+import {
+  EDIT_MENTEE_PROFILE,
+  EDIT_MENTEE_TAG,
+  EDIT_MENTOR_PROFILE,
+} from "../settings/url";
 
 export const modifyMentorProfile = async (changeObject, imageFile) => {
   try {
@@ -9,7 +14,7 @@ export const modifyMentorProfile = async (changeObject, imageFile) => {
     formData.append("json", JSON.stringify(jsonData));
     if (!!imageFile) formData.append("image", imageFile);
     const response = await axios.post(
-      `${SV_LOCAL}/user/mentor/modify_profile`,
+      `${SV_LOCAL}/${EDIT_MENTOR_PROFILE}`,
       formData,
       {
         headers: {
@@ -38,7 +43,7 @@ export const modifyMenteeProfile = async (
     if (!!imageFile) formData.append("image", imageFile);
     console.log(changeObject);
     const response = await axios.post(
-      `${SV_LOCAL}/user/mentee/modify_profile`,
+      `${SV_LOCAL}/${EDIT_MENTEE_PROFILE}`,
       formData,
       {
         headers: {
@@ -57,7 +62,7 @@ export const modifyMenteeTag = async (tagList) => {
   // {tagList = [{ idx: 3}]} 형식으로 보내야함
   const jsonData = { tagList: [...tagList] };
   try {
-    await axios.post(`${SV_LOCAL}/user/mentee/modify_tagList`, jsonData, {
+    await axios.post(`${SV_LOCAL}/${EDIT_MENTEE_TAG}`, jsonData, {
       headers: {
         Authorization: `Bearer ${getCookie("jwtToken")}`,
       },

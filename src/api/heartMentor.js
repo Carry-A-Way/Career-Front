@@ -1,11 +1,16 @@
 import axios from "axios";
 import { SV_LOCAL } from "../constants";
 import { getCookie } from "../cookie";
+import {
+  ADD_HEART_MENTOR,
+  DELETE_HEART_MENTOR,
+  HEART_MENTOR_LIST,
+} from "../settings/url";
 
 export const insertHeartToMentor = async (mentorId) => {
   try {
     await axios.post(
-      `${SV_LOCAL}/user/mentee/heart/insert?mentorId=${mentorId}`,
+      `${SV_LOCAL}/${ADD_HEART_MENTOR}?mentorId=${mentorId}`,
       {},
       {
         headers: {
@@ -21,7 +26,7 @@ export const insertHeartToMentor = async (mentorId) => {
 export const deleteHeartToMentor = async (mentorId) => {
   try {
     await axios.post(
-      `${SV_LOCAL}/user/mentee/heart/delete?mentorId=${mentorId}`,
+      `${SV_LOCAL}/${DELETE_HEART_MENTOR}?mentorId=${mentorId}`,
       {},
       {
         headers: {
@@ -36,7 +41,7 @@ export const deleteHeartToMentor = async (mentorId) => {
 
 export const fetchHeartMentorList = async () => {
   try {
-    const response = await axios.get(`${SV_LOCAL}/search/mentor/heart`, {
+    const response = await axios.get(`${SV_LOCAL}/${HEART_MENTOR_LIST}`, {
       params: {
         page: 0,
         size: 10,

@@ -1,10 +1,11 @@
 import axios from "axios";
 import { SV_LOCAL } from "../constants";
 import { getCookie } from "../cookie";
+import { DELETE_COMMENT, DELETE_POST, DELETE_RECOMMENT } from "../settings/url";
 
 export const onDeletePost = async (postId) => {
   try {
-    axios.delete(`${SV_LOCAL}/community/article/delete`, {
+    axios.delete(`${SV_LOCAL}/${DELETE_POST}`, {
       headers: {
         Authorization: `Bearer ${getCookie("jwtToken")}`,
       },
@@ -17,7 +18,7 @@ export const onDeletePost = async (postId) => {
 
 export const onDeleteComment = async (commentId, articleId) => {
   try {
-    axios.delete(`${SV_LOCAL}/community/comment/delete`, {
+    axios.delete(`${SV_LOCAL}/${DELETE_COMMENT}`, {
       headers: {
         Authorization: `Bearer ${getCookie("jwtToken")}`,
       },
@@ -30,7 +31,7 @@ export const onDeleteComment = async (commentId, articleId) => {
 
 export const onDeleteRecomment = async (recommentId, commentId, articleId) => {
   try {
-    axios.delete(`${SV_LOCAL}/community/recomment/delete`, {
+    axios.delete(`${SV_LOCAL}/${DELETE_RECOMMENT}`, {
       headers: {
         Authorization: `Bearer ${getCookie("jwtToken")}`,
       },

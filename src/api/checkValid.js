@@ -1,9 +1,10 @@
 import axios from "axios";
 import { SV_LOCAL } from "../constants";
+import { VALID_NICKNAME, VALID_USERNAME } from "../settings/url";
 
 export const checkValidUsername = async (username) => {
   try {
-    const response = await axios.post(`${SV_LOCAL}/user/valid/username`, {
+    const response = await axios.post(`${SV_LOCAL}/${VALID_USERNAME}`, {
       username,
     });
     if (response.data) window.alert("사용 가능한 아이디입니다.");
@@ -16,7 +17,7 @@ export const checkValidUsername = async (username) => {
 
 export const checkValidNickname = async (nickname) => {
   try {
-    const response = await axios.post(`${SV_LOCAL}/user/valid/nickname`, {
+    const response = await axios.post(`${SV_LOCAL}/${VALID_NICKNAME}`, {
       nickname,
     });
     // if (response.data) window.alert("사용 가능한 닉네임입니다.");
