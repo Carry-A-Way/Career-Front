@@ -33,7 +33,7 @@ export const DELETE_HEART = "community/heart/delete";
 // Consult
 export const CONSULT_WITH_STATUS = "consultation/list-by-status";
 export const CONSULT_MENTOR_INFO = "consult/mentor/card";
-export const MENTOR_CONSULT_LIST = "consultation/mentor";
+export const USER_CONSULT_LIST = "consultation/user";
 
 // Calendar
 export const CALENDAR_MENTOR_VIEW = "calendar/mentor/view";

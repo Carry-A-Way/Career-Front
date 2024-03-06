@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import { getCookie } from "../../cookie";
 import { SV_LOCAL } from "../../constants";
+import { USER_CONSULT_LIST } from "../../settings/url";
 
 const ScheduleList = () => {
   const [pendingConsult, setPendingConsult] = useState([]);
@@ -70,7 +71,7 @@ const ScheduleList = () => {
 
   useEffect(() => {
     axios
-      .get(`${SV_LOCAL}/consultation/mentor`, {
+      .get(`${SV_LOCAL}/${USER_CONSULT_LIST}`, {
         headers: {
           Authorization: `Bearer ${getCookie("jwtToken")}`,
         },
