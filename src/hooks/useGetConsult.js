@@ -2,6 +2,7 @@ import axios from "axios";
 import { SV_LOCAL } from "../constants";
 import { getCookie } from "../cookie";
 import { useEffect, useState } from "react";
+import { USER_CONSULT_LIST } from "../settings/url";
 
 const useGetConsult = () => {
   const [lastUpcomingConsult, setLastUpcomingConsult] = useState([]);
@@ -11,7 +12,7 @@ const useGetConsult = () => {
   useEffect(() => {
     const getConsult = async () => {
       try {
-        const response = await axios.get(`${SV_LOCAL}/consultation/mentor`, {
+        const response = await axios.get(`${SV_LOCAL}/${USER_CONSULT_LIST}`, {
           headers: {
             Authorization: `Bearer ${getCookie("jwtToken")}`,
           },
