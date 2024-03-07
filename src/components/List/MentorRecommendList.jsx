@@ -13,7 +13,7 @@ const MentorRecommendList = (props) => {
   const [selectedCard, setSelectedCard] = useState(null);
 
   const handleCardClick = (mentor) => {
-    setTarget(mentor);
+    !!setTarget && setTarget(mentor);
   };
 
   const { data, isLoading } = useQuery(
@@ -29,103 +29,78 @@ const MentorRecommendList = (props) => {
       refetchOnWindowFocus: false,
     }
   );
-  if (isLoading) return <ListWrapper>Loading...</ListWrapper>;
+  if (isLoading) return <List>Loading...</List>;
   else
     return (
-      <ListWrapper>
-        <div className="header-wrapper">
-          <header className="list-title">추천 멘토</header>
-          <span className="list-subtitle">
-            * 클릭시 멘토의 시간표가 보여집니다.
-          </span>
-        </div>
-        <List>
-          {data ? (
-            data.map((mentor, idx) => {
-              const majorList = [
-                mentor.consultMajor1,
-                mentor.consultMajor2,
-                mentor.consultMajor3,
-              ];
-              return (
-                <CardContainer
-                  key={idx}
-                  onClick={() => {
-                    handleCardClick(mentor);
-                    setSelectedCard(idx);
-                  }}
-                  isSelected={selectedCard === idx && !!target}
-                >
-                  <img alt="" src={setDefaultImage(mentor.profileImg)} />
-                  <div className="card-info">
-                    <span className="card-info__name">
-                      {mentor.name}{" "}
-                      {!!mentor.birth && `(${calculateAge(mentor.birth)})`}
-                    </span>
-                    <span>
-                      {!!mentor.schoolList && mentor.schoolList.length ? (
-                        mentor.schoolList.map((school, idx) =>
-                          school.schoolType === "대학교" ? (
-                            <main key={idx}>
-                              <span>{school.schoolName}대학교 </span>
-                              <span>
-                                {school.majorName} ({school.state})
-                              </span>
-                            </main>
-                          ) : null
-                        )
-                      ) : (
-                        <span>학교 미입력</span>
+      <List>
+        {data ? (
+          data.map((mentor, idx) => {
+            const majorList = [
+              mentor.consultMajor1,
+              mentor.consultMajor2,
+              mentor.consultMajor3,
+            ];
+            return (
+              <CardContainer
+                key={idx}
+                onClick={() => {
+                  handleCardClick(mentor);
+                  setSelectedCard(idx);
+                }}
+                isSelected={selectedCard === idx && !!target}
+              >
+                <img alt="" src={setDefaultImage(mentor.profileImg)} />
+                <div className="card-info">
+                  <span className="card-info__name">
+                    {mentor.name}{" "}
+                    {!!mentor.birth && `(${calculateAge(mentor.birth)})`}
+                  </span>
+                  <span>
+                    {!!mentor.schoolList && mentor.schoolList.length ? (
+                      mentor.schoolList.map((school, idx) =>
+                        school.schoolType === "대학교" ? (
+                          <main key={idx}>
+                            <span>{school.schoolName}대학교 </span>
+                            <span>
+                              {school.majorName} ({school.state})
+                            </span>
+                          </main>
+                        ) : null
+                      )
+                    ) : (
+                      <span>학교 미입력</span>
+                    )}
+                  </span>
+                  <span>
+                    {!!majorList &&
+                      majorList.map(
+                        (major, idx) =>
+                          !!major && <span key={idx}>#{major} </span>
                       )}
-                    </span>
-                    <span>
-                      {!!majorList &&
-                        majorList.map(
-                          (major, idx) =>
-                            !!major && <span key={idx}>#{major} </span>
-                        )}
-                    </span>
-                    <span>
-                      리뷰 : {mentor.rateCount || 0}개, 평점 :{" "}
-                      <FontAwesomeIcon
-                        icon={faStar}
-                        style={{ color: "#ffd900" }}
-                      />{" "}
-                      {mentor.rateAvg || 0}점
-                    </span>
-                  </div>
-                </CardContainer>
-              );
-            })
-          ) : (
-            <span>추천 멘토가 없습니다.</span>
-          )}
-        </List>
-      </ListWrapper>
+                  </span>
+                  <span>
+                    리뷰 : {mentor.rateCount || 0}개, 평점 :{" "}
+                    <FontAwesomeIcon
+                      icon={faStar}
+                      style={{ color: "#ffd900" }}
+                    />{" "}
+                    {mentor.rateAvg || 0}점
+                  </span>
+                </div>
+              </CardContainer>
+            );
+          })
+        ) : (
+          <span>추천 멘토가 없습니다.</span>
+        )}
+      </List>
     );
 };
 
 export default MentorRecommendList;
 
-const ListWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  .header-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-    .list-title {
-      font-size: 1.3rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-    .list-subtitle {
-      margin-bottom: 0.5rem;
-    }
-  }
-`;
 const List = styled.div`
-  max-height: 30rem;
+  max-height: 100%;
   overflow-y: auto;
   ${yScrollStyle}
   font-size: 1rem;

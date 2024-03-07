@@ -14,6 +14,7 @@ export const MentorConsultMenu = [
   "예정된 상담",
   "완료된 상담",
   "취소한 상담",
+  "취소된 상담",
 ];
 export const MentorConsultLinkList = [
   "/mentor/consult",
@@ -21,8 +22,25 @@ export const MentorConsultLinkList = [
   "/mentor/consult/upcoming",
   "/mentor/consult/completed",
   "/mentor/consult/cancel",
+  "/mentor/consult/canceled",
 ];
 
+export const MenteeConsultMenu = [
+  "전체보기",
+  "수락전 상담",
+  "예정된 상담",
+  "완료된 상담",
+  "취소한 상담",
+  "취소된 상담",
+];
+export const MenteeConsultLinkList = [
+  "/mentee/consult",
+  "/mentee/consult/pending",
+  "/mentee/consult/upcoming",
+  "/mentee/consult/completed",
+  "/mentee/consult/cancel",
+  "/mentee/consult/canceled",
+];
 // mentee/mentor
 export const MenteeMentorMenu = ["멘토 추천", "멘토 찾기", "내 멘토"];
 export const MenteeMentorLinkList = [

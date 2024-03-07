@@ -73,7 +73,7 @@ const Menubar = () => {
           `${FRONT_URL}/mentee`,
           `${FRONT_URL}/mentee/mentor`,
           `${FRONT_URL}/mentee/schedule`,
-          `${FRONT_URL}/mentee`,
+          `${FRONT_URL}/mentee/consult`,
           `${FRONT_URL}/community`,
         ]);
         setRightLink([`${FRONT_URL}/mentee`, `${FRONT_URL}/mentee`]);

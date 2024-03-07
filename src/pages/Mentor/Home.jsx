@@ -13,7 +13,7 @@ import { GridRightCol, TwoColGrid } from "../../styles/common/Layout";
 import MentorLeftForm from "../../components/MentorLeftForm";
 import { useQuery } from "react-query";
 import {
-  fetchMentorConsult,
+  fetchUserConsult,
   fetchConsultWithStatus,
 } from "../../api/fetchConsult";
 
@@ -21,7 +21,7 @@ const Home = () => {
   // const { lastUpcomingConsult, upcomingConsult } = useGetConsult(); // lastUpcoming 이 수락전인 상담, upcoming 이 수락한 상담
   // const { cancelConsult } = useGetCancelConsult();
   // const { completedConsult } = useGetCompletedConsult();
-  const { data, isLoading } = useQuery("consult", () => fetchMentorConsult(), {
+  const { data, isLoading } = useQuery("consult", () => fetchUserConsult(), {
     refetchOnWindowFocus: false,
   });
   const { data: cancelConsult } = useQuery(

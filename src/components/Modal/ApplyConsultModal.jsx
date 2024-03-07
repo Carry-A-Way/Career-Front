@@ -54,9 +54,9 @@ const ApplyConsultModal = (props) => {
       flow: "#" + consultFlow.replace(", ", ",").split(",").join("#"),
       questions: consultQuestion,
     };
-    console.log(data);
     applyConsult(data);
     setModalClose();
+    window.alert("상담 신청이 완료되었습니다.");
   };
   return (
     <ModalWrapper>

@@ -1,6 +1,7 @@
-import React from "react";
-import ConsultList from "../../../components/List/ConsultList";
+import styled from "styled-components";
 import HorizontalLine from "../../../components/Line/HorizontalLine";
+import ConsultList from "../../../components/List/ConsultList";
+import MentorRecommendList from "../../../components/List/MentorRecommendList";
 import SubMenubar from "../../../components/Menubar/SubMenubar";
 import {
   CANCEL_CONSULT_TYPE,
@@ -9,8 +10,8 @@ import {
   UPCOMING_CONSULT_TYPE,
 } from "../../../constants";
 import {
-  MentorConsultLinkList,
-  MentorConsultMenu,
+  MenteeConsultLinkList,
+  MenteeConsultMenu,
 } from "../../../settings/config";
 import {
   GridLeftCol,
@@ -22,42 +23,28 @@ import {
   Section,
   SectionHeader,
 } from "../../../styles/common/mentor/MentorForm";
-import RecommendMentee from "../RecommendMentee";
 import { useQuery } from "react-query";
-import {
-  fetchUserConsult,
-  fetchConsultWithStatus,
-} from "../../../api/fetchConsult";
+import { fetchUserConsult } from "../../../api/fetchConsult";
 
-const Consult = () => {
-  const subMenuList = MentorConsultMenu;
-  const subMenuLink = MentorConsultLinkList;
-  // const { upcomingConsult } = useGetConsult();
-  // const { completedConsult } = useGetCompletedConsult();
-  // const { cancelConsult } = useGetCancelConsult();
+const MenteeConsult = () => {
+  const subMenuList = MenteeConsultMenu;
+  const subMenuLink = MenteeConsultLinkList;
   const { data, isLoading } = useQuery("consult", () => fetchUserConsult(), {
     refetchOnWindowFocus: false,
   });
-  const { data: cancelConsult } = useQuery(
-    ["consult", CANCEL_CONSULT_TYPE],
-    () => fetchConsultWithStatus(CANCEL_CONSULT_TYPE),
-    {
-      refetchOnWindowFocus: false,
-    }
-  );
-  // console.log(cancelConsult);
   return (
     <>
       <SubMenubar
         subMenuList={subMenuList}
         selectMenu={subMenuList[0]}
-        // setSubMenu={setSubMenu}
         subMenuLinkList={subMenuLink}
       />
       <TwoColGrid>
         <GridLeftCol>
-          <SectionHeader>추천 학생</SectionHeader>
-          <RecommendMentee longHeight={true} />
+          <SectionHeader>추천 멘토</SectionHeader>
+          <MentorRecommendContainer>
+            <MentorRecommendList />
+          </MentorRecommendContainer>
         </GridLeftCol>
         {isLoading ? (
           <div>loading...</div>
@@ -120,16 +107,34 @@ const Consult = () => {
             <HorizontalLine />
             <Section>
               <SectionHeader>
-                취소한 상담 ({cancelConsult.length})
+                취소한 상담 ({data.canceledConsultByMentee.length})
               </SectionHeader>
-              {!cancelConsult.length ? (
+              {!data.canceledConsultByMentee.length ? (
                 <ConsultWrapper>
                   <span>취소한 상담이 없습니다.</span>
                 </ConsultWrapper>
               ) : (
                 <ConsultWrapper>
                   <ConsultList
-                    consultList={cancelConsult}
+                    consultList={data.canceledConsultByMentee}
+                    color="#D9D9D9"
+                    type={CANCEL_CONSULT_TYPE}
+                  />
+                </ConsultWrapper>
+              )}
+            </Section>
+            <Section>
+              <SectionHeader>
+                취소된 상담 ({data.canceledConsultByMentor.length})
+              </SectionHeader>
+              {!data.canceledConsultByMentor.length ? (
+                <ConsultWrapper>
+                  <span>취소된 상담이 없습니다.</span>
+                </ConsultWrapper>
+              ) : (
+                <ConsultWrapper>
+                  <ConsultList
+                    consultList={data.canceledConsultByMentor}
                     color="#D9D9D9"
                     type={CANCEL_CONSULT_TYPE}
                   />
@@ -143,4 +148,10 @@ const Consult = () => {
   );
 };
 
-export default Consult;
+export default MenteeConsult;
+
+const MentorRecommendContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  max-height: 75rem;
+`;

@@ -23,7 +23,7 @@ export const fetchConsultWithStatus = async (status) => {
   }
 };
 
-export const fetchMentorConsult = async () => {
+export const fetchUserConsult = async () => {
   try {
     const response = await axios.get(`${SV_LOCAL}/${USER_CONSULT_LIST}`, {
       headers: {

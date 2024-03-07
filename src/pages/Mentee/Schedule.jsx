@@ -17,7 +17,15 @@ const MenteeSchedule = () => {
       <MenteeCalendar target={target} setTarget={setTarget} />
       <Right>
         <MenteeScheduleList />
-        <MentorRecommendList target={target} setTarget={setTarget} />
+        <MentorRecommendContainer>
+          <div className="header-wrapper">
+            <header className="list-title">추천 멘토</header>
+            <span className="list-subtitle">
+              * 클릭시 멘토의 시간표가 보여집니다.
+            </span>
+          </div>
+          <MentorRecommendList target={target} setTarget={setTarget} />
+        </MentorRecommendContainer>
         {target === null && <PointBox point={point} />}
         {!!target && <MentorFeeBox target={target} wage={target.wage} />}
       </Right>
@@ -31,4 +39,23 @@ const Right = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3rem;
+`;
+
+const MentorRecommendContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  max-height: 35rem;
+  .header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    .list-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .list-subtitle {
+      margin-bottom: 0.5rem;
+    }
+  }
 `;

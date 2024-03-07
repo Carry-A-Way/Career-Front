@@ -45,6 +45,12 @@ import UserCard from "./pages/UserCard";
 import ConsultMentorCard from "./pages/ConsultMentorCard";
 import MenteeSchedule from "./pages/Mentee/Schedule";
 import PendingConsult from "./pages/Mentor/consult/PendingConsult";
+import MenteePendingConsult from "./pages/Mentee/consult/PendingConsult";
+import MenteeUpcomingConsult from "./pages/Mentee/consult/UpcomingConsult";
+import MenteeConsult from "./pages/Mentee/consult/Consult";
+import MenteeCancelConsult from "./pages/Mentee/consult/CancelConsult";
+import MenteeCompletedConsult from "./pages/Mentee/consult/CompletedConsult";
+import MenteeCanceledConsult from "./pages/Mentee/consult/CanceledConsult";
 function App() {
   const isLogin = useSelector((state) => state.isLogin.value);
   const isMentor = useSelector((state) => state.isMentor.value);
@@ -133,6 +139,27 @@ function App() {
                   <Route
                     path="/mentee/mentor/consult"
                     element={<ConsultMenteeMentor />}
+                  />
+                  <Route path="/mentee/consult" element={<MenteeConsult />} />
+                  <Route
+                    path="/mentee/consult/pending"
+                    element={<MenteePendingConsult />}
+                  />
+                  <Route
+                    path="/mentee/consult/upcoming"
+                    element={<MenteeUpcomingConsult />}
+                  />
+                  <Route
+                    path="/mentee/consult/completed"
+                    element={<MenteeCompletedConsult />}
+                  />
+                  <Route
+                    path="/mentee/consult/cancel"
+                    element={<MenteeCancelConsult />}
+                  />
+                  <Route
+                    path="/mentee/consult/canceled"
+                    element={<MenteeCanceledConsult />}
                   />
                   <Route path="/mentee/tag" element={<EnterTag />} />
                   <Route path="/mentee/mentor/find" element={<FindMentor />} />
