@@ -16,7 +16,7 @@ import {
 } from "../../../styles/common/Layout";
 import {
   ConsultWrapper,
-  MentorRecommendWrapper,
+  RecommendWrapper,
   Section,
   SectionHeader,
 } from "../../../styles/common/mentor/MentorForm";
@@ -43,9 +43,9 @@ const MenteeUpcomingConsult = () => {
       <TwoColGrid>
         <GridLeftCol>
           <SectionHeader>추천 멘토</SectionHeader>
-          <MentorRecommendWrapper>
+          <RecommendWrapper>
             <RecommendMentorList />
-          </MentorRecommendWrapper>
+          </RecommendWrapper>
         </GridLeftCol>
         {isLoading ? (
           <div>loading...</div>

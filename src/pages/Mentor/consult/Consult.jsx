@@ -3,6 +3,7 @@ import ConsultList from "../../../components/List/ConsultList";
 import HorizontalLine from "../../../components/Line/HorizontalLine";
 import SubMenubar from "../../../components/Menubar/SubMenubar";
 import {
+  CANCELED_CONSULT_TYPE,
   CANCEL_CONSULT_TYPE,
   COMPLETED_CONSULT_TYPE,
   PENDING_CONSULT_TYPE,
@@ -124,18 +125,37 @@ const Consult = () => {
             <HorizontalLine />
             <Section>
               <SectionHeader>
-                취소한 상담 ({cancelConsult.length})
+                취소한 상담 ({data.canceledConsultByMentor.length})
               </SectionHeader>
-              {!cancelConsult.length ? (
+              {!data.canceledConsultByMentor.length ? (
                 <ConsultWrapper>
                   <span>취소한 상담이 없습니다.</span>
                 </ConsultWrapper>
               ) : (
                 <ConsultWrapper>
                   <ConsultList
-                    consultList={cancelConsult}
+                    consultList={data.canceledConsultByMentor}
                     color="#D9D9D9"
                     type={CANCEL_CONSULT_TYPE}
+                  />
+                </ConsultWrapper>
+              )}
+            </Section>
+            <HorizontalLine />
+            <Section>
+              <SectionHeader>
+                취소된 상담 ({data.canceledConsultByMentee.length})
+              </SectionHeader>
+              {!data.canceledConsultByMentee.length ? (
+                <ConsultWrapper>
+                  <span>취소한 상담이 없습니다.</span>
+                </ConsultWrapper>
+              ) : (
+                <ConsultWrapper>
+                  <ConsultList
+                    consultList={data.canceledConsultByMentee}
+                    color="#D9D9D9"
+                    type={CANCELED_CONSULT_TYPE}
                   />
                 </ConsultWrapper>
               )}

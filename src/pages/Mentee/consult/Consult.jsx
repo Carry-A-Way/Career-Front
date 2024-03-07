@@ -20,7 +20,7 @@ import {
 } from "../../../styles/common/Layout";
 import {
   ConsultWrapper,
-  MentorRecommendWrapper,
+  RecommendWrapper,
   Section,
   SectionHeader,
 } from "../../../styles/common/mentor/MentorForm";
@@ -43,9 +43,9 @@ const MenteeConsult = () => {
       <TwoColGrid>
         <GridLeftCol>
           <SectionHeader>추천 멘토</SectionHeader>
-          <MentorRecommendWrapper>
+          <RecommendWrapper className="recommend-wrapper__long">
             <RecommendMentorList />
-          </MentorRecommendWrapper>
+          </RecommendWrapper>
         </GridLeftCol>
         {isLoading ? (
           <div>loading...</div>
@@ -124,6 +124,7 @@ const MenteeConsult = () => {
                 </ConsultWrapper>
               )}
             </Section>
+            <HorizontalLine />
             <Section>
               <SectionHeader>
                 취소된 상담 ({data.canceledConsultByMentor.length})

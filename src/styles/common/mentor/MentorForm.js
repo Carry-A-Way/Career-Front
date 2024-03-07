@@ -4,18 +4,12 @@ import { xScrollStyle, yScrollStyle } from "../Scroll";
 export const RecommendWrapper = styled.div`
   height: auto;
   /* max-height: 73vh; */
-  max-height: 53rem;
+  max-height: 50rem;
   overflow-y: auto;
   ${yScrollStyle}
   display: flex;
   flex-direction: column;
   gap: 1rem;
-`;
-
-export const MentorRecommendWrapper = styled.section`
-  display: flex;
-  flex-direction: column;
-  max-height: 75rem;
 `;
 
 export const Section = styled.section`
