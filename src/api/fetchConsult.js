@@ -1,11 +1,7 @@
 import axios from "axios";
 import { SV_LOCAL } from "../constants";
 import { getCookie } from "../cookie";
-import {
-  CONSULT_WITH_STATUS,
-  MENTOR_CONSULT_LIST,
-  USER_CONSULT_LIST,
-} from "../settings/url";
+import { CONSULT_WITH_STATUS, USER_CONSULT_LIST } from "../settings/url";
 
 export const fetchConsultWithStatus = async (status) => {
   try {

@@ -29,7 +29,7 @@ import { setIsMentor } from "./store/isMentorSlice";
 import NotFound from "./pages/NotFound";
 import MenteeProfile from "./pages/Mentee/Profile";
 import MentorProfile from "./pages/Mentor/Profile";
-import RecommendMentor from "./pages/Mentee/RecommendMentor";
+import SuggestionMentor from "./pages/Mentee/SuggestionMentor";
 import PopularMentor from "./pages/Mentee/PopularMentor";
 import EnterTag from "./pages/Mentee/EnterTag";
 import FindMentor from "./pages/Mentee/FindMentor";
@@ -134,7 +134,7 @@ function App() {
                   <Route path="/mentee/mentor" element={<MenteeMentor />} />
                   <Route
                     path="/mentee/mentor/recommend"
-                    element={<RecommendMentor />}
+                    element={<SuggestionMentor />}
                   />
                   <Route
                     path="/mentee/mentor/popular"

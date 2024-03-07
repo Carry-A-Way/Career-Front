@@ -9,7 +9,7 @@ import {
 import SubMenubar from "../../components/Menubar/SubMenubar";
 import MentorCard from "../../components/Card/MentorCard";
 
-const RecommendMentor = () => {
+const SuggestionMentor = () => {
   const subMenuList = MenteeMentorMenu;
   const subMenuLinkList = MenteeMentorLinkList;
 
@@ -32,7 +32,7 @@ const RecommendMentor = () => {
   );
 };
 
-export default RecommendMentor;
+export default SuggestionMentor;
 
 const StyledLayout = styled.div`
   display: flex;

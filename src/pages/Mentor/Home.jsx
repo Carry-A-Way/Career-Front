@@ -5,6 +5,7 @@ import ConsultList from "../../components/List/ConsultList";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import { useNavigate } from "react-router-dom";
 import {
+  CANCELED_CONSULT_TYPE,
   CANCEL_CONSULT_TYPE,
   COMPLETED_CONSULT_TYPE,
   UPCOMING_CONSULT_TYPE,
@@ -102,17 +103,34 @@ const Home = () => {
           </Wrapper>
           <HorizontalLine />
           <Wrapper>
-            <header>취소한 상담 ({cancelConsult.length})</header>
-            {!cancelConsult.length ? (
+            <header>취소한 상담 ({data.canceledConsultByMentor.length})</header>
+            {!data.canceledConsultByMentor.length ? (
               <Consult>
                 <span>취소한 상담이 없습니다.</span>
               </Consult>
             ) : (
               <Consult>
                 <ConsultList
-                  consultList={cancelConsult}
+                  consultList={data.canceledConsultByMentor}
                   color="#D9D9D9"
                   type={CANCEL_CONSULT_TYPE}
+                />
+              </Consult>
+            )}
+          </Wrapper>
+          <HorizontalLine />
+          <Wrapper>
+            <header>취소된 상담 ({data.canceledConsultByMentee.length})</header>
+            {!data.canceledConsultByMentee.length ? (
+              <Consult>
+                <span>취소한 상담이 없습니다.</span>
+              </Consult>
+            ) : (
+              <Consult>
+                <ConsultList
+                  consultList={data.canceledConsultByMentee}
+                  color="#D9D9D9"
+                  type={CANCELED_CONSULT_TYPE}
                 />
               </Consult>
             )}
