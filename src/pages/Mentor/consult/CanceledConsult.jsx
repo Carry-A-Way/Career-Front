@@ -3,7 +3,7 @@ import SubMenubar from "../../../components/Menubar/SubMenubar";
 import ConsultList from "../../../components/List/ConsultList";
 import { ConsultListShort } from "../../../components/List/ConsultList";
 import HorizontalLine from "../../../components/Line/HorizontalLine";
-import { COMPLETED_CONSULT_TYPE } from "../../../constants";
+import { CANCELED_CONSULT_TYPE } from "../../../constants";
 import {
   MentorConsultLinkList,
   MentorConsultMenu,
@@ -23,24 +23,26 @@ import RecommendMenteeList from "../../../components/List/Recommend/RecommendMen
 import { useQuery } from "react-query";
 import { fetchConsultWithStatus } from "../../../api/fetchConsult";
 
-const CompletedConsult = () => {
+const CanceledConsult = () => {
   const subMenuList = MentorConsultMenu;
   const subMenuLink = MentorConsultLinkList;
-  const { data: completedConsult, isLoading } = useQuery(
-    ["consult", COMPLETED_CONSULT_TYPE],
-    () => fetchConsultWithStatus(COMPLETED_CONSULT_TYPE),
+  const { data: canceledConsult, isLoading } = useQuery(
+    ["consult", CANCELED_CONSULT_TYPE],
+    () => fetchConsultWithStatus(CANCELED_CONSULT_TYPE),
     {
       refetchOnWindowFocus: false,
     }
   );
+
   return (
     <>
       <SubMenubar
         subMenuList={subMenuList}
-        selectMenu={subMenuList[3]}
+        selectMenu={subMenuList[5]}
+        // setSubMenu={setSubMenu}
         subMenuLinkList={subMenuLink}
       />
-      <TwoColGrid>
+      <TwoColGrid className="two-col-grid__long">
         <GridLeftCol>
           <SectionHeader>추천 학생</SectionHeader>
           <RecommendWrapper>
@@ -53,18 +55,18 @@ const CompletedConsult = () => {
           <GridRightCol>
             <Section>
               <SectionHeader>
-                완료된 상담 ({completedConsult.length})
+                취소된 상담 ({canceledConsult.length})
               </SectionHeader>
-              {!!completedConsult && !completedConsult.length ? (
+              {!!canceledConsult && !canceledConsult.length ? (
                 <ConsultWrapper>
-                  <span>완료된 상담이 없습니다.</span>
+                  <span>취소된 상담이 없습니다.</span>
                 </ConsultWrapper>
               ) : (
                 <ConsultWrapper>
                   <ConsultList
-                    consultList={completedConsult}
+                    consultList={canceledConsult}
                     color="#D9D9D9" // 나중에 state 로 바꾸는 게 어떨까..
-                    type={COMPLETED_CONSULT_TYPE}
+                    type={CANCELED_CONSULT_TYPE}
                   />
                 </ConsultWrapper>
               )}
@@ -72,9 +74,9 @@ const CompletedConsult = () => {
             <HorizontalLine />
             <Section>
               <ConsultListShort
-                consultList={completedConsult}
+                consultList={canceledConsult}
                 color="#D9D9D9"
-                type={COMPLETED_CONSULT_TYPE}
+                type={CANCELED_CONSULT_TYPE}
               />
             </Section>
           </GridRightCol>
@@ -84,4 +86,4 @@ const CompletedConsult = () => {
   );
 };
 
-export default CompletedConsult;
+export default CanceledConsult;

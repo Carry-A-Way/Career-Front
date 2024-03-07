@@ -5,7 +5,7 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import EventList from "../../components/List/EventList";
 import { colors } from "../../styles/common/Theme";
-import RecommendMentorList from "../../components/List/RecommendMentorList";
+import SuggestionMentor from "../../components/List/SuggestionMentor";
 import PopularMentorList from "../../components/List/PopularMentorList";
 import { MenteeHeader } from "../../styles/common/mentee/MenteeForm";
 import { GridRightCol, TwoColGrid } from "../../styles/common/Layout";
@@ -47,7 +47,7 @@ const Home = () => {
           <HorizontalLine />
         </LineGap>
         <Wrapper>
-          <RecommendMentorList />
+          <SuggestionMentor />
         </Wrapper>
         <LineGap>
           <HorizontalLine />

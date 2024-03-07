@@ -2,7 +2,7 @@ import React from "react";
 import SubMenubar from "../../components/Menubar/SubMenubar";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import { MenteeMentorLinkList, MenteeMentorMenu } from "../../settings/config";
-import RecommendMentorList from "../../components/List/RecommendMentorList";
+import SuggestionMentor from "../../components/List/SuggestionMentor";
 import PopularMentorList from "../../components/List/PopularMentorList";
 import { GridRightCol, TwoColGrid } from "../../styles/common/Layout";
 import MenteeLeftForm from "../../components/MenteeLeftForm";
@@ -30,7 +30,7 @@ const Mentor = () => {
                 <HorizontalLine />
               </LineGap>
               <ListWrapper>
-                <RecommendMentorList />
+                <SuggestionMentor />
               </ListWrapper>
             </>
           ) : (

@@ -60,7 +60,7 @@ export const MenteeMentorLinkList = [
 //   "기타",
 // ];
 
-export const RecommendMenteeList = [
+export const RecommendMentees = [
   {
     title: "전산학부 고민입니다..",
     name: "김성애",

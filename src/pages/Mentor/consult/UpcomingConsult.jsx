@@ -1,6 +1,5 @@
 import React from "react";
 import SubMenubar from "../../../components/Menubar/SubMenubar";
-import RecommendMenteeItem from "../../../components/List/RecommendMenteeItem";
 import ConsultList from "../../../components/List/ConsultList";
 import { ConsultListShort } from "../../../components/List/ConsultList";
 import HorizontalLine from "../../../components/Line/HorizontalLine";
@@ -9,7 +8,6 @@ import { UPCOMING_CONSULT_TYPE } from "../../../constants";
 import {
   MentorConsultLinkList,
   MentorConsultMenu,
-  RecommendMenteeList,
 } from "../../../settings/config";
 import {
   GridLeftCol,
@@ -24,6 +22,7 @@ import {
 } from "../../../styles/common/mentor/MentorForm";
 import { useQuery } from "react-query";
 import { fetchConsultWithStatus } from "../../../api/fetchConsult";
+import RecommendMenteeList from "../../../components/List/Recommend/RecommendMenteeList";
 
 const UpcomingConsult = () => {
   const subMenuList = MentorConsultMenu;
@@ -40,14 +39,13 @@ const UpcomingConsult = () => {
       <SubMenubar
         subMenuList={subMenuList}
         selectMenu={subMenuList[2]}
-        // setSubMenu={setSubMenu}
         subMenuLinkList={subMenuLink}
       />
       <TwoColGrid>
         <GridLeftCol>
           <SectionHeader>추천 학생</SectionHeader>
           <RecommendWrapper>
-            <RecommendMenteeItem recommendList={RecommendMenteeList} />
+            <RecommendMenteeList />
           </RecommendWrapper>
         </GridLeftCol>
         {isLoading ? (
@@ -58,7 +56,7 @@ const UpcomingConsult = () => {
               <SectionHeader>
                 예정된 상담 ({upcomingConsult.length})
               </SectionHeader>
-              {upcomingConsult && !upcomingConsult.length ? (
+              {!!upcomingConsult && !upcomingConsult.length ? (
                 <ConsultWrapper>
                   <span>진행될 상담이 없습니다.</span>
                 </ConsultWrapper>

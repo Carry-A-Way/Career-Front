@@ -5,3 +5,4 @@ export const PENDING_CONSULT_TYPE = 0;
 export const UPCOMING_CONSULT_TYPE = 1;
 export const COMPLETED_CONSULT_TYPE = 2;
 export const CANCEL_CONSULT_TYPE = 3;
+export const CANCELED_CONSULT_TYPE = 4;

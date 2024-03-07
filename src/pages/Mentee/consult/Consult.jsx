@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import HorizontalLine from "../../../components/Line/HorizontalLine";
 import ConsultList from "../../../components/List/ConsultList";
-import MentorRecommendList from "../../../components/List/MentorRecommendList";
+import RecommendMentorList from "../../../components/List/Recommend/RecommendMentorList";
 import SubMenubar from "../../../components/Menubar/SubMenubar";
 import {
   CANCEL_CONSULT_TYPE,
@@ -20,6 +20,7 @@ import {
 } from "../../../styles/common/Layout";
 import {
   ConsultWrapper,
+  MentorRecommendWrapper,
   Section,
   SectionHeader,
 } from "../../../styles/common/mentor/MentorForm";
@@ -42,9 +43,9 @@ const MenteeConsult = () => {
       <TwoColGrid>
         <GridLeftCol>
           <SectionHeader>추천 멘토</SectionHeader>
-          <MentorRecommendContainer>
-            <MentorRecommendList />
-          </MentorRecommendContainer>
+          <MentorRecommendWrapper>
+            <RecommendMentorList />
+          </MentorRecommendWrapper>
         </GridLeftCol>
         {isLoading ? (
           <div>loading...</div>
@@ -149,9 +150,3 @@ const MenteeConsult = () => {
 };
 
 export default MenteeConsult;
-
-const MentorRecommendContainer = styled.section`
-  display: flex;
-  flex-direction: column;
-  max-height: 75rem;
-`;

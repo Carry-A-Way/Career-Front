@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import "../../styles/calendar.css";
 import styled from "styled-components";
 import MenteeScheduleList from "../../components/List/MenteeScheduleList";
-import MentorRecommendList from "../../components/List/MentorRecommendList";
 import MenteeCalendar from "../../components/MenteeCalendar";
 import PointBox from "../../components/Box/PointBox";
 import MentorFeeBox from "../../components/Wage/WageBox";
 import { ScheduleLayout } from "../../styles/common/Layout";
+import RecommendMentorList from "../../components/List/Recommend/RecommendMentorList";
 // import { colors } from "../../styles/common/Theme";
 
 const MenteeSchedule = () => {
@@ -17,15 +17,15 @@ const MenteeSchedule = () => {
       <MenteeCalendar target={target} setTarget={setTarget} />
       <Right>
         <MenteeScheduleList />
-        <MentorRecommendContainer>
+        <MentorRecommendWrapper>
           <div className="header-wrapper">
             <header className="list-title">추천 멘토</header>
             <span className="list-subtitle">
               * 클릭시 멘토의 시간표가 보여집니다.
             </span>
           </div>
-          <MentorRecommendList target={target} setTarget={setTarget} />
-        </MentorRecommendContainer>
+          <RecommendMentorList target={target} setTarget={setTarget} />
+        </MentorRecommendWrapper>
         {target === null && <PointBox point={point} />}
         {!!target && <MentorFeeBox target={target} wage={target.wage} />}
       </Right>
@@ -41,7 +41,7 @@ const Right = styled.div`
   gap: 3rem;
 `;
 
-const MentorRecommendContainer = styled.section`
+const MentorRecommendWrapper = styled.section`
   display: flex;
   flex-direction: column;
   max-height: 35rem;

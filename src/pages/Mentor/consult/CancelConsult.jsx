@@ -15,10 +15,11 @@ import {
 } from "../../../styles/common/Layout";
 import {
   ConsultWrapper,
+  RecommendWrapper,
   Section,
   SectionHeader,
 } from "../../../styles/common/mentor/MentorForm";
-import RecommendMentee from "../RecommendMentee";
+import RecommendMenteeList from "../../../components/List/Recommend/RecommendMenteeList";
 import { useQuery } from "react-query";
 import { fetchConsultWithStatus } from "../../../api/fetchConsult";
 
@@ -44,7 +45,9 @@ const CancelConsult = () => {
       <TwoColGrid className="two-col-grid__long">
         <GridLeftCol>
           <SectionHeader>추천 학생</SectionHeader>
-          <RecommendMentee />
+          <RecommendWrapper>
+            <RecommendMenteeList />
+          </RecommendWrapper>
         </GridLeftCol>
         {isLoading ? (
           <div>loading...</div>
@@ -54,7 +57,7 @@ const CancelConsult = () => {
               <SectionHeader>
                 취소한 상담 ({cancelConsult.length})
               </SectionHeader>
-              {!cancelConsult.length ? (
+              {!!cancelConsult && !cancelConsult.length ? (
                 <ConsultWrapper>
                   <span>취소한 상담이 없습니다.</span>
                 </ConsultWrapper>

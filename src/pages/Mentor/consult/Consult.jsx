@@ -19,10 +19,11 @@ import {
 } from "../../../styles/common/Layout";
 import {
   ConsultWrapper,
+  RecommendWrapper,
   Section,
   SectionHeader,
 } from "../../../styles/common/mentor/MentorForm";
-import RecommendMentee from "../RecommendMentee";
+import RecommendMenteeList from "../../../components/List/Recommend/RecommendMenteeList";
 import { useQuery } from "react-query";
 import {
   fetchUserConsult,
@@ -57,7 +58,9 @@ const Consult = () => {
       <TwoColGrid>
         <GridLeftCol>
           <SectionHeader>추천 학생</SectionHeader>
-          <RecommendMentee longHeight={true} />
+          <RecommendWrapper className="recommend-wrapper__long">
+            <RecommendMenteeList />
+          </RecommendWrapper>
         </GridLeftCol>
         {isLoading ? (
           <div>loading...</div>
@@ -67,7 +70,8 @@ const Consult = () => {
               <SectionHeader>
                 수락전 상담 ({data.lastUpcomingConsult.length})
               </SectionHeader>
-              {!data.lastUpcomingConsult.length ? (
+              {!!data?.lastUpcomingConsult &&
+              !data.lastUpcomingConsult.length ? (
                 <ConsultWrapper>
                   <span>수락 대기중인 상담이 없습니다.</span>
                 </ConsultWrapper>

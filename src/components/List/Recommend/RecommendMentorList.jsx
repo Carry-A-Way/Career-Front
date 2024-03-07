@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { yScrollStyle } from "../../styles/common/Scroll";
-import { setDefaultImage } from "../../utils/DefaultValue";
-import { calculateAge } from "../../utils/ParseFormat";
+import { yScrollStyle } from "../../../styles/common/Scroll";
+import { setDefaultImage } from "../../../utils/DefaultValue";
+import { calculateAge } from "../../../utils/ParseFormat";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { useQuery } from "react-query";
-import { fetchMentor } from "../../api/fetchMentor";
+import { fetchMentor } from "../../../api/fetchMentor";
 
-const MentorRecommendList = (props) => {
+const RecommendMentorList = (props) => {
   const { target, setTarget } = props;
   const [selectedCard, setSelectedCard] = useState(null);
 
@@ -97,7 +97,7 @@ const MentorRecommendList = (props) => {
     );
 };
 
-export default MentorRecommendList;
+export default RecommendMentorList;
 
 const List = styled.div`
   max-height: 100%;

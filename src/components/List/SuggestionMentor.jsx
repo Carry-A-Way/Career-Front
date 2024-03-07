@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { MenteeHeader } from "../../styles/common/mentee/MenteeForm";
 
-const RecommendMentorList = () => {
+const SuggestionMentor = () => {
   const navigate = useNavigate();
   const emptyRecommendMentors = [];
   return (
@@ -37,7 +37,7 @@ const RecommendMentorList = () => {
   );
 };
 
-export default RecommendMentorList;
+export default SuggestionMentor;
 
 const StyledContainer = styled.div`
   width: 100%;

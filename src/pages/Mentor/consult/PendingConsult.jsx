@@ -1,5 +1,4 @@
 import SubMenubar from "../../../components/Menubar/SubMenubar";
-import RecommendMenteeItem from "../../../components/List/RecommendMenteeItem";
 import ConsultList from "../../../components/List/ConsultList";
 import { ConsultListShort } from "../../../components/List/ConsultList";
 import HorizontalLine from "../../../components/Line/HorizontalLine";
@@ -10,7 +9,6 @@ import {
 import {
   MentorConsultLinkList,
   MentorConsultMenu,
-  RecommendMenteeList,
 } from "../../../settings/config";
 import {
   GridLeftCol,
@@ -25,6 +23,7 @@ import {
 } from "../../../styles/common/mentor/MentorForm";
 import { useQuery } from "react-query";
 import { fetchConsultWithStatus } from "../../../api/fetchConsult";
+import RecommendMenteeList from "../../../components/List/Recommend/RecommendMenteeList";
 
 const PendingConsult = () => {
   const subMenuList = MentorConsultMenu;
@@ -48,7 +47,7 @@ const PendingConsult = () => {
         <GridLeftCol>
           <SectionHeader>추천 학생</SectionHeader>
           <RecommendWrapper>
-            <RecommendMenteeItem recommendList={RecommendMenteeList} />
+            <RecommendMenteeList />
           </RecommendWrapper>
         </GridLeftCol>
         {isLoading ? (
@@ -59,7 +58,7 @@ const PendingConsult = () => {
               <SectionHeader>
                 수락전 상담 ({pendingConsult.length})
               </SectionHeader>
-              {pendingConsult && !pendingConsult.length ? (
+              {!!pendingConsult && !pendingConsult.length ? (
                 <ConsultWrapper>
                   <span>수락 대기중인 상담이 없습니다.</span>
                 </ConsultWrapper>

@@ -12,6 +12,12 @@ export const RecommendWrapper = styled.div`
   gap: 1rem;
 `;
 
+export const MentorRecommendWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  max-height: 75rem;
+`;
+
 export const Section = styled.section`
   display: flex;
   flex-direction: column;

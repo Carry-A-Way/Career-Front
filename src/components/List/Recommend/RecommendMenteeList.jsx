@@ -1,10 +1,11 @@
 import React from "react";
+import { RecommendMentees } from "../../../settings/config";
 import styled from "styled-components";
 
-const RecommendMenteeItem = ({ recommendList }) => {
+const RecommendMenteeList = () => {
   return (
     <>
-      {recommendList.map((item, i) => {
+      {RecommendMentees.map((item, i) => {
         return (
           <RecommendContainer key={i}>
             <span className="title">{item.title}</span>
@@ -23,7 +24,7 @@ const RecommendMenteeItem = ({ recommendList }) => {
   );
 };
 
-export default RecommendMenteeItem;
+export default RecommendMenteeList;
 
 const RecommendContainer = styled.div`
   .title {
