@@ -7,9 +7,9 @@ const PointBox = ({ point, style }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <StyledContainer style={style}>
-      <header>내 포인트 잔액</header>
       <main>
-        <span>{point.toLocaleString() || 0} </span> 원
+        <p>내 포인트 잔액</p>
+        <span>{point.toLocaleString() || 0} 원</span>
       </main>
       <footer>
         <span onClick={() => setIsModalOpen(true)}>포인트 충전하기</span>
@@ -24,19 +24,20 @@ export default PointBox;
 
 const StyledContainer = styled.div`
   width: 100%;
-  height: 12rem;
   border: 1px solid #c7c5c5;
   border-radius: 10px;
   background-color: #fcfcfc;
-  padding: 1rem;
+  padding: 3rem 2rem 2rem 3rem;
   /* margin-bottom: 50px; */
   box-sizing: border-box;
-  > header,
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
   > main {
-    height: 30%;
-    margin-left: 3rem;
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
+    gap: 1rem;
     font-size: 1.5rem;
     font-weight: 500;
     span {
@@ -45,11 +46,7 @@ const StyledContainer = styled.div`
       padding-right: 1rem;
     }
   }
-  main {
-    margin-bottom: 7%;
-  }
   footer {
-    height: 20%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
