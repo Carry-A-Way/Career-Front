@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { ModalWrapper } from "../../styles/common/ModalComponent";
 import styled from "styled-components";
 import Input from "../Input/Input";
