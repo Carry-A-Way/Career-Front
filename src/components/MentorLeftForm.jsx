@@ -11,6 +11,7 @@ import PointBox from "./Box/PointBox";
 import MoveBox from "./Box/MoveBox";
 import { getNicknameFromToken } from "../auth/jwtFunctions";
 import { getCookie } from "../cookie";
+import WageBox from "./Wage/WageBox";
 
 const MentorLeftForm = () => {
   const userName = getNicknameFromToken(getCookie("jwtToken"));
@@ -21,6 +22,7 @@ const MentorLeftForm = () => {
         <span>{userName}</span>님 반갑습니다!
       </NameContainer>
       <PointBox point="10,000" />
+      <WageBox target={null} />
       <MoveBox>
         <div>
           <FontAwesomeIcon icon={faUser} />

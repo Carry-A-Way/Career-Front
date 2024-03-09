@@ -4,7 +4,7 @@ import styled from "styled-components";
 import MenteeScheduleList from "../../components/List/MenteeScheduleList";
 import MenteeCalendar from "../../components/MenteeCalendar";
 import PointBox from "../../components/Box/PointBox";
-import MentorFeeBox from "../../components/Wage/WageBox";
+import WageBox from "../../components/Wage/WageBox";
 import { ScheduleLayout } from "../../styles/common/Layout";
 import RecommendMentorList from "../../components/List/Recommend/RecommendMentorList";
 // import { colors } from "../../styles/common/Theme";
@@ -27,7 +27,7 @@ const MenteeSchedule = () => {
           <RecommendMentorList target={target} setTarget={setTarget} />
         </MentorRecommendWrapper>
         {target === null && <PointBox point={point} />}
-        {!!target && <MentorFeeBox target={target} wage={target.wage} />}
+        {!!target && <WageBox target={target} wage={target.wage} />}
       </Right>
     </ScheduleLayout>
   );
