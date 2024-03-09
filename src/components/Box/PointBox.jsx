@@ -1,24 +1,28 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
+import PointModal from "../Modal/PointModal";
 const PointBox = ({ point, style }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
-    <PointWrapper style={style}>
+    <StyledContainer style={style}>
       <header>내 포인트 잔액</header>
       <main>
         <span>{point.toLocaleString() || 0} </span> 원
       </main>
       <footer>
-        <span>포인트 충전하기</span>
+        <span onClick={() => setIsModalOpen(true)}>포인트 충전하기</span>
         <FontAwesomeIcon icon={faAngleRight} style={{ cursor: "pointer" }} />
       </footer>
-    </PointWrapper>
+      {isModalOpen && <PointModal setIsModalOpen={setIsModalOpen} />}
+    </StyledContainer>
   );
 };
 
 export default PointBox;
 
-const PointWrapper = styled.div`
+const StyledContainer = styled.div`
   width: 100%;
   height: 12rem;
   border: 1px solid #c7c5c5;
@@ -27,8 +31,8 @@ const PointWrapper = styled.div`
   padding: 1rem;
   /* margin-bottom: 50px; */
   box-sizing: border-box;
-  header,
-  main {
+  > header,
+  > main {
     height: 30%;
     margin-left: 3rem;
     display: flex;
