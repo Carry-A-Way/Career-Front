@@ -23,7 +23,7 @@ const MentorLeftForm = () => {
       </NameContainer>
       <PointBox point="10,000" />
       <WageBox target={null} />
-      <MoveBox>
+      {/* <MoveBox>
         <div>
           <FontAwesomeIcon icon={faUser} />
           <span>친구 초대하기</span>
@@ -36,7 +36,7 @@ const MentorLeftForm = () => {
           <span>이용권 구매하기</span>
         </div>
         <FontAwesomeIcon icon={faAngleRight} />
-      </MoveBox>
+      </MoveBox> */}
     </GridLeftCol>
   );
 };

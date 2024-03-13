@@ -19,7 +19,6 @@ const DetailedModal = (props) => {
   const [detailObject, setDetailObject] = useState({
     ...item,
   });
-  console.log(item);
   const acceptConsult = async () => {
     try {
       await axios.post(
@@ -244,7 +243,8 @@ const DetailModal = styled.div`
       font-weight: 600;
       padding: 0.5rem 1rem;
       background-color: ${(props) =>
-        props.type === CANCEL_CONSULT_TYPE || CANCELED_CONSULT_TYPE
+        props.type === CANCEL_CONSULT_TYPE ||
+        props.type === CANCELED_CONSULT_TYPE
           ? "#777777"
           : "#334b6c"};
       color: white;
@@ -265,7 +265,8 @@ const DetailModal = styled.div`
       }
       .detail-main__tag {
         background-color: ${(props) =>
-          props.type === CANCEL_CONSULT_TYPE || CANCELED_CONSULT_TYPE
+          props.type === CANCEL_CONSULT_TYPE ||
+          props.type === CANCELED_CONSULT_TYPE
             ? "#777777"
             : "#334b6c"};
         color: white;

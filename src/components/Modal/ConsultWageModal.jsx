@@ -61,8 +61,8 @@ const StyledModal = styled.div`
   }
   > footer {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+    justify-content: space-between !important;
+    /* align-items: flex-end; */
     .setting__button {
       font-size: 1.2rem;
       font-weight: 600;

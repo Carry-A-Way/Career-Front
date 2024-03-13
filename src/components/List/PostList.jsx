@@ -16,6 +16,7 @@ import axios from "axios";
 import { getCookie } from "../../cookie";
 import { SV_LOCAL } from "../../constants";
 import ProfileImage from "../Image/ProfileImage";
+import { CommunityCategoryList } from "../../settings/config";
 
 const PostList = ({ posts, setPosts, postStyle }) => {
   const [deletePost, setDeletePost] = useState(null);
@@ -88,7 +89,11 @@ const PostList = ({ posts, setPosts, postStyle }) => {
   const postStyleRendering = (item) => {
     switch (postStyle) {
       case "category":
-        return <div className="category">{item.category}</div>;
+        return (
+          <div className="category">
+            {CommunityCategoryList[item.categoryId].title}
+          </div>
+        );
       case "edit": // onClick 시 item 과 연관지어서 함수 실행 추가하기
         return (
           <div className="icon-wrapper">
@@ -250,6 +255,7 @@ const Post = styled.div`
   border-radius: 5px;
   height: 17rem;
   text-decoration: none;
+  cursor: pointer;
   header {
     /* background-color: #eeeeee; */
     background-color: #2f5383;
@@ -293,9 +299,9 @@ const Post = styled.div`
       }
     }
     .category {
-      font-size: 1.3rem;
+      font-size: 1.1rem;
       font-weight: 600;
-      color: #fee501;
+      color: #dedede;
     }
     .icon-wrapper {
       display: flex;

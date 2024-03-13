@@ -19,6 +19,7 @@ export const SEARCH_MENTOR = "search/mentor";
 export const HEART_MENTOR_LIST = "search/mentor/heart";
 
 // Post
+export const ALL_POST = "community/article/all";
 export const DETAIL_POST = "community/article/detail";
 export const DELETE_POST = "community/article/delete";
 export const DELETE_COMMENT = "community/comment/delete";

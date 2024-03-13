@@ -1,7 +1,7 @@
 import axios from "axios";
 import { SV_LOCAL } from "../constants";
 import { getCookie } from "../cookie";
-import { DETAIL_POST } from "../settings/url";
+import { ALL_POST, DETAIL_POST } from "../settings/url";
 
 export const fetchPostDetail = async (postId) => {
   try {
@@ -11,6 +11,24 @@ export const fetchPostDetail = async (postId) => {
       },
       params: {
         id: postId,
+      },
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const fetchPostAll = async () => {
+  try {
+    const response = await axios.get(`${SV_LOCAL}/${ALL_POST}`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("jwtToken")}`,
+      },
+      params: {
+        page: 0,
+        size: 10,
       },
     });
     console.log(response.data);
