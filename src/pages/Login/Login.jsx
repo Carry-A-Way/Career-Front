@@ -11,6 +11,7 @@ import { Button } from "../../components/Button/Button";
 import VerticalLine from "../../components/Line/VerticalLine";
 import { handleLogin } from "../../api/login";
 import { getNicknameFromToken } from "../../auth/jwtFunctions";
+import { SIGNUP_MENTEE, SIGNUP_MENTOR } from "../../settings/url";
 
 function Login() {
   const [id, setId] = useState("");
@@ -58,11 +59,11 @@ function Login() {
         </Form>
         <Link to={`${FRONT_URL}/password`}>비밀번호를 잊으셨나요?</Link>
         <SignupOption>
-          <Link to={`${FRONT_URL}/signup/mentor`} className="signup__link">
+          <Link to={`${FRONT_URL}/${SIGNUP_MENTOR}`} className="signup__link">
             멘토 회원가입
           </Link>
           <VerticalLine />
-          <Link to={`${FRONT_URL}/signup/mentee`} className="signup__link">
+          <Link to={`${FRONT_URL}/${SIGNUP_MENTEE}`} className="signup__link">
             멘티 회원가입
           </Link>
         </SignupOption>

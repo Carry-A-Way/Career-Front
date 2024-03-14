@@ -12,6 +12,8 @@ import { colors } from "../../styles/common/Theme";
 import { useGlobalNavigate } from "../../hooks/useGlobalNavigate";
 import { setupAxiosInterceptors } from "../../utils/axiosInterceptors";
 import { getNicknameFromToken } from "../../auth/jwtFunctions";
+import { SIGNUP_MENTEE, SIGNUP_MENTOR } from "../../settings/url";
+import { ModalWrapper } from "../../styles/common/ModalComponent";
 
 const Menubar = () => {
   useGlobalNavigate();
@@ -220,7 +222,7 @@ const Menubar = () => {
                         setSignup("멘토 회원가입");
                         toggleSignup();
                       }}
-                      to={`${FRONT_URL}/signMentor`}
+                      to={`${FRONT_URL}/${SIGNUP_MENTOR}`}
                       className={
                         signup === "멘토 회원가입"
                           ? "right-menu right-menu__selected"
@@ -235,7 +237,7 @@ const Menubar = () => {
                         setSignup("멘티 회원가입");
                         toggleSignup();
                       }}
-                      to={`${FRONT_URL}/signMentee`}
+                      to={`${FRONT_URL}/${SIGNUP_MENTEE}`}
                       className={
                         signup === "멘티 회원가입"
                           ? "right-menu right-menu__selected"

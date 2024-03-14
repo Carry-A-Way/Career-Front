@@ -8,6 +8,8 @@ export const EDIT_MENTEE_PROFILE = "user/mentee/modify_profile";
 export const EDIT_MENTEE_TAG = "user/mentee/modify_tagList";
 
 // User
+export const SIGNUP_MENTOR = "signup/mentor";
+export const SIGNUP_MENTEE = "signup/mentee";
 export const LOGIN = "api/authenticate";
 export const USER_CARD_INFO = "user/card";
 export const ADD_HEART_MENTOR = "user/mentee/heart/insert";

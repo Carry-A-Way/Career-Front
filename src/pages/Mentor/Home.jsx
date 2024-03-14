@@ -23,13 +23,14 @@ const Home = () => {
       refetchOnWindowFocus: false,
     }
   );
-  const { data: postData, isLoading: isPostLoading } = useQuery(
-    "post",
-    () => fetchPostAll(),
-    {
-      refetchOnWindowFocus: false,
-    }
-  );
+  // console.log(upcomingData.length);
+  const {
+    data: postData,
+    isLoading: isPostLoading,
+    refetch,
+  } = useQuery("post", () => fetchPostAll(), {
+    refetchOnWindowFocus: false,
+  });
   const navigate = useNavigate();
   return (
     <TwoColGrid>
@@ -47,7 +48,12 @@ const Home = () => {
               <header>이런 고민이 있어요</header>
               <PostContainer>
                 {postData.map((post, idx) => (
-                  <PostItem item={post} idx={idx} />
+                  <PostItem
+                    item={post}
+                    idx={idx}
+                    refetch={refetch}
+                    key={post.id}
+                  />
                 ))}
               </PostContainer>
             </Wrapper>
@@ -55,12 +61,14 @@ const Home = () => {
         )}
         <HorizontalLine />
         <Wrapper>
-          <header>서두르세요! 곧 진행될 상담 ({!upcomingData?.length})</header>
+          <header>
+            서두르세요! 곧 진행될 상담 ({!!upcomingData && upcomingData.length})
+          </header>
           {upcomingLoading ? (
             <Consult>
               <span>loading...</span>
             </Consult>
-          ) : !upcomingData?.length ? (
+          ) : !!upcomingData && upcomingData.length ? (
             <Consult>
               <span>진행될 상담이 없습니다.</span>
               <div

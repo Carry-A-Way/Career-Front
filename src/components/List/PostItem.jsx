@@ -1,64 +1,31 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ProfileImage from "../Image/ProfileImage";
 import { dateParse } from "../../utils/ParseFormat";
 import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartFull } from "@fortawesome/free-solid-svg-icons";
-const PostItem = ({ item, idx }) => {
+import axios from "axios";
+import { SV_LOCAL } from "../../constants";
+import { getCookie } from "../../cookie";
+import { onAddHeart, onDeleteHeart } from "../../api/heartPost";
+const PostItem = ({ item, idx, refetch }) => {
   const navigate = useNavigate();
+  // const [isHeartClicked, setIsHeartClicked] = useState(item.isHeartClicked);
+  // const [heartCount, setHeartCount] = useState(item.heartCnt);
+  // console.log(item.heartCnt);
+  const handleAddHeart = (e, id) => {
+    e.stopPropagation();
+    onAddHeart(0, id);
+    if (refetch) refetch();
+  };
 
-  // const onAddHeart = (e, id, idx) => {
-  //     e.stopPropagation();
-  //     axios
-  //       .post(
-  //         `${SV_LOCAL}/community/heart/add`,
-  //         { typeId: id, type: 0 },
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${getCookie("jwtToken")}`,
-  //           },
-  //         }
-  //       )
-  //       .then((res) => {
-  //         const updatedPost = [...posts];
-  //         updatedPost[idx] = {
-  //           ...updatedPost[idx],
-  //           heartCnt: updatedPost[idx].heartCnt + 1,
-  //           isHeartClicked: true,
-  //         };
-  //         setPosts(updatedPost);
-  //       })
-  //       .catch((err) => console.error(err));
-  //   };
-
-  //   const onDeleteHeart = (e, id, idx) => {
-  //     e.stopPropagation();
-
-  //     axios
-  //       .delete(
-  //         `${SV_LOCAL}/community/heart/delete`,
-
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${getCookie("jwtToken")}`,
-  //           },
-
-  //           data: { typeId: id, type: 0 },
-  //         }
-  //       )
-  //       .then((res) => {
-  //         const updatedPost = [...posts];
-  //         updatedPost[idx] = {
-  //           ...updatedPost[idx],
-  //           heartCnt: updatedPost[idx].heartCnt - 1,
-  //           isHeartClicked: false,
-  //         };
-  //         setPosts(updatedPost);
-  //       })
-  //       .catch((err) => console.error(err));
-  //   };
+  const handleDeleteHeart = (e, id) => {
+    e.stopPropagation();
+    onDeleteHeart(0, id);
+    if (refetch) refetch();
+  };
   return (
     <Post
       img={item.user.profileImg}
@@ -119,13 +86,13 @@ const PostItem = ({ item, idx }) => {
           <FontAwesomeIcon
             icon={faHeartFull}
             className="icon heart-full"
-            // onClick={(e) => onDeleteHeart(e, item.id, idx)}
+            onClick={(e) => handleDeleteHeart(e, item.id)}
           />
         ) : (
           <FontAwesomeIcon
             icon={faHeart}
             className="icon"
-            // onClick={(e) => onAddHeart(e, item.id, idx)}
+            onClick={(e) => handleAddHeart(e, item.id)}
           />
         )}
         <span>{item.heartCnt}</span>
