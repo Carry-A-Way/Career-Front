@@ -26,28 +26,19 @@ import {
 } from "../../../styles/common/mentor/MentorForm";
 import RecommendMenteeList from "../../../components/List/Recommend/RecommendMenteeList";
 import { useQuery } from "react-query";
-import {
-  fetchUserConsult,
-  fetchConsultWithStatus,
-} from "../../../api/fetchConsult";
+import { fetchUserConsult } from "../../../api/fetchConsult";
 
 const Consult = () => {
   const subMenuList = MentorConsultMenu;
   const subMenuLink = MentorConsultLinkList;
-  // const { upcomingConsult } = useGetConsult();
-  // const { completedConsult } = useGetCompletedConsult();
-  // const { cancelConsult } = useGetCancelConsult();
-  const { data, isLoading } = useQuery("consult", () => fetchUserConsult(), {
-    refetchOnWindowFocus: false,
-  });
-  const { data: cancelConsult } = useQuery(
-    ["consult", CANCEL_CONSULT_TYPE],
-    () => fetchConsultWithStatus(CANCEL_CONSULT_TYPE),
+
+  const { data, isLoading } = useQuery(
+    "consult-all",
+    () => fetchUserConsult(),
     {
       refetchOnWindowFocus: false,
     }
   );
-  // console.log(cancelConsult);
   return (
     <>
       <SubMenubar
@@ -69,10 +60,9 @@ const Consult = () => {
           <GridRightCol>
             <Section>
               <SectionHeader>
-                수락전 상담 ({data.lastUpcomingConsult.length})
+                수락전 상담 {!!data && `(${data.lastUpcomingConsult.length})`}
               </SectionHeader>
-              {!!data?.lastUpcomingConsult &&
-              !data.lastUpcomingConsult.length ? (
+              {!!data && !data.lastUpcomingConsult.length ? (
                 <ConsultWrapper>
                   <span>수락 대기중인 상담이 없습니다.</span>
                 </ConsultWrapper>
@@ -88,9 +78,9 @@ const Consult = () => {
             <HorizontalLine />
             <Section>
               <SectionHeader>
-                예정된 상담 ({data.upcomingConsult.length})
+                예정된 상담 {!!data && `(${data.upcomingConsult.length})`}
               </SectionHeader>
-              {!data.upcomingConsult.length ? (
+              {!!data && !data.upcomingConsult.length ? (
                 <ConsultWrapper>
                   <span>진행될 상담이 없습니다.</span>
                 </ConsultWrapper>
@@ -106,9 +96,9 @@ const Consult = () => {
             <HorizontalLine />
             <Section>
               <SectionHeader>
-                완료된 상담 ({data.previousConsult.length})
+                완료된 상담 {!!data && `(${data.previousConsult.length})`}
               </SectionHeader>
-              {!data.previousConsult.length ? (
+              {!!data && !data.previousConsult.length ? (
                 <ConsultWrapper>
                   <span>완료된 상담이 없습니다.</span>
                 </ConsultWrapper>
@@ -125,9 +115,10 @@ const Consult = () => {
             <HorizontalLine />
             <Section>
               <SectionHeader>
-                취소한 상담 ({data.canceledConsultByMentor.length})
+                취소한 상담
+                {!!data && `(${data.canceledConsultByMentor.length})`}
               </SectionHeader>
-              {!data.canceledConsultByMentor.length ? (
+              {!!data && !data.canceledConsultByMentor.length ? (
                 <ConsultWrapper>
                   <span>취소한 상담이 없습니다.</span>
                 </ConsultWrapper>
@@ -144,9 +135,10 @@ const Consult = () => {
             <HorizontalLine />
             <Section>
               <SectionHeader>
-                취소된 상담 ({data.canceledConsultByMentee.length})
+                취소된 상담
+                {!!data && `(${data.canceledConsultByMentee.length})`}
               </SectionHeader>
-              {!data.canceledConsultByMentee.length ? (
+              {!!data && !data.canceledConsultByMentee.length ? (
                 <ConsultWrapper>
                   <span>취소한 상담이 없습니다.</span>
                 </ConsultWrapper>

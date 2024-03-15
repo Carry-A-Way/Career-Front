@@ -29,7 +29,6 @@ export const fetchUserConsult = async () => {
     // setLastUpcomingConsult(response.data.object.lastUpcomingConsult);
     // setUpcomingConsult(response.data.object.upcomingConsult);
     // setCompletedConsult(response.data.object.previousConsult);
-    console.log(response.data.object);
     return response.data.object;
   } catch (e) {
     console.error(e);
