@@ -23,7 +23,6 @@ const Home = () => {
       refetchOnWindowFocus: false,
     }
   );
-  // console.log(upcomingData.length);
   const {
     data: postData,
     isLoading: isPostLoading,
@@ -68,7 +67,7 @@ const Home = () => {
             <Consult>
               <span>loading...</span>
             </Consult>
-          ) : !!upcomingData && upcomingData.length ? (
+          ) : !!upcomingData && !upcomingData.length ? (
             <Consult>
               <span>진행될 상담이 없습니다.</span>
               <div
