@@ -52,6 +52,7 @@ import MenteeCancelConsult from "./pages/Mentee/consult/CancelConsult";
 import MenteeCompletedConsult from "./pages/Mentee/consult/CompletedConsult";
 import MenteeCanceledConsult from "./pages/Mentee/consult/CanceledConsult";
 import CanceledConsult from "./pages/Mentor/consult/CanceledConsult";
+import Home from "./pages/Home/Home";
 function App() {
   const isLogin = useSelector((state) => state.isLogin.value);
   const isMentor = useSelector((state) => state.isMentor.value);
@@ -70,6 +71,7 @@ function App() {
       <BrowserRouter>
         <Menubar />
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup/mentee" element={<SignupMentee />} />
           <Route path="/home" element={<SignupMentee />} />

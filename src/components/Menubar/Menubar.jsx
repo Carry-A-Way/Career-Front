@@ -19,7 +19,7 @@ const Menubar = () => {
   useGlobalNavigate();
   const [signup, setSignup] = useState("회원가입");
   const [signupSelect, setSignupSelect] = useState(false);
-  const [leftMenu, setLeftMenu] = useState(["홈", "멘토", "게시판"]);
+  const [leftMenu, setLeftMenu] = useState([]);
   const [rightMenu, setRightMenu] = useState(["초대하기", "추가메뉴"]);
   // const [isLogin, setIsLogin] = useState(true);
   const [subMenu, setSubMenu] = useState("");
@@ -54,9 +54,9 @@ const Menubar = () => {
   useEffect(() => {
     setSubMenu("");
     if (!isLogin) {
-      setLeftMenu(["홈", "멘토", "게시판"]);
+      // setLeftMenu(["홈", "멘토", "게시판"]);
       setRightMenu([]);
-      setLeftLink([`${FRONT_URL}`, `${FRONT_URL}`, `${FRONT_URL}`]);
+      // setLeftLink([`${FRONT_URL}`, `${FRONT_URL}`, `${FRONT_URL}`]);
     } else {
       if (isMentor) {
         setLeftMenu(["홈", "상담내역", "시간표", "커뮤니티"]);
@@ -87,7 +87,9 @@ const Menubar = () => {
     <>
       <MenubarWrapper>
         <div className="menubar-left">
-          <div className="menubar-logo">CAREER</div>
+          <Link to={"/"} className="menubar-logo">
+            CAREER
+          </Link>
           {leftMenu.map((menu, i) => {
             return (
               <Link
@@ -294,6 +296,7 @@ const MenubarWrapper = styled.div`
       display: flex;
       align-items: center;
       font-family: Arial, Helvetica, sans-serif;
+      text-decoration: none;
     }
     .menubar-content {
       font-size: 1.4rem;
