@@ -146,12 +146,12 @@ const Home = () => {
           <br />
         </h2>
         <h2
-          style={{
-            background:
-              "linear-gradient(to right, #e9e9e9, transparent, #e9e9e9)",
-            width: "100%",
-            padding: "2rem 0",
-          }}
+        // style={{
+        //   background:
+        //     "linear-gradient(to right, #e9e9e9, transparent, #e9e9e9)",
+        //   width: "100%",
+        //   padding: "2rem 0",
+        // }}
         >
           캐리어웨이는
           <br />이 모든 것을{" "}
@@ -184,14 +184,7 @@ const Home = () => {
           아래 선발됩니다.
         </h2>
       </Section>
-      <Section
-        style={{
-          background:
-            "linear-gradient(to right, #e9e9e9, transparent, #e9e9e9)",
-          width: "100%",
-          padding: "2rem 0",
-        }}
-      >
+      <Section>
         <h2>
           2. <strong style={{ fontWeight: "800" }}>가격이 저렴</strong>합니다.
         </h2>
@@ -237,14 +230,7 @@ const Home = () => {
           </strong>
         </h2>
       </Section>
-      <Section
-        style={{
-          background:
-            "linear-gradient(to right, #e9e9e9, transparent, #e9e9e9)",
-          width: "100%",
-          padding: "2rem 0",
-        }}
-      >
+      <Section>
         <h2>
           4. 모든 것들은{" "}
           <strong style={{ fontWeight: "800" }}>후기가 증명</strong>합니다.
@@ -279,8 +265,8 @@ const HomeSection = styled.section`
   padding: 2rem 0;
   > h1 {
     text-align: center;
-    margin-top: 9rem;
-    font-size: 3.8rem;
+    margin-top: 8rem;
+    font-size: 3.6rem;
     font-weight: 700;
     line-height: 1.5;
   }
@@ -293,7 +279,7 @@ const HomeSection = styled.section`
     bottom: 0;
     width: 100%;
     max-width: 90rem;
-    max-height: 40rem;
+    max-height: 38rem;
     height: 60%;
     left: 50%;
     transform: translateX(-50%);
