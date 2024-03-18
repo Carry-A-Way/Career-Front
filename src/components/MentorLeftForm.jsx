@@ -1,27 +1,28 @@
 import React from "react";
 import { GridLeftCol } from "../styles/common/Layout";
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAngleRight,
-  faTicket,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
 import PointBox from "./Box/PointBox";
-import MoveBox from "./Box/MoveBox";
 import { getNicknameFromToken } from "../auth/jwtFunctions";
 import { getCookie } from "../cookie";
 import WageBox from "./Wage/WageBox";
+import { useQuery } from "react-query";
+import { fetchMentorPoint } from "../api/point";
 
 const MentorLeftForm = () => {
   const userName = getNicknameFromToken(getCookie("jwtToken"));
-
+  const { data: point } = useQuery(
+    ["mentor", "point"],
+    () => fetchMentorPoint(),
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
   return (
     <GridLeftCol>
       <NameContainer>
         <span>{userName}</span>님 반갑습니다!
       </NameContainer>
-      <PointBox point="10,000" />
+      <PointBox point={point} />
       <WageBox target={null} />
       {/* <MoveBox>
         <div>

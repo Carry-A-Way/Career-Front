@@ -2,12 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/common/Theme";
 
-const PointCardBox = () => {
-  const point = 10000;
+const PointCardBox = ({ point }) => {
   return (
     <StyledContainer
       style={{
-        backgroundColor: point ? `${colors.primaryBlue}` : `${colors.gray}`,
+        backgroundColor: point ? `${colors.secondaryBlue}` : `${colors.gray}`,
       }}
     >
       <PointContent>

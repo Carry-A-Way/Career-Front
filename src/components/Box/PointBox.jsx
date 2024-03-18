@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import PointModal from "../Modal/PointModal";
-const PointBox = ({ point, style }) => {
+const PointBox = ({ point = "", style }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <StyledContainer style={style}>
@@ -15,7 +15,9 @@ const PointBox = ({ point, style }) => {
         <span onClick={() => setIsModalOpen(true)}>포인트 충전하기</span>
         <FontAwesomeIcon icon={faAngleRight} style={{ cursor: "pointer" }} />
       </footer>
-      {isModalOpen && <PointModal setIsModalOpen={setIsModalOpen} />}
+      {isModalOpen && (
+        <PointModal setIsModalOpen={setIsModalOpen} point={point} />
+      )}
     </StyledContainer>
   );
 };

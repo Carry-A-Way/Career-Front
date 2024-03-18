@@ -43,3 +43,7 @@ export const CALENDAR_MENTOR_VIEW = "calendar/mentor/view";
 export const MENTEE_SCHEDULE = `mentee/schedule`;
 export const APPLY_CONSULT_TO_MENTOR = "calendar/mentee/register";
 export const MENTOR_POSSIBLE_CONSULT_TIME = "calendar/mentee/get/possible/time";
+
+// Point
+export const GET_MENTOR_POINT = "mentor/cash/view";
+export const ADD_MENTOR_POINT = "mentor/cash/add_delta";

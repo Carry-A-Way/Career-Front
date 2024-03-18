@@ -10,7 +10,7 @@ import { ButtonDiv } from "../Button/Button";
 import { useState } from "react";
 import Input from "../Input/Input";
 
-const PointModal = ({ setIsModalOpen }) => {
+const PointModal = ({ setIsModalOpen, point }) => {
   const [bank, setBank] = useState("카카오뱅크");
   const [accountNumber, setAccountNumber] = useState("");
   return (
@@ -31,7 +31,7 @@ const PointModal = ({ setIsModalOpen }) => {
             님의 포인트는 아래와 같습니다.
           </p>
         </section>
-        <PointCardBox />
+        <PointCardBox point={point} />
         <section>
           <p>
             <span
@@ -41,7 +41,9 @@ const PointModal = ({ setIsModalOpen }) => {
             </span>
             만에 포인트 충전하고 상담받아보세요!
           </p>
-          <ButtonDiv>포인트 충전하기</ButtonDiv>
+          <ButtonDiv style={{ backgroundColor: colors.secondaryBlue }}>
+            포인트 충전하기
+          </ButtonDiv>
         </section>
         <section>
           <p>포인트를 환급받고 싶으신가요?</p>
@@ -70,7 +72,12 @@ const PointModal = ({ setIsModalOpen }) => {
                 setAccountNumber(e.target.value);
               }}
             />
-            <ButtonDiv height="2.5rem">포인트 환급신청</ButtonDiv>
+            <ButtonDiv
+              height="2.5rem"
+              style={{ backgroundColor: colors.secondaryBlue }}
+            >
+              포인트 환급신청
+            </ButtonDiv>
           </RefundPoint>
         </section>
       </StyledModal>
