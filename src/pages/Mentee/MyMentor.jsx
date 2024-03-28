@@ -66,8 +66,8 @@ const MyMentor = () => {
           {RecommendMentors && RecommendMentors.length ? (
             <>
               <MentorWrapper>
-                {RecommendMentors.map((mentor) => (
-                  <MentorDetailCard mentor={mentor} />
+                {RecommendMentors.map((mentor, idx) => (
+                  <MentorDetailCard mentor={mentor} key={idx} />
                 ))}
               </MentorWrapper>
               <div className="button-wrapper">

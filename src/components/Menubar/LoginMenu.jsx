@@ -18,7 +18,6 @@ const LoginMenu = (props) => {
   const popUpRef = useRef();
 
   useEffect(() => {
-    console.log(isSubModal);
     const outSideClick = (e) => {
       console.log(myInfoModalRef.current.contains(e.target));
       if (

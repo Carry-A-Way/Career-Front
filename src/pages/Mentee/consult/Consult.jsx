@@ -53,9 +53,9 @@ const MenteeConsult = () => {
           <GridRightCol>
             <Section>
               <SectionHeader>
-                수락전 상담 ({data.lastUpcomingConsult.length})
+                수락전 상담 {!!data && `(${data.lastUpcomingConsult.length})`}
               </SectionHeader>
-              {!data.lastUpcomingConsult.length ? (
+              {!!data && !data.lastUpcomingConsult.length ? (
                 <ConsultWrapper>
                   <span>수락 대기중인 상담이 없습니다.</span>
                 </ConsultWrapper>
@@ -71,9 +71,9 @@ const MenteeConsult = () => {
             <HorizontalLine />
             <Section>
               <SectionHeader>
-                예정된 상담 ({data.upcomingConsult.length})
+                예정된 상담 {!!data && `(${data.upcomingConsult.length})`}
               </SectionHeader>
-              {!data.upcomingConsult.length ? (
+              {!!data && !data.upcomingConsult.length ? (
                 <ConsultWrapper>
                   <span>진행될 상담이 없습니다.</span>
                 </ConsultWrapper>
@@ -89,9 +89,9 @@ const MenteeConsult = () => {
             <HorizontalLine />
             <Section>
               <SectionHeader>
-                완료된 상담 ({data.previousConsult.length})
+                완료된 상담 {!!data && `(${data.previousConsult.length})`}
               </SectionHeader>
-              {!data.previousConsult.length ? (
+              {!!data && !data.previousConsult.length ? (
                 <ConsultWrapper>
                   <span>완료된 상담이 없습니다.</span>
                 </ConsultWrapper>
@@ -108,9 +108,10 @@ const MenteeConsult = () => {
             <HorizontalLine />
             <Section>
               <SectionHeader>
-                취소한 상담 ({data.canceledConsultByMentee.length})
+                취소한 상담{" "}
+                {!!data && `(${data.canceledConsultByMentor.length})`}
               </SectionHeader>
-              {!data.canceledConsultByMentee.length ? (
+              {!!data && !data.canceledConsultByMentee.length ? (
                 <ConsultWrapper>
                   <span>취소한 상담이 없습니다.</span>
                 </ConsultWrapper>
@@ -127,9 +128,9 @@ const MenteeConsult = () => {
             <HorizontalLine />
             <Section>
               <SectionHeader>
-                취소된 상담 ({data.canceledConsultByMentor.length})
+                {!!data && `(${data.canceledConsultByMentee.length})`}
               </SectionHeader>
-              {!data.canceledConsultByMentor.length ? (
+              {!!data && !data.canceledConsultByMentor.length ? (
                 <ConsultWrapper>
                   <span>취소된 상담이 없습니다.</span>
                 </ConsultWrapper>
