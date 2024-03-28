@@ -1,7 +1,7 @@
 import axios from "axios";
 import { SV_LOCAL } from "../constants";
 import { getCookie } from "../cookie";
-import { MENTEE_PROFILE, MENTOR_PROFILE } from "../settings/url";
+import { MENTEE_PROFILE, MENTOR_PROFILE } from "./api";
 
 export const fetchMentorProfile = async () => {
   try {

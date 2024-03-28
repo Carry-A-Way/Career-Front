@@ -6,7 +6,7 @@ import {
   ADD_RECOMMENT,
   EDIT_COMMENT,
   EDIT_RECOMMENT,
-} from "../settings/url";
+} from "./api";
 
 export const onEnterComment = async (postId, commentInput) => {
   try {

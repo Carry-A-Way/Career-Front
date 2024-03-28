@@ -1,6 +1,6 @@
 import axios from "axios";
 import { SV_LOCAL } from "../constants";
-import { GET_MENTOR_POINT } from "../settings/url";
+import { GET_MENTOR_POINT } from "./api";
 import { getCookie } from "../cookie";
 
 export const fetchMentorPoint = async () => {

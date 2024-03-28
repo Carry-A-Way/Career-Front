@@ -5,7 +5,7 @@ import {
   ADD_HEART_MENTOR,
   DELETE_HEART_MENTOR,
   HEART_MENTOR_LIST,
-} from "../settings/url";
+} from "./api";
 
 export const insertHeartToMentor = async (mentorId) => {
   try {

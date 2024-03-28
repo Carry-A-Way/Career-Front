@@ -11,7 +11,7 @@ import { Button } from "../../components/Button/Button";
 import VerticalLine from "../../components/Line/VerticalLine";
 import { handleLogin } from "../../api/login";
 import { getNicknameFromToken } from "../../auth/jwtFunctions";
-import { SIGNUP_MENTEE, SIGNUP_MENTOR } from "../../settings/url";
+import { SIGNUP_MENTEE, SIGNUP_MENTOR } from "../../api/api";
 
 function Login() {
   const [id, setId] = useState("");

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { SV_LOCAL } from "../constants";
-import { LOGIN } from "../settings/url";
+import { LOGIN } from "./api";
 
 export const handleLogin = async (id, password) => {
   try {

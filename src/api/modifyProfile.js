@@ -5,7 +5,7 @@ import {
   EDIT_MENTEE_PROFILE,
   EDIT_MENTEE_TAG,
   EDIT_MENTOR_PROFILE,
-} from "../settings/url";
+} from "./api";
 
 export const modifyMentorProfile = async (changeObject, imageFile) => {
   try {

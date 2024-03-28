@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getCookie } from "../cookie";
 import { SV_LOCAL } from "../constants";
-import { CALENDAR_MENTOR_VIEW } from "../settings/url";
+import { CALENDAR_MENTOR_VIEW } from "./api";
 
 export const fetchMentorCalendar = async (mentorId) => {
   try {

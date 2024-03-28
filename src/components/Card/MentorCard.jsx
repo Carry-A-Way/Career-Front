@@ -10,7 +10,7 @@ import { MentorCardSize } from "../../styles/common/Size";
 import { setDefaultImage } from "../../utils/DefaultValue";
 import { calculateAge } from "../../utils/ParseFormat";
 import { useNavigate } from "react-router-dom";
-import { USER_CARD_INFO } from "../../settings/url";
+import { USER_CARD_INFO } from "../../api/api";
 import {
   deleteHeartToMentor,
   insertHeartToMentor,

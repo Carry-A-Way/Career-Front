@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { SV_LOCAL } from "../constants";
 import axios from "axios";
 import { getCookie } from "../cookie";
-import { USER_CONSULT_LIST } from "../settings/url";
+import { USER_CONSULT_LIST } from "../api/api";
 
 const localizer = momentLocalizer(moment);
 const MyCalendar = () => {

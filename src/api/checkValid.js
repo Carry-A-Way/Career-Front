@@ -1,6 +1,6 @@
 import axios from "axios";
 import { SV_LOCAL } from "../constants";
-import { VALID_NICKNAME, VALID_USERNAME } from "../settings/url";
+import { VALID_NICKNAME, VALID_USERNAME } from "./api";
 
 export const checkValidUsername = async (username) => {
   try {

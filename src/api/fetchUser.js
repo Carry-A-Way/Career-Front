@@ -1,7 +1,7 @@
 import axios from "axios";
 import { SV_LOCAL } from "../constants";
 import { getCookie } from "../cookie";
-import { USER_CARD_INFO } from "../settings/url";
+import { USER_CARD_INFO } from "./api";
 
 export const fetchUserInfo = async (userId) => {
   try {

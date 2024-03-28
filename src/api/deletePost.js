@@ -1,7 +1,7 @@
 import axios from "axios";
 import { SV_LOCAL } from "../constants";
 import { getCookie } from "../cookie";
-import { DELETE_COMMENT, DELETE_POST, DELETE_RECOMMENT } from "../settings/url";
+import { DELETE_COMMENT, DELETE_POST, DELETE_RECOMMENT } from "./api";
 
 export const onDeletePost = async (postId) => {
   try {

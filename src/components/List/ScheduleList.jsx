@@ -10,7 +10,7 @@ import {
 import axios from "axios";
 import { getCookie } from "../../cookie";
 import { SV_LOCAL } from "../../constants";
-import { USER_CONSULT_LIST } from "../../settings/url";
+import { USER_CONSULT_LIST } from "../../api/api";
 
 const ScheduleList = () => {
   const [pendingConsult, setPendingConsult] = useState([]);

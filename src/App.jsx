@@ -40,7 +40,7 @@ import {
   CONSULT_MENTOR_INFO,
   MENTEE_SCHEDULE,
   USER_CARD_INFO,
-} from "./settings/url";
+} from "./api/api";
 import UserCard from "./pages/UserCard";
 import ConsultMentorCard from "./pages/ConsultMentorCard";
 import MenteeSchedule from "./pages/Mentee/Schedule";
@@ -133,6 +133,7 @@ function App() {
                 <>
                   <Route path="/" element={<HomeMentee />} />
                   <Route path="/mentee" element={<HomeMentee />} />
+                  <Route path="/mentee/setting" element={<Setting />} />
                   <Route path="/mentee/mentor" element={<MenteeMentor />} />
                   <Route
                     path="/mentee/mentor/recommend"

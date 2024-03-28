@@ -1,6 +1,6 @@
 import axios from "axios";
 import { SV_LOCAL } from "../constants";
-import { MAJOR_AUTO_COMPLETE } from "../settings/url";
+import { MAJOR_AUTO_COMPLETE } from "./api";
 
 export const fetchMajorAutoComplete = async (keyword) => {
   try {

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { SV_LOCAL } from "../constants";
 import { getCookie } from "../cookie";
-import { ADD_HEART, DELETE_HEART } from "../settings/url";
+import { ADD_HEART, DELETE_HEART } from "./api";
 
 export const onAddHeart = async (type, id) => {
   try {

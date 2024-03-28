@@ -1,7 +1,7 @@
 import axios from "axios";
 import { SV_LOCAL } from "../constants";
 import { getCookie } from "../cookie";
-import { MENTOR_POSSIBLE_CONSULT_TIME } from "../settings/url";
+import { MENTOR_POSSIBLE_CONSULT_TIME } from "./api";
 
 export const fetchMentorPossibleTime = async (mentorId) => {
   try {

@@ -11,7 +11,7 @@ import { WhiteButton } from "../Button/WhiteButton";
 import { setDefaultImage } from "../../utils/DefaultValue";
 import { DefaultImg } from "../../settings/config";
 import { useNavigate } from "react-router-dom";
-import { CONSULT_MENTOR_INFO } from "../../settings/url";
+import { CONSULT_MENTOR_INFO } from "../../api/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as faHeartFull } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";

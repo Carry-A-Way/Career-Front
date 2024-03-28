@@ -1,7 +1,7 @@
 import axios from "axios";
 import { SV_LOCAL } from "../constants";
 import { getCookie } from "../cookie";
-import { ALL_POST, DETAIL_POST } from "../settings/url";
+import { ALL_POST, DETAIL_POST } from "./api";
 
 export const fetchPostDetail = async (postId) => {
   try {
