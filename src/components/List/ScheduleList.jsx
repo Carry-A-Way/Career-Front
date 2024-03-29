@@ -11,6 +11,7 @@ import axios from "axios";
 import { getCookie } from "../../cookie";
 import { SV_LOCAL } from "../../constants";
 import { USER_CONSULT_LIST } from "../../api/api";
+import ProfileImage from "../Image/ProfileImage";
 
 const ScheduleList = () => {
   const [pendingConsult, setPendingConsult] = useState([]);
@@ -269,10 +270,10 @@ const ScheduleList = () => {
         <ModalWrapper onClick={() => setIsDetailOpen(false)}>
           <DetailModal onClick={(e) => e.stopPropagation()}>
             <header className="detail-header">
-              <div
+              <ProfileImage
                 className="detail-header__img"
-                img={detailObject.object.student.profileImg}
-              ></div>
+                profileImg={detailObject.object.student.profileImg}
+              ></ProfileImage>
               <span className="detail-header__name">
                 {detailObject.object.student.nickname}
               </span>

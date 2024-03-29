@@ -128,6 +128,7 @@ const MenteeConsult = () => {
             <HorizontalLine />
             <Section>
               <SectionHeader>
+                취소된 상담{" "}
                 {!!data && `(${data.canceledConsultByMentee.length})`}
               </SectionHeader>
               {!!data && !data.canceledConsultByMentor.length ? (

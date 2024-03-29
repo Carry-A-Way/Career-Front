@@ -1,5 +1,5 @@
 import moment from "moment/moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "../styles/big-calendar.css";
 import styled from "styled-components";
@@ -16,9 +16,13 @@ import ColorInfo from "./ColorInfo";
 
 const localizer = momentLocalizer(moment);
 const MenteeCalendar = (props) => {
-  const { target, setTarget } = props;
+  const { target, setTarget, lastUpcomingConsult, upcomingConsult } = props;
   // state 0 이면 수락전, 1이면 수락완료-상담전, 2이면 상담완료
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState([
+    ...lastUpcomingConsult,
+    ...upcomingConsult,
+  ]);
+  console.log(events);
   //const [possibleTimeList, setPossibleTimeList] = useState(PossibleDateList);
   const today = moment();
   const [selectedSlot, setSelectedSlot] = useState({
@@ -100,6 +104,7 @@ const MenteeCalendar = (props) => {
       color: isPastDate ? "#3b3b3b" : "white",
     };
 
+    console.log(event);
     if (!event.status) {
       style.opacity = "0.8";
       style.borderColor = "white";
@@ -132,46 +137,13 @@ const MenteeCalendar = (props) => {
         // 거절된 상담을 시간표에 표시되지 않도록 작업
         (event) => event.status !== 3
       );
-      setEvents(filteredEvents);
+      setEvents([
+        ...lastUpcomingConsult,
+        ...upcomingConsult,
+        ...filteredEvents,
+      ]);
     },
   });
-
-  // useEffect(() => {
-  //   let mentorId;
-  //   if (!!target) {
-  //     axios
-  //       .get(`${SV_LOCAL}/calendar/mentor/view`, {
-  //         params: {
-  //           mentorId: mentorId,
-  //         },
-  //         headers: {
-  //           Authorization: `Bearer ${getCookie("jwtToken")}`,
-  //         },
-  //       })
-  //       .then((res) => {
-  //         const consultDataList = res.data;
-  //         const tmpList = [...consultDataList.lastUpcomingConsult];
-  //         tmpList.push(...consultDataList.upcomingConsult);
-  //         const convertEvents = [];
-  //         tmpList.forEach((item) =>
-  //           convertEvents.push({
-  //             ...item,
-  //             id: item.consultId,
-  //             title: item.status ? "상담 예정" : "상담 대기",
-  //             start: new Date(item.startTime),
-  //             end: new Date(item.endTime),
-  //             status: item.status,
-  //           })
-  //         );
-  //         const filteredEvents = convertEvents.filter(
-  //           // 거절된 상담을 시간표에 표시되지 않도록 작업
-  //           (event) => event.status !== 3
-  //         );
-  //         setEvents(filteredEvents);
-  //       })
-  //       .catch((err) => console.error(err));
-  //   }
-  // }, [target]);
 
   const handleSelectSlot = (date) => {
     const momentStart = moment(new Date(date.start));
