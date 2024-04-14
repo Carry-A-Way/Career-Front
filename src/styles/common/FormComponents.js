@@ -63,10 +63,12 @@ export const Label = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid gray;
+  border: ${(props) =>
+    props.isChecked ? "2px solid #2f5383" : "1px solid gray"};
   color: gray;
   border-radius: 5px;
   box-sizing: border-box;
+  cursor: pointer;
   &:hover {
     border: 2px solid #2f5383;
   }

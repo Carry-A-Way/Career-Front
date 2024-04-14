@@ -7,8 +7,8 @@ export const checkValidUsername = async (username) => {
     const response = await axios.post(`${SV_LOCAL}/${VALID_USERNAME}`, {
       username,
     });
-    if (response.data) window.alert("사용 가능한 아이디입니다.");
-    else window.alert("이미 사용중인 아이디입니다.");
+    // if (response.data) window.alert("사용 가능한 아이디입니다.");
+    // else window.alert("이미 사용중인 아이디입니다.");
     return response.data;
   } catch (e) {
     console.error(e);

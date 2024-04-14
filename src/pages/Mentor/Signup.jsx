@@ -16,7 +16,7 @@ import { Label, Radio, ValidWrapper } from "../../styles/common/FormComponents";
 import { phoneNumberParse } from "../../utils/ParseFormat";
 function Signup() {
   const navigator = useNavigate();
-  const [confirmPassword, setConfirmPassword] = useState();
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [validUsername, setValidUsername] = useState(false);
   const [validNickname, setValidNickname] = useState(false);
   const [numberCode, setNumberCode] = useState("");
@@ -100,7 +100,7 @@ function Signup() {
       formData.append("json", JSON.stringify(jsonData));
       axios
         .post(`${SV_LOCAL}/user/signup/mentor`, jsonData)
-        .then((res) => {
+        .then(() => {
           window.alert("멘토 회원가입이 완료되었습니다.");
           navigator("/");
         })
@@ -110,7 +110,6 @@ function Signup() {
         });
     }
   };
-
   return (
     <>
       <Title>
@@ -122,9 +121,7 @@ function Signup() {
       <Form onSubmit={onSubmit}>
         <div className="Form50">
           <Wrapper>
-            <TitleWithBar size="small" title="이름">
-              <Required>*</Required>
-            </TitleWithBar>
+            <TitleWithBar size="small" title="이름" required={true} />
             <InputForm>
               <Input
                 required={true}
@@ -137,9 +134,7 @@ function Signup() {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="아이디">
-              <Required>*</Required>
-            </TitleWithBar>
+            <TitleWithBar size="small" title="아이디" required="true" />
             <InputForm>
               <Input
                 required={true}
@@ -169,12 +164,11 @@ function Signup() {
               {validUsername === false && user.username && (
                 <span>이미 사용중인 아이디입니다.</span>
               )}
+              {validUsername === true && <span>사용가능한 닉네임입니다.</span>}
             </ValidWrapper>
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="닉네임">
-              <Required>*</Required>
-            </TitleWithBar>
+            <TitleWithBar size="small" title="닉네임" required={true} />
             <InputForm>
               <Input
                 required={true}
@@ -208,9 +202,7 @@ function Signup() {
             </ValidWrapper>
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="비밀번호">
-              <Required>*</Required>
-            </TitleWithBar>
+            <TitleWithBar size="small" title="비밀번호" required={true} />
             <InputForm>
               <Input
                 required={true}
@@ -224,9 +216,7 @@ function Signup() {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="비밀번호 확인">
-              <Required>*</Required>
-            </TitleWithBar>
+            <TitleWithBar size="small" title="비밀번호 확인" required={true} />
             <InputForm>
               <Input
                 required={true}
@@ -238,16 +228,16 @@ function Signup() {
                 }}
               />
             </InputForm>
-            {confirmPassword !== user.password && user.password && (
-              <ValidWrapper>
-                <span>비밀번호가 일치하지 않습니다.</span>
-              </ValidWrapper>
-            )}
+            {confirmPassword !== "" &&
+              confirmPassword !== user.password &&
+              user.password && (
+                <ValidWrapper>
+                  <span>비밀번호가 일치하지 않습니다.</span>
+                </ValidWrapper>
+              )}
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="생년월일">
-              <Required>*</Required>
-            </TitleWithBar>
+            <TitleWithBar size="small" title="생년월일" required={true} />
             <InputForm>
               <Input
                 required={true}
@@ -260,9 +250,7 @@ function Signup() {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="전화번호">
-              <Required>*</Required>
-            </TitleWithBar>
+            <TitleWithBar size="small" title="전화번호" required={true} />
             <InputForm>
               <Input
                 required={true}
@@ -294,9 +282,7 @@ function Signup() {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="이메일">
-              <Required>*</Required>
-            </TitleWithBar>
+            <TitleWithBar size="small" title="이메일" required={true} />
             <InputForm>
               <Input
                 required={true}
@@ -310,11 +296,9 @@ function Signup() {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="성별">
-              <Required>*</Required>
-            </TitleWithBar>
+            <TitleWithBar size="small" title="성별" required={true} />
             <InputForm>
-              <Label>
+              <Label isChecked={user.gender}>
                 <Radio
                   required
                   type="radio"
@@ -327,14 +311,15 @@ function Signup() {
                 />
                 <div>남자</div>
               </Label>
-              <Label className="signup-input__label">
+              <Label className="signup-input__label" isChecked={!user.gender}>
                 <Radio
                   type="radio"
                   name="gender"
                   value="여자"
                   onChange={
-                    (e) => setUser((user) => ({ ...user, gender: false })) //true: 남자, false: 여자
+                    () => setUser((user) => ({ ...user, gender: false })) //true: 남자, false: 여자
                   }
+                  checked={!user.gender}
                 />
                 <div>여자</div>
               </Label>
@@ -356,37 +341,6 @@ const InputForm = styled.div`
   align-items: center;
   margin-bottom: 5px;
   gap: 10px;
-  .signup-input__radio {
-    width: 1.5rem;
-    height: 1.5rem;
-    margin: 0;
-  }
-  .signup-input__label {
-    width: 10rem;
-    height: 4rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid gray;
-    color: gray;
-    border-radius: 5px;
-    box-sizing: border-box;
-    &:hover {
-      border: 2px solid #2f5383;
-    }
-    &:hover div,
-    input:checked + div {
-      color: #2f5383;
-      font-weight: 600;
-    }
-    div {
-      margin: 0 10px;
-      height: 25px;
-      font-size: 1.3rem;
-      display: flex;
-      align-items: center;
-    }
-  }
 `;
 
 const Wrapper = styled.div`
@@ -394,16 +348,6 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin: 20px 0;
-  .signup-subtitle {
-    display: flex;
-    align-items: center;
-    font-size: 1.5rem;
-    font-weight: 500;
-    margin-bottom: 1.3rem;
-    span {
-      margin-left: 1rem;
-    }
-  }
 `;
 
 const Form = styled.form`
@@ -413,13 +357,6 @@ const Form = styled.form`
   margin-top: 60px;
   flex-direction: column;
   align-items: center;
-  .FormHalf {
-    min-width: 30%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 5rem;
-  }
   .Form50 {
     display: flex;
     flex-direction: column;
@@ -435,10 +372,6 @@ const Form = styled.form`
     cursor: pointer;
     border-radius: 5px;
   }
-`;
-
-const Required = styled.span`
-  color: red;
 `;
 
 const Title = styled.div`
