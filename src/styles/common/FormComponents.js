@@ -160,3 +160,14 @@ export const ValidWrapper = styled.div`
     color: ${colors.primaryBlue};
   }
 `;
+
+export const SignupButton = styled.button`
+  background-color: ${colors.primaryBlue};
+  color: white;
+  padding: 1rem;
+  width: 20rem;
+  margin: 5rem 0;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+`;

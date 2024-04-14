@@ -12,7 +12,12 @@ import { colors } from "../../styles/common/Theme";
 import { useNavigate } from "react-router-dom";
 import { checkValidNickname, checkValidUsername } from "../../api/checkValid";
 import TitleWithBar from "../../components/Input/InputWithTitle";
-import { Label, Radio, ValidWrapper } from "../../styles/common/FormComponents";
+import {
+  Label,
+  Radio,
+  SignupButton,
+  ValidWrapper,
+} from "../../styles/common/FormComponents";
 import { phoneNumberParse } from "../../utils/ParseFormat";
 function Signup() {
   const navigator = useNavigate();
@@ -326,7 +331,7 @@ function Signup() {
             </InputForm>
           </Wrapper>
         </div>
-        <button className="signup-submit__btn">회원가입</button>
+        <SignupButton>회원가입</SignupButton>
       </Form>
     </>
   );
