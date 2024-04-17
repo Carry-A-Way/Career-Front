@@ -31,7 +31,6 @@ const Signup = (props) => {
     username: "", //필수
     nickname: "", //필수
     password: "", //필수
-    confirmPassword: "",
     birth: "", //필수
     gender: true, //필수
     introduce: "",
@@ -71,13 +70,12 @@ const Signup = (props) => {
         isTutor: false,
         email: user.email,
       };
-      console.log(jsonData);
       formData.append("json", JSON.stringify(jsonData));
       axios
         .post(`${SV_LOCAL}/user/signup/mentee`, jsonData)
-        .then((res) => {
+        .then(() => {
           window.alert("멘티 회원가입이 완료되었습니다.");
-          navigator("/");
+          navigator("/login");
         })
         .catch((err) => {
           console.error(err);
@@ -197,7 +195,7 @@ const Signup = (props) => {
                 required={true}
                 type="password"
                 placeholder="비밀번호를 다시 입력하세요."
-                value={user.confirmPassword}
+                value={confirmPassword}
                 onChange={(e) => {
                   setConfirmPassword(e.target.value);
                 }}

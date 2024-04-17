@@ -30,7 +30,6 @@ function Signup() {
     username: "", //필수
     nickname: "", //필수
     password: "", //필수
-    confirmPassword: "",
     birth: "", //필수
     gender: true, //필수
     introduce: "",
@@ -107,7 +106,7 @@ function Signup() {
         .post(`${SV_LOCAL}/user/signup/mentor`, jsonData)
         .then(() => {
           window.alert("멘토 회원가입이 완료되었습니다.");
-          navigator("/");
+          navigator("/login");
         })
         .catch((err) => {
           console.error(err);

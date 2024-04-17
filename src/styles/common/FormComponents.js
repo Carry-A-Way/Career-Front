@@ -167,6 +167,8 @@ export const SignupButton = styled.button`
   padding: 1rem;
   width: 20rem;
   margin: 5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
   border: none;
   cursor: pointer;
   border-radius: 5px;
