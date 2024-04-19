@@ -132,6 +132,7 @@ const PostList = ({ posts, setPosts, postStyle }) => {
     else document.body.style.overflow = "hidden";
   }, [deletePost]);
 
+  if (posts === null) return <NoneList>Loading...</NoneList>;
   return (
     <>
       {posts.length ? (

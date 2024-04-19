@@ -41,3 +41,13 @@ export const CALENDAR_MENTOR_VIEW = "calendar/mentor/view";
 export const MENTEE_SCHEDULE = `mentee/schedule`;
 export const APPLY_CONSULT_TO_MENTOR = "calendar/mentee/register";
 export const MENTOR_POSSIBLE_CONSULT_TIME = "calendar/mentee/get/possible/time";
+
+// Community
+export const COMMUNITY = "community";
+export const COMMUNITY_POST = "community/post";
+export const COMMUNITY_WRITE = "community/write";
+export const COMMUNITY_CATEGORY = "community/category";
+export const COMMUNITY_ACTIVITY = "community/activity";
+export const COMMUNITY_ACTIVITY_WRITE_POST = "community/activity/post";
+export const COMMUNITY_ACTIVITY_LIKE_POST = "community/activity/like";
+export const COMMUNITY_ACTIVITY_WRITE_COMMENT = "community/activity/comment";

@@ -36,11 +36,6 @@ import FindMentor from "./pages/Mentee/FindMentor";
 import MyMentor from "./pages/Mentee/MyMentor";
 import LikeMentor from "./pages/Mentee/LikeMentor";
 import ConsultMenteeMentor from "./pages/Mentee/ConsultMentor";
-import {
-  CONSULT_MENTOR_INFO,
-  MENTEE_SCHEDULE,
-  USER_CARD_INFO,
-} from "./api/api";
 import UserCard from "./pages/UserCard";
 import ConsultMentorCard from "./pages/ConsultMentorCard";
 import MenteeSchedule from "./pages/Mentee/Schedule";
@@ -53,6 +48,17 @@ import MenteeCompletedConsult from "./pages/Mentee/consult/CompletedConsult";
 import MenteeCanceledConsult from "./pages/Mentee/consult/CanceledConsult";
 import CanceledConsult from "./pages/Mentor/consult/CanceledConsult";
 import Home from "./pages/Home/Home";
+import {
+  COMMUNITY,
+  COMMUNITY_ACTIVITY,
+  COMMUNITY_CATEGORY,
+  COMMUNITY_POST,
+  COMMUNITY_WRITE,
+  CONSULT_MENTOR_INFO,
+  MENTEE_SCHEDULE,
+  USER_CARD_INFO,
+} from "./settings/url";
+
 function App() {
   const isLogin = useSelector((state) => state.isLogin.value);
   const isMentor = useSelector((state) => state.isMentor.value);
@@ -80,15 +86,18 @@ function App() {
           <Route path="/restricted" element={<Restricted />} />
           {isLogin ? (
             <>
-              <Route path="/community" element={<Community />} />
-              <Route path="/community/category" element={<Category />} />
+              <Route path={`${COMMUNITY}`} element={<Community />} />
+              <Route path={`${COMMUNITY_CATEGORY}`} element={<Category />} />
               <Route
                 path="/community/category/:id"
                 element={<CategoryPost />}
               />
-              <Route path="/community/write" element={<CommunityWrite />} />
-              <Route path="/community/activity" element={<MyActivity />} />
-              <Route path="/community/post/:id" element={<PostDetail />} />
+              <Route
+                path={`/${COMMUNITY_WRITE}`}
+                element={<CommunityWrite />}
+              />
+              <Route path={`/${COMMUNITY_ACTIVITY}`} element={<MyActivity />} />
+              <Route path={`/${COMMUNITY_POST}/:id`} element={<PostDetail />} />
               <Route path="/schedule" element={<Schedule />} />
               <Route path={`/${USER_CARD_INFO}`} element={<UserCard />} />
               <Route

@@ -4,7 +4,7 @@ export const CommunityMenu = ["전체보기", "카테고리", "활동 내역"];
 export const CommunityMenuLinkList = [
   "/community",
   "/community/category",
-  "/community/activity",
+  "/community/activity?option=0",
 ];
 
 // mentor/consult

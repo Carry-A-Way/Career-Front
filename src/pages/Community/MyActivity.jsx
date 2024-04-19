@@ -11,6 +11,9 @@ import { SV_LOCAL } from "../../constants";
 import { getCookie } from "../../cookie";
 import { colors } from "../../styles/common/Theme";
 import { ScrollUp } from "../../components/Scroll";
+import { useLocation, useNavigate } from "react-router-dom";
+import { COMMUNITY_ACTIVITY } from "../../settings/url";
+import { fetchWritePosts } from "../../api/myActivity";
 
 const MyActivity = () => {
   const subMenuList = CommunityMenu;
@@ -21,7 +24,15 @@ const MyActivity = () => {
   const [likedPosts, setLikedPosts] = useState([]);
   const [myPosts, setMyPosts] = useState([]);
 
-  useEffect(() => {}, [selectMenu]);
+  // useEffect(() => {}, [selectMenu]);
+
+  const navigator = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const option = searchParams.get("option");
+  useEffect(() => {
+    setSelectMenu(parseInt(option));
+  }, [option]);
 
   const selectedMenuRendering = () => {
     if (selectMenu === 0) {
@@ -49,57 +60,58 @@ const MyActivity = () => {
   };
 
   useEffect(() => {
-    axios
-      .get(`${SV_LOCAL}/community/article/my_articles`, {
-        headers: {
-          "ngrok-skip-browser-warning": "69420",
-          Authorization: `Bearer ${getCookie("jwtToken")}`,
-        },
-        params: {
-          page: 0,
-          size: 10,
-        },
-      })
-      .then((res) => {
-        setMyPosts(res.data);
-      })
-      .catch((err) => console.error(err));
-  }, [myPosts.length]);
+    if (selectMenu === 0) {
+      const fetchData = async () => {
+        try {
+          const data = await fetchWritePosts();
+          setMyPosts(data);
+        } catch (err) {
+          console.error(err);
+        }
+      };
+      fetchData();
+    }
+  }, [myPosts, selectMenu]);
 
   useEffect(() => {
-    axios
-      .get(`${SV_LOCAL}/community/heart/my_hearts`, {
-        headers: {
-          "ngrok-skip-browser-warning": "69420",
-          Authorization: `Bearer ${getCookie("jwtToken")}`,
-        },
-        params: {
-          page: 0,
-          size: 10,
-        },
-      })
-      .then((res) => {
-        setLikedPosts(res.data);
-      })
-      .catch((err) => console.error(err));
-  }, [likedPosts.length]);
+    if (selectMenu === 1) {
+      axios
+        .get(`${SV_LOCAL}/community/heart/my_hearts`, {
+          headers: {
+            "ngrok-skip-browser-warning": "69420",
+            Authorization: `Bearer ${getCookie("jwtToken")}`,
+          },
+          params: {
+            page: 0,
+            size: 10,
+          },
+        })
+        .then((res) => {
+          setLikedPosts(res.data);
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [likedPosts.length, selectMenu]);
+
   useEffect(() => {
-    axios
-      .get(`${SV_LOCAL}/community/comment/my_comments`, {
-        headers: {
-          "ngrok-skip-browser-warning": "69420",
-          Authorization: `Bearer ${getCookie("jwtToken")}`,
-        },
-        params: {
-          page: 0,
-          size: 10,
-        },
-      })
-      .then((res) => {
-        setComments(res.data);
-      })
-      .catch((err) => console.error(err));
-  }, [comments.length]);
+    if (selectMenu === 2) {
+      axios
+        .get(`${SV_LOCAL}/community/comment/my_comments`, {
+          headers: {
+            "ngrok-skip-browser-warning": "69420",
+            Authorization: `Bearer ${getCookie("jwtToken")}`,
+          },
+          params: {
+            page: 0,
+            size: 10,
+          },
+        })
+        .then((res) => {
+          setComments(res.data);
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [comments.length, selectMenu]);
   return (
     <>
       <SubMenubar
@@ -118,7 +130,9 @@ const MyActivity = () => {
                     ? "menu-list__item menu-list__item-selected"
                     : "menu-list__item"
                 }
-                onClick={() => setSelectMenu(idx)}
+                onClick={() =>
+                  navigator(`/${COMMUNITY_ACTIVITY}?option=${idx}`)
+                }
               >
                 {item}
               </div>

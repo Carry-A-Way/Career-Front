@@ -47,3 +47,6 @@ export const MENTOR_POSSIBLE_CONSULT_TIME = "calendar/mentee/get/possible/time";
 // Point
 export const GET_MENTOR_POINT = "mentor/cash/view";
 export const ADD_MENTOR_POINT = "mentor/cash/add_delta";
+
+// Community
+export const MY_ACTIVITY_WRITE_POST = "community/article/my_articles";
