@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { useQuery } from "react-query";
 import { fetchMentor } from "../../../api/fetchMentor";
+import { colors } from "../../../styles/common/Theme";
 
 const RecommendMentorList = (props) => {
   const { target, setTarget } = props;
@@ -33,7 +34,7 @@ const RecommendMentorList = (props) => {
   else
     return (
       <List>
-        {data ? (
+        {!!data && data.length ? (
           data.map((mentor, idx) => {
             const majorList = [
               mentor.consultMajor1,

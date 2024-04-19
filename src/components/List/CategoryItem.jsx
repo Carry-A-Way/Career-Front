@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import CategoryPost from "../../pages/Community/CategoryPost";
 import { CommunityCategoryList } from "../../settings/config";
 
-const CategoryItem = ({ categories, setCategories }) => {
+const CategoryItem = ({ categories }) => {
   const [selectCategory, setSelectCategory] = useState("");
   return (
     <>
@@ -15,14 +15,12 @@ const CategoryItem = ({ categories, setCategories }) => {
         categories.map((item, idx) => (
           <Category key={idx}>
             <Link
-              to={`/community/category/${item.categoryId}`}
+              to={`/community/category/${idx}`}
               className="category-header"
-              onClick={() => setSelectCategory(item.categoryId)}
+              onClick={() => setSelectCategory(idx)}
             >
               <div className="title">
-                <span className="name">
-                  {CommunityCategoryList[item.categoryId].title}
-                </span>
+                <span className="name">{CommunityCategoryList[idx].title}</span>
                 <FontAwesomeIcon
                   icon={faChevronRight}
                   style={{ fontSize: "1.4rem" }}
@@ -30,12 +28,8 @@ const CategoryItem = ({ categories, setCategories }) => {
               </div>
             </Link>
             <main>
-              <div className="info">
-                {CommunityCategoryList[item.categoryId].info}
-              </div>
-              <div className="content">{`> ${
-                CommunityCategoryList[item.categoryId].content
-              }`}</div>
+              <div className="info">{CommunityCategoryList[idx].info}</div>
+              <div className="content">{`> ${CommunityCategoryList[idx].content}`}</div>
             </main>
             <footer>
               {/* {item.interest ? (

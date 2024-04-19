@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { xScrollStyle, yScrollStyle } from "../Scroll";
 
 export const RecommendWrapper = styled.div`
+  width: 100%;
   height: auto;
   /* max-height: 73vh; */
   max-height: 50rem;

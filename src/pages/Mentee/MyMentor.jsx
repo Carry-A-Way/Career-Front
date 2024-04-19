@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import { useQuery } from "react-query";
 import { fetchHeartMentorList } from "../../api/heartMentor";
+import { colors } from "../../styles/common/Theme";
 
 const MyMentor = () => {
   const subMenuList = MenteeMentorMenu;
@@ -29,6 +30,7 @@ const MyMentor = () => {
   } = useQuery("heart-mentor", () => fetchHeartMentorList(), {
     refetchOnWindowFocus: false,
   });
+  const noMentorMessage = "좋아요 누른 멘토가 없습니다.";
   return (
     <>
       <SubMenubar
@@ -41,7 +43,9 @@ const MyMentor = () => {
           <MenteeHeader>내가 찜한 멘토</MenteeHeader>
           {isLoading ? (
             <div>loading...</div>
-          ) : heartMentorList && heartMentorList.length ? (
+          ) : !!heartMentorList &&
+            heartMentorList.length &&
+            heartMentorList !== noMentorMessage ? (
             <>
               <MentorWrapper>
                 {heartMentorList.map((mentor) => (
@@ -123,8 +127,10 @@ const MentorWrapper = styled.div`
 const NoList = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   gap: 1.5rem;
-  font-size: 1.2rem;
-  margin: 3rem 0;
+  font-size: 1.3rem;
+  color: ${colors.gray};
+  height: 15rem;
 `;

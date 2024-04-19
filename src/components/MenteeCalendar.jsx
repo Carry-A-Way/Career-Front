@@ -104,7 +104,6 @@ const MenteeCalendar = (props) => {
       color: isPastDate ? "#3b3b3b" : "white",
     };
 
-    console.log(event);
     if (!event.status) {
       style.opacity = "0.8";
       style.borderColor = "white";
