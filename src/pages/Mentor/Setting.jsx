@@ -373,7 +373,7 @@ const AlarmContainer = styled.div`
     justify-content: flex-start;
     div {
       width: 60%;
-      height: 28px;
+      /* height: 28px; */
       border: 1px solid black;
       border-radius: 20px;
       display: flex;
@@ -395,7 +395,7 @@ const AlarmContainer = styled.div`
     justify-content: flex-end;
     div {
       width: 60%;
-      height: 28px;
+      /* height: 28px; */
       border: 1px solid black;
       border-radius: 20px;
       display: flex;

@@ -56,6 +56,12 @@ function App() {
       <BrowserRouter>
         <Menubar />
         <Routes>
+          <Route
+            path="/"
+            element={
+              !isLogin ? <Home /> : isMentor ? <HomeMentor /> : <HomeMentee />
+            }
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/signMentee" element={<SignupMentee />} />
           <Route path="/home" element={<SignupMentee />} />
@@ -76,7 +82,6 @@ function App() {
               <Route path="/schedule" element={<Schedule />} />
               {isMentor ? (
                 <>
-                  <Route path="/" element={<HomeMentor />} />
                   <Route path="/mentor" element={<HomeMentor />} />
                   <Route path="/mentor/setting" element={<Setting />} />
                   <Route path="/mentor/profile" element={<MentorProfile />} />
@@ -102,7 +107,6 @@ function App() {
               )}
               {!isMentor ? (
                 <>
-                  <Route path="/" element={<HomeMentee />} />
                   <Route path="/mentee" element={<HomeMentee />} />
                   <Route path="/mentee/mentor" element={<MenteeMentor />} />
                   <Route path="/mentee/profile" element={<MenteeProfile />} />
