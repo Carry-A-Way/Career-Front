@@ -21,7 +21,7 @@ import { onAddHeart, onDeleteHeart } from "../../api/heartPost";
 import { checkModify } from "../../utils/checkModify";
 
 const PostDetail = () => {
-  const [post, setPost] = useState({});
+  const [post, setPost] = useState(null);
   const { id } = useParams();
   const [comments, setComments] = useState([]);
 
@@ -105,7 +105,7 @@ const PostDetail = () => {
       });
   };
 
-  const { isLoading, data } = useQuery(
+  const { isLoading } = useQuery(
     ["postDetail", id, updatePost],
     () => fetchPostDetail(id),
     {
@@ -131,187 +131,51 @@ const PostDetail = () => {
   if (isLoading) return <Form>loading...</Form>;
   return (
     <>
-      <Form>
-        {editPostContent ? (
-          <Post
-            img={post.img || ""}
-            onSubmit={(e) => {
-              e.preventDefault();
-              onEditPostContent();
-            }}
-          >
-            <header>
-              <select
-                name="category-select"
-                className="category-select"
-                value={post.categoryId} //
-                onChange={(e) => {
-                  setPost({ ...post, categoryId: e.target.value });
-                }}
-                required
-              >
-                <option value="">카테고리</option>
-                {CommunityCategoryList.map((category, idx) => (
-                  <option value={idx} key={idx}>
-                    {category.title}
-                  </option>
-                ))}
-              </select>
-              <span className="post-header__title">제목</span>
-              <input
-                type="text"
-                className="post-header__input"
-                placeholder="제목을 작성해 주세요."
-                value={post.title}
-                required
-                onChange={(e) => setPost({ ...post, title: e.target.value })}
-              />
-            </header>
-            <main style={{ padding: "2rem 3rem" }}>
-              <textarea
-                className={
-                  editPostContent
-                    ? "post-content post-content-write"
-                    : "post-content"
-                }
-                required
-                value={post.content}
-                disabled={!editPostContent}
-                ref={postInputRef}
-                onChange={(e) => {
-                  setPost({ ...post, content: e.target.value });
-                }}
-              />
-            </main>
-            <div className="write-file">
-              <input
-                id="file"
-                type="file"
-                multiple
-                accept="image/*"
-                className="write-file__input"
-                onChange={(e) => onChangeFiles(e)}
-                disabled={files.length + newFiles.length >= 6 ? true : false}
-              />
-              <label
-                htmlFor="file"
-                style={{
-                  cursor:
-                    files.length + newFiles.length >= 6
-                      ? "not-allowed"
-                      : "pointer",
-                }}
-              >
-                파일 선택
-              </label>
-              <span>6개 파일 중 {files.length + newFiles.length}개 선택</span>
-              <div className="write-file-wrapper">
-                <ul className="write-file__list-name">
-                  {files.map((file, idx) => (
-                    <li key={idx}>
-                      <span>{file.name}</span>
-                      <img
-                        src="/svg/close-black.svg"
-                        alt="close-button"
-                        style={{ cursor: "pointer" }}
-                        onClick={() => {
-                          // onDeleteFile(file);
-                          setFiles(files.filter((item) => item !== file));
-                          setRemoveImg((prev) => [...prev, image[idx]]);
-                          setImage(
-                            image.filter((file, index) => index !== idx)
-                          );
-                        }}
-                      />
-                    </li>
-                  ))}
-                  {newFiles.map((file, idx) => (
-                    <li key={idx}>
-                      <span>{file.name}</span>
-                      <img
-                        src="/svg/close-black.svg"
-                        alt="close-button"
-                        style={{ cursor: "pointer" }}
-                        onClick={() => {
-                          onDeleteFile(file);
-                          setNewImage(
-                            newImage.filter((file, index) => index !== idx)
-                          );
-                        }}
-                      />
-                    </li>
-                  ))}
-                </ul>
-                <ul className="write-file__list">
-                  {image.map((img, imgIdx) => (
-                    <img
-                      key={imgIdx}
-                      src={img}
-                      alt=""
-                      className="write-file__img"
-                    />
-                  ))}
-                  {newImage.map((img, imgIdx) => (
-                    <img
-                      key={imgIdx}
-                      src={img}
-                      alt=""
-                      className="write-file__img"
-                    />
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <footer>
-              <div
-                className="button"
-                style={{ margin: "0" }}
-                onClick={() => {
-                  setUpdatePost(true);
-                  setEditPostContent(false);
-                }}
-              >
-                취소
-              </div>
-              <button type="submit">등록</button>
-            </footer>
-          </Post>
-        ) : (
-          <>
-            <Post img={post.img || ""}>
+      {!!post && (
+        <Form>
+          {editPostContent ? (
+            <Post
+              img={post.img || ""}
+              onSubmit={(e) => {
+                e.preventDefault();
+                onEditPostContent();
+              }}
+            >
               <header>
-                <div className="post-header__title">
-                  [{CommunityCategoryList[post.categoryId]?.title}] {post.title}
-                </div>
-                <OptionButton
-                  idx={postUserId}
-                  item={post}
-                  setEditContent={setEditPostContent}
-                  inputRef={postInputRef}
-                  checkId={postUserId}
-                  option="게시글"
-                  ids={{ postId: post.id }}
-                  activeOptionId={activeOptionId}
-                  setActiveOptionId={setActiveOptionId}
-                  setUpdate={setUpdatePost}
+                <select
+                  name="category-select"
+                  className="category-select"
+                  value={post.categoryId} //
+                  onChange={(e) => {
+                    setPost({ ...post, categoryId: e.target.value });
+                  }}
+                  required
+                >
+                  <option value="">카테고리</option>
+                  {CommunityCategoryList.map((category, idx) => (
+                    <option value={idx} key={idx}>
+                      {category.title}
+                    </option>
+                  ))}
+                </select>
+                <span className="post-header__title">제목</span>
+                <input
+                  type="text"
+                  className="post-header__input"
+                  placeholder="제목을 작성해 주세요."
+                  value={post.title}
+                  required
+                  onChange={(e) => setPost({ ...post, title: e.target.value })}
                 />
               </header>
-              <main>
-                <div className="post-main-info">
-                  <ProfileImage profileImg={post.user?.profileImg} />
-                  <span className="post-main-info__name">
-                    {post.user?.nickname || ""} (
-                    {post.user?.isTutor ? "멘토" : "멘티"})
-                  </span>
-                </div>
-                <div className="post-date">
-                  작성일 {dateTimeParse(post.createdAt)}
-                  {checkModify(post.createdAt, post.updatedAt)
-                    ? " (수정됨)"
-                    : ""}
-                </div>
+              <main style={{ padding: "2rem 3rem" }}>
                 <textarea
-                  className={"post-content"}
+                  className={
+                    editPostContent
+                      ? "post-content post-content-write"
+                      : "post-content"
+                  }
+                  required
                   value={post.content}
                   disabled={!editPostContent}
                   ref={postInputRef}
@@ -319,7 +183,66 @@ const PostDetail = () => {
                     setPost({ ...post, content: e.target.value });
                   }}
                 />
+              </main>
+              <div className="write-file">
+                <input
+                  id="file"
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  className="write-file__input"
+                  onChange={(e) => onChangeFiles(e)}
+                  disabled={files.length + newFiles.length >= 6 ? true : false}
+                />
+                <label
+                  htmlFor="file"
+                  style={{
+                    cursor:
+                      files.length + newFiles.length >= 6
+                        ? "not-allowed"
+                        : "pointer",
+                  }}
+                >
+                  파일 선택
+                </label>
+                <span>6개 파일 중 {files.length + newFiles.length}개 선택</span>
                 <div className="write-file-wrapper">
+                  <ul className="write-file__list-name">
+                    {files.map((file, idx) => (
+                      <li key={idx}>
+                        <span>{file.name}</span>
+                        <img
+                          src="/svg/close-black.svg"
+                          alt="close-button"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => {
+                            // onDeleteFile(file);
+                            setFiles(files.filter((item) => item !== file));
+                            setRemoveImg((prev) => [...prev, image[idx]]);
+                            setImage(
+                              image.filter((file, index) => index !== idx)
+                            );
+                          }}
+                        />
+                      </li>
+                    ))}
+                    {newFiles.map((file, idx) => (
+                      <li key={idx}>
+                        <span>{file.name}</span>
+                        <img
+                          src="/svg/close-black.svg"
+                          alt="close-button"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => {
+                            onDeleteFile(file);
+                            setNewImage(
+                              newImage.filter((file, index) => index !== idx)
+                            );
+                          }}
+                        />
+                      </li>
+                    ))}
+                  </ul>
                   <ul className="write-file__list">
                     {image.map((img, imgIdx) => (
                       <img
@@ -327,71 +250,151 @@ const PostDetail = () => {
                         src={img}
                         alt=""
                         className="write-file__img"
-                        onClick={() => {
-                          setImageModalOpen(true);
-                          setSelectImg(imgIdx);
-                        }}
+                      />
+                    ))}
+                    {newImage.map((img, imgIdx) => (
+                      <img
+                        key={imgIdx}
+                        src={img}
+                        alt=""
+                        className="write-file__img"
                       />
                     ))}
                   </ul>
                 </div>
-              </main>
-
+              </div>
               <footer>
-                {post.isHeartClicked ? (
-                  <FontAwesomeIcon
-                    icon={faHeartFull}
-                    className="icon heart-full"
-                    onClick={() => {
-                      onDeleteHeart(0, post.id); //게시글은 type 0
-                      setUpdatePost(true);
-                    }}
-                  />
-                ) : (
-                  <FontAwesomeIcon
-                    icon={faHeart}
-                    className="icon"
-                    onClick={() => {
-                      onAddHeart(0, post.id); //게시글은 type 0
-                      setUpdatePost(true);
-                    }}
-                  />
-                )}
-                <span>{post.heartCnt}</span>
-                <FontAwesomeIcon icon={faMessage} className="icon" />
-                <span>{post.commentCnt}</span>
+                <div
+                  className="button"
+                  style={{ margin: "0" }}
+                  onClick={() => {
+                    setUpdatePost(true);
+                    setEditPostContent(false);
+                  }}
+                >
+                  취소
+                </div>
+                <button type="submit">등록</button>
               </footer>
             </Post>
-            <CommentWrapper>
-              <div
-                style={{
-                  fontSize: "1.35rem",
-                  fontWeight: "500",
-                  margin: "1rem 0",
-                  width: "100%",
-                  textAlign: "start",
-                }}
-              >
-                댓글 ({post.commentCnt})
-              </div>
-              <CommentList
-                comments={comments}
-                setComments={setComments}
-                editCommentContent={editCommentContent}
-                setEditCommentContent={setEditCommentContent}
-                setUpdate={setUpdatePost}
-                setEditRecommentContent={setEditRecommentContent}
-                editRecommentContent={editRecommentContent}
-                activeOptionId={activeOptionId}
-                setActiveOptionId={setActiveOptionId}
-              />
-              <CommentInput setUpdate={setUpdatePost} />
-            </CommentWrapper>
-          </>
-        )}
+          ) : (
+            <>
+              <Post img={post.img || ""}>
+                <header>
+                  <div className="post-header__title">
+                    [{CommunityCategoryList[post.categoryId]?.title}]{" "}
+                    {post.title}
+                  </div>
+                  <OptionButton
+                    idx={postUserId}
+                    item={post}
+                    setEditContent={setEditPostContent}
+                    inputRef={postInputRef}
+                    checkId={postUserId}
+                    option="게시글"
+                    ids={{ postId: post.id }}
+                    activeOptionId={activeOptionId}
+                    setActiveOptionId={setActiveOptionId}
+                    setUpdate={setUpdatePost}
+                  />
+                </header>
+                <main>
+                  <div className="post-main-info">
+                    <ProfileImage profileImg={post.user?.profileImg} />
+                    <span className="post-main-info__name">
+                      {post.user?.nickname || ""} (
+                      {post.user?.isTutor ? "멘토" : "멘티"})
+                    </span>
+                  </div>
+                  <div className="post-date">
+                    작성일 {dateTimeParse(post.createdAt)}
+                    {checkModify(post.createdAt, post.updatedAt)
+                      ? " (수정됨)"
+                      : ""}
+                  </div>
+                  <textarea
+                    className={"post-content"}
+                    value={post.content}
+                    disabled={!editPostContent}
+                    ref={postInputRef}
+                    onChange={(e) => {
+                      setPost({ ...post, content: e.target.value });
+                    }}
+                  />
+                  <div className="write-file-wrapper">
+                    <ul className="write-file__list">
+                      {image.map((img, imgIdx) => (
+                        <img
+                          key={imgIdx}
+                          src={img}
+                          alt=""
+                          className="write-file__img"
+                          onClick={() => {
+                            setImageModalOpen(true);
+                            setSelectImg(imgIdx);
+                          }}
+                        />
+                      ))}
+                    </ul>
+                  </div>
+                </main>
 
-        <UtilBox />
-      </Form>
+                <footer>
+                  {post.isHeartClicked ? (
+                    <FontAwesomeIcon
+                      icon={faHeartFull}
+                      className="icon heart-full"
+                      onClick={() => {
+                        onDeleteHeart(0, post.id); //게시글은 type 0
+                        setUpdatePost(true);
+                      }}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faHeart}
+                      className="icon"
+                      onClick={() => {
+                        onAddHeart(0, post.id); //게시글은 type 0
+                        setUpdatePost(true);
+                      }}
+                    />
+                  )}
+                  <span>{post.heartCnt}</span>
+                  <FontAwesomeIcon icon={faMessage} className="icon" />
+                  <span>{post.commentCnt}</span>
+                </footer>
+              </Post>
+              <CommentWrapper>
+                <div
+                  style={{
+                    fontSize: "1.35rem",
+                    fontWeight: "500",
+                    margin: "1rem 0",
+                    width: "100%",
+                    textAlign: "start",
+                  }}
+                >
+                  댓글 ({post.commentCnt})
+                </div>
+                <CommentList
+                  comments={comments}
+                  setComments={setComments}
+                  editCommentContent={editCommentContent}
+                  setEditCommentContent={setEditCommentContent}
+                  setUpdate={setUpdatePost}
+                  setEditRecommentContent={setEditRecommentContent}
+                  editRecommentContent={editRecommentContent}
+                  activeOptionId={activeOptionId}
+                  setActiveOptionId={setActiveOptionId}
+                />
+                <CommentInput setUpdate={setUpdatePost} />
+              </CommentWrapper>
+            </>
+          )}
+
+          <UtilBox />
+        </Form>
+      )}
       {imageModalOpen && (
         <ImageModal
           setModalOpen={setImageModalOpen}

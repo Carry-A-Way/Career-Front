@@ -27,17 +27,16 @@ export const StringToDateParse = (dateString) => {
   return new Date(hypenDate);
 };
 
-export const dateTimeParse = (dateTimeString) => {
-  const date = dateParse(dateTimeString);
-  const time = dateTimeString.split("T")[1];
-  const withoutSecond = time.slice(0, 5);
-  return date + " " + withoutSecond;
-};
-
 export const timeParse = (dateTimeString) => {
   const time = dateTimeString.split("T")[1];
   const withoutSecond = time.slice(0, 5);
   return withoutSecond;
+};
+
+export const dateTimeParse = (dateTimeString) => {
+  const date = dateParse(dateTimeString);
+  const time = timeParse(dateTimeString);
+  return date + " " + time;
 };
 
 export const localToIsoParse = (dateString) => {
