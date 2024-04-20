@@ -50,7 +50,7 @@ const PostDetail = () => {
       tmpFiles.splice(6);
     }
     setNewFiles(tmpFiles);
-    console.log("tmp file ", tmpFiles);
+    // console.log("tmp file ", tmpFiles);
     const filesArray = Object.values(tmpFiles);
     const loadImageData = (files) => {
       const promises = files.map((file) => {

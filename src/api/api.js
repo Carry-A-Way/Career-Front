@@ -50,3 +50,4 @@ export const ADD_MENTOR_POINT = "mentor/cash/add_delta";
 
 // Community
 export const MY_ACTIVITY_WRITE_POST = "community/article/my_articles";
+export const WRITE_POST = "community/article/add";

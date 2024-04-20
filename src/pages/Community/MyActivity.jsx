@@ -71,7 +71,7 @@ const MyActivity = () => {
       };
       fetchData();
     }
-  }, [myPosts, selectMenu]);
+  }, [myPosts.length, selectMenu]);
 
   useEffect(() => {
     if (selectMenu === 1) {
