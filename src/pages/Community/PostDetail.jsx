@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { SV_LOCAL } from "../../constants";
 import { getCookie } from "../../cookie";
-import { dateParse } from "../../utils/ParseFormat";
+import { dateTimeParse } from "../../utils/ParseFormat";
 import { CommunityCategoryList } from "../../settings/config";
 import ImageModal from "../../components/Modal/ImageModal";
 import UtilBox from "../../components/Box/UtilBox";
@@ -18,6 +18,7 @@ import ProfileImage from "../../components/Image/ProfileImage";
 import { useQuery } from "react-query";
 import { fetchPostDetail } from "../../api/fetchPost";
 import { onAddHeart, onDeleteHeart } from "../../api/heartPost";
+import { checkModify } from "../../utils/checkModify";
 
 const PostDetail = () => {
   const [post, setPost] = useState({});
@@ -104,7 +105,7 @@ const PostDetail = () => {
       });
   };
 
-  const { data } = useQuery(
+  const { isLoading, data } = useQuery(
     ["postDetail", id, updatePost],
     () => fetchPostDetail(id),
     {
@@ -127,6 +128,7 @@ const PostDetail = () => {
     }
   );
 
+  if (isLoading) return <Form>loading...</Form>;
   return (
     <>
       <Form>
@@ -303,8 +305,10 @@ const PostDetail = () => {
                   </span>
                 </div>
                 <div className="post-date">
-                  작성일 {dateParse(post.createdAt)}
-                  {post.createdAt !== post.updatedAt ? " (수정됨)" : ""}
+                  작성일 {dateTimeParse(post.createdAt)}
+                  {checkModify(post.createdAt, post.updatedAt)
+                    ? " (수정됨)"
+                    : ""}
                 </div>
                 <textarea
                   className={"post-content"}

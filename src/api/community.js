@@ -9,7 +9,6 @@ export const writePost = async (post, images) => {
   if (images.length) {
     images.forEach((image) => formData.append("images", image));
   }
-  console.log(formData.get("images"));
   try {
     const response = await axios.post(`${SV_LOCAL}/${WRITE_POST}`, formData, {
       headers: {

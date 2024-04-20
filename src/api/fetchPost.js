@@ -13,7 +13,6 @@ export const fetchPostDetail = async (postId) => {
         id: postId,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (err) {
     console.error(err);

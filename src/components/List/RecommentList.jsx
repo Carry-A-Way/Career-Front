@@ -7,10 +7,11 @@ import {
   ProfileInfo,
 } from "../../styles/common/postComponents";
 import { onAddHeart, onDeleteHeart } from "../../api/heartPost";
-import { dateParse } from "../../utils/ParseFormat";
+import { dateTimeParse } from "../../utils/ParseFormat";
 import OptionButton from "../Button/OptionButton";
 import { HeartButton } from "../Button/HeartButton";
 import { onEditRecommentContent } from "../../api/editPost";
+import { checkModify } from "../../utils/checkModify";
 
 const RecommentList = (props) => {
   const {
@@ -25,10 +26,11 @@ const RecommentList = (props) => {
     setActiveOptionId,
     setUpdate,
   } = props;
+  const reverseRecomment = comment.recomments.slice().reverse();
   return (
     <>
-      {comment.recomments &&
-        comment.recomments.map((recomment, recommentIdx) => (
+      {reverseRecomment &&
+        reverseRecomment.map((recomment, recommentIdx) => (
           <CommentContainer
             img={recomment.img || ""}
             key={recommentIdx}
@@ -43,8 +45,8 @@ const RecommentList = (props) => {
                     {recomment.user.isTutor ? "멘토" : "멘티"})
                   </span>
                   <span className="date">
-                    작성일 {dateParse(recomment.createdAt)}
-                    {recomment.createdAt !== recomment.updatedAt
+                    작성일 {dateTimeParse(recomment.createdAt)}
+                    {checkModify(recomment.createdAt, recomment.updatedAt)
                       ? " (수정됨)"
                       : ""}
                   </span>
@@ -137,6 +139,7 @@ const RecommentList = (props) => {
                       comments[commentIdx].recomments[recommentIdx].content
                     );
                     setEditRecommentContent("");
+                    setUpdate(true);
                   }}
                 >
                   등록

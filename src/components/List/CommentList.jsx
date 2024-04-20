@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as faHeartFull } from "@fortawesome/free-solid-svg-icons";
 import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
 import HorizontalLine from "../Line/HorizontalLine";
-import { dateParse } from "../../utils/ParseFormat";
+import { dateTimeParse } from "../../utils/ParseFormat";
 import OptionButton from "../Button/OptionButton";
 import ProfileImage from "../Image/ProfileImage";
 import {
@@ -16,6 +16,7 @@ import RecommentList from "./RecommentList";
 import { onAddHeart, onDeleteHeart } from "../../api/heartPost";
 import ReplyInput from "../Input/ReplyInput";
 import { onEditCommentContent } from "../../api/editPost";
+import { checkModify } from "../../utils/checkModify";
 
 const CommentList = (props) => {
   const {
@@ -65,8 +66,10 @@ const CommentList = (props) => {
                     {comment.user.isTutor ? "멘토" : "멘티"})
                   </span>
                   <span className="date">
-                    작성일 {dateParse(comment.createdAt)}
-                    {comment.createdAt !== comment.updatedAt ? " (수정됨)" : ""}
+                    작성일 {dateTimeParse(comment.createdAt)}
+                    {checkModify(comment.createdAt, comment.updatedAt)
+                      ? " (수정됨)"
+                      : ""}
                   </span>
                 </div>
               </ProfileInfo>
