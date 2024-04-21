@@ -1,16 +1,10 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faCircle } from "@fortawesome/free-solid-svg-icons";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { getCookie, setCookie } from "../../cookie";
+import { getCookie } from "../../cookie";
 import { FRONT_URL } from "../../constants";
-import { useSelector, useDispatch } from "react-redux";
-import { setIsLogin } from "../../store/isLoginSlice";
-import { colors } from "../../styles/common/Theme";
+import { useSelector } from "react-redux";
 import { useGlobalNavigate } from "../../hooks/useGlobalNavigate";
-import { setupAxiosInterceptors } from "../../utils/axiosInterceptors";
-import { getNicknameFromToken } from "../../auth/jwtFunctions";
 import LoginMenu from "./LoginMenu";
 import LogoutMenu from "./LogoutMenu";
 
@@ -19,21 +13,20 @@ const Menubar = () => {
   const [rightMenu, setRightMenu] = useState([]);
   const [leftLink, setLeftLink] = useState([]);
   const [rightLink, setRightLink] = useState([]);
-  const [subMenu, setSubMenu] = useState("");
   const [isSubModal, setIsSubModal] = useState(false);
 
   const isMentor = useSelector((state) => state.isMentor.value);
   const isLogin = useSelector((state) => state.isLogin.value);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   useGlobalNavigate();
 
-  useEffect(() => {
-    setupAxiosInterceptors(dispatch);
-  }, [dispatch]);
+  // useEffect(() => {
+  //   console.log("call");
+  //   console.log(setupAxiosInterceptors(dispatch));
+  // }, [dispatch]);
 
   useEffect(() => {
-    setSubMenu("");
     if (!isLogin) {
       setLeftMenu([]);
       setRightMenu([]);

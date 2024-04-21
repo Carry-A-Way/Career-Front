@@ -10,6 +10,7 @@ import { faCircle } from "@fortawesome/free-regular-svg-icons";
 const EventList = () => {
   const eventList = [
     {
+      id: 0,
       tag: "4월 이벤트",
       title: "친구 초대하고 1,000 포인트 받기",
       content: "친구가 첫 상담하면 1,000 포인트 추가 지급!",
@@ -26,6 +27,7 @@ const EventList = () => {
       ),
     },
     {
+      id: 1,
       tag: "5월 이벤트",
       title: "상담 2+1 이용권 증정",
       content: "40분 상담 2회 이용시 20분 상담권 제공!",
@@ -36,6 +38,7 @@ const EventList = () => {
       ),
     },
     {
+      id: 2,
       tag: "6월 이벤트",
       title: "6월 가입자 전원 포인트 지급",
       content: "2023-06-01 ~ 2023-06-30 신규가입자 대상",
@@ -52,6 +55,7 @@ const EventList = () => {
       if (i === num)
         selectButtons.push(
           <FontAwesomeIcon
+            key={i}
             icon={faCircleFull}
             style={{ color: "white" }}
             onClick={() => move(num)}
@@ -60,6 +64,7 @@ const EventList = () => {
       else
         selectButtons.push(
           <FontAwesomeIcon
+            key={i}
             icon={faCircle}
             style={{ color: "white" }}
             onClick={() => move(num)}
@@ -79,50 +84,46 @@ const EventList = () => {
   };
   return (
     <>
-      {eventList.map((item, i) => {
-        return (
-          <EventContainer
-            key={i}
+      {eventList.map((item, i) => (
+        <EventContainer
+          key={item.id}
+          style={{
+            display: currentEvent === i ? "" : "none",
+            backgroundImage:
+              item.background === "" ? "" : `url(${item.background})`,
+            background:
+              item.background === ""
+                ? "linear-gradient(to bottom, #2f5383, #165e92a3)"
+                : `url(${item.background})`,
+          }}
+        >
+          <FontAwesomeIcon
+            icon={faAngleLeft}
             style={{
-              display: currentEvent === i ? "" : "none",
-              backgroundImage:
-                item.background === "" ? "" : `url(${item.background})`,
-              background:
-                item.background === ""
-                  ? "linear-gradient(to bottom, #2f5383, #165e92a3)"
-                  : `url(${item.background})`,
+              fontSize: "3.5rem",
+              color: "white",
+              visibility: i === 0 ? "hidden" : "",
             }}
-          >
-            <FontAwesomeIcon
-              icon={faAngleLeft}
-              style={{
-                fontSize: "3.5rem",
-                color: "white",
-                visibility: i === 0 ? "hidden" : "",
-              }}
-              onClick={prev}
-            />
-            <Event>
-              <div className="tag">{item.tag}</div>
-              <div className="title">{item.title}</div>
-              <div className="content">{item.content}</div>
-            </Event>
-            <Icon>{item.icon}</Icon>
-            {
-              <FontAwesomeIcon
-                icon={faAngleRight}
-                style={{
-                  fontSize: "3.5rem",
-                  color: "white",
-                  visibility: i === eventList.length - 1 ? "hidden" : "",
-                }}
-                onClick={next}
-              />
-            }
-            <SelectEvent>{selectEvent(i)}</SelectEvent>
-          </EventContainer>
-        );
-      })}
+            onClick={prev}
+          />
+          <Event>
+            <div className="tag">{item.tag}</div>
+            <div className="title">{item.title}</div>
+            <div className="content">{item.content}</div>
+          </Event>
+          <Icon>{item.icon}</Icon>
+          <FontAwesomeIcon
+            icon={faAngleRight}
+            style={{
+              fontSize: "3.5rem",
+              color: "white",
+              visibility: i === eventList.length - 1 ? "hidden" : "",
+            }}
+            onClick={next}
+          />
+          <SelectEvent>{selectEvent(i)}</SelectEvent>
+        </EventContainer>
+      ))}
     </>
   );
 };
