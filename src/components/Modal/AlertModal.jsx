@@ -1,6 +1,5 @@
-import React, { useState } from "react";
 import styled from "styled-components";
-import Button from "../Button/Button";
+import { ButtonDiv } from "../Button/Button";
 
 const AlertModal = ({ message, setModalOpen }) => {
   return (
@@ -8,14 +7,14 @@ const AlertModal = ({ message, setModalOpen }) => {
       <Alert>
         <main>{message}</main>
         <footer>
-          <Button
+          <ButtonDiv
             onClick={(e) => {
               e.stopPropagation();
               setModalOpen(false);
             }}
           >
             확인
-          </Button>
+          </ButtonDiv>
         </footer>
       </Alert>
     </ModalOverlay>

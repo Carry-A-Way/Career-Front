@@ -2,7 +2,7 @@ import { css } from "styled-components";
 
 export const xScrollStyle = css`
   &::-webkit-scrollbar {
-    height: 12px;
+    height: 0.8rem;
   }
 
   &::-webkit-scrollbar-track {
@@ -22,7 +22,7 @@ export const xScrollStyle = css`
 
 export const yScrollStyle = css`
   &::-webkit-scrollbar {
-    width: 12px;
+    width: 0.8rem;
   }
 
   &::-webkit-scrollbar-track {

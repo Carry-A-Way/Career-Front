@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight, faBullhorn } from "@fortawesome/free-solid-svg-icons";
@@ -18,27 +18,13 @@ const Setting = () => {
       name: "채희문 학생 상담",
       money: 12000,
     },
-    //  {
-    //   date: "2023.06.12 12:03",
-    //   name: "한재준 학생 상담",
-    //   money: 20000,
-    // },
-    // {
-    //   date: "2023.06.12 12:03",
-    //   name: "한재준 학생 상담",
-    //   money: 20000,
-    // },
-    // {
-    //   date: "2023.06.12 12:03",
-    //   name: "한재준 학생 상담",
-    //   money: 20000,
-    // },
   ];
-  const sum = 48000;
-  const [sumRevenue, setSumRevenue] = useState(revenue[0].money);
-  const calcSum = (money) => {
-    setSumRevenue(sumRevenue + money);
-  };
+  // const sum = 48000;
+  // const [sumRevenue, setSumRevenue] = useState(revenue[0].money);
+  const sumRevenue = revenue[0].money;
+  // const calcSum = (money) => {
+  //   setSumRevenue(sumRevenue + money);
+  // };
 
   const [alarm1, setAlarm1] = useState(true);
   const changeAlarm1 = () => {

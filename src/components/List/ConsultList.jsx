@@ -1,21 +1,21 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import ConsultItem from "./ConsultItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
-import { dateParse, dateTimeParse, timeParse } from "../../utils/ParseFormat";
+import { dateParse, timeParse } from "../../utils/ParseFormat";
 import DetailedModal from "../Modal/DetailedModal";
 import { yScrollStyle } from "../../styles/common/Scroll";
 
 const ConsultList = (props) => {
-  const [moveIndex, setMoveIndex] = useState(0);
-  const onMoveLeft = () => {
-    if (moveIndex === 0) return;
-    setMoveIndex((prev) => prev + 10);
-  };
-  const onMoveRight = () => {
-    setMoveIndex((prev) => prev - 10);
-  };
+  // const [moveIndex, setMoveIndex] = useState(0);
+  // const onMoveLeft = () => {
+  //   if (moveIndex === 0) return;
+  //   setMoveIndex((prev) => prev + 10);
+  // };
+  // const onMoveRight = () => {
+  //   setMoveIndex((prev) => prev - 10);
+  // };
   return (
     <Div>
       {/* <div className="left" onClick={onMoveLeft}></div> */}

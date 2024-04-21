@@ -1,13 +1,13 @@
 import React from "react";
+import { RecommendMentees } from "../../../settings/config";
 import styled from "styled-components";
-import HorizontalLine from "../Line/HorizontalLine";
 
-const RecommendMenteeItem = ({ recommendList }) => {
+const RecommendMenteeList = () => {
   return (
     <>
-      {recommendList.map((item, i) => {
+      {RecommendMentees.map((item, i) => {
         return (
-          <RecommendWrapper key={i}>
+          <RecommendContainer key={i}>
             <span className="title">{item.title}</span>
             <hr style={{ color: "black", width: "100%" }} />
             <Content>
@@ -17,23 +17,22 @@ const RecommendMenteeItem = ({ recommendList }) => {
               <span className="interest">관심 학과: {item.interest}</span>
             </Content>
             <Button>게시물 바로가기</Button>
-          </RecommendWrapper>
+          </RecommendContainer>
         );
       })}
     </>
   );
 };
 
-export default RecommendMenteeItem;
+export default RecommendMenteeList;
 
-const RecommendWrapper = styled.div`
+const RecommendContainer = styled.div`
   .title {
     font-size: 1.5rem;
   }
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin: 2rem 0;
   padding: 2rem;
   border: 1px solid black;
   border-radius: 10px;

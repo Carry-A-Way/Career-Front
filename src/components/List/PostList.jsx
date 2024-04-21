@@ -10,11 +10,13 @@ import {
   faPencil,
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { dateParse } from "../../utils/ParseFormat";
 import axios from "axios";
 import { getCookie } from "../../cookie";
 import { SV_LOCAL } from "../../constants";
+import ProfileImage from "../Image/ProfileImage";
+import { CommunityCategoryList } from "../../settings/config";
 
 const PostList = ({ posts, setPosts, postStyle }) => {
   const [deletePost, setDeletePost] = useState(null);
@@ -87,7 +89,11 @@ const PostList = ({ posts, setPosts, postStyle }) => {
   const postStyleRendering = (item) => {
     switch (postStyle) {
       case "category":
-        return <div className="category">{item.category}</div>;
+        return (
+          <div className="category">
+            {CommunityCategoryList[item.categoryId].title}
+          </div>
+        );
       case "edit": // onClick 시 item 과 연관지어서 함수 실행 추가하기
         return (
           <div className="icon-wrapper">
@@ -126,7 +132,7 @@ const PostList = ({ posts, setPosts, postStyle }) => {
     else document.body.style.overflow = "hidden";
   }, [deletePost]);
 
-  console.log("posts ", posts);
+  if (posts === null) return <NoneList>Loading...</NoneList>;
   return (
     <>
       {posts.length ? (
@@ -134,12 +140,11 @@ const PostList = ({ posts, setPosts, postStyle }) => {
           <Post
             key={idx}
             img={item.user.profileImg}
-            // to={`/community/post/${item.id}`}
             onClick={() => navigate(`/community/post/${item.id}`)}
           >
             <header>
               <div className="header-left">
-                <div className="img-container"></div>
+                <ProfileImage profileImg={item.user.profileImg} />
                 <div className="info">
                   <span className="name">
                     {item.user.nickname || "익명"} (
@@ -159,7 +164,8 @@ const PostList = ({ posts, setPosts, postStyle }) => {
               </main>
               <div className="image-wrapper">
                 {item.imgs.map(
-                  (img, imgIdx) => imgIdx < 2 && <img src={img} key={imgIdx} />
+                  (img, imgIdx) =>
+                    imgIdx < 2 && <img src={img} key={imgIdx} alt={imgIdx} />
                 )}
                 {item.imgs.length > 2 && (
                   <div
@@ -250,6 +256,7 @@ const Post = styled.div`
   border-radius: 5px;
   height: 17rem;
   text-decoration: none;
+  cursor: pointer;
   header {
     /* background-color: #eeeeee; */
     background-color: #2f5383;
@@ -293,9 +300,9 @@ const Post = styled.div`
       }
     }
     .category {
-      font-size: 1.3rem;
+      font-size: 1.1rem;
       font-weight: 600;
-      color: #fee501;
+      color: #dedede;
     }
     .icon-wrapper {
       display: flex;

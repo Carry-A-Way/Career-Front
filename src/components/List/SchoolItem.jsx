@@ -6,7 +6,7 @@ import DatePicker from "react-datepicker";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinusCircle } from "@fortawesome/free-solid-svg-icons";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
-import MajorItem from "./MajorItem";
+import MajorItem from "./MajorItem2";
 import { StringToDateParse, dateToStringParse } from "../../utils/ParseFormat";
 const SchoolItem = ({
   item,
@@ -174,7 +174,7 @@ const SchoolItem = ({
           </Icon>
         )}
       </InputForm>
-      {schoolType === "대학교"
+      {/* {schoolType === "대학교"
         ? majorList &&
           majorList.length > 0 &&
           majorList.map((majorItem, index) => {
@@ -191,7 +191,12 @@ const SchoolItem = ({
               </Form>
             );
           })
-        : ""}
+        : ""} */}
+      {schoolType === "대학교" && (
+        <Form>
+          <MajorItem majorName={item.majorName} view={view} />
+        </Form>
+      )}
     </>
   );
 };

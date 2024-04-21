@@ -1,51 +1,54 @@
-import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
-const PointBox = ({ point }) => {
+import { useState } from "react";
+import PointModal from "../Modal/PointModal";
+const PointBox = ({ point = "", style }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
-    <PointWrapper>
-      <header>내 포인트</header>
+    <StyledContainer style={style}>
       <main>
-        <span>{point || 0} </span> 원
+        <p>내 포인트 잔액</p>
+        <span>{point.toLocaleString() || 0} 원</span>
       </main>
       <footer>
-        <span>포인트 환급 신청</span>{" "}
+        <span onClick={() => setIsModalOpen(true)}>포인트 충전하기</span>
         <FontAwesomeIcon icon={faAngleRight} style={{ cursor: "pointer" }} />
       </footer>
-    </PointWrapper>
+      {isModalOpen && (
+        <PointModal setIsModalOpen={setIsModalOpen} point={point} />
+      )}
+    </StyledContainer>
   );
 };
 
 export default PointBox;
 
-const PointWrapper = styled.div`
-  width: 22rem;
-  height: 12rem;
+const StyledContainer = styled.div`
+  width: 100%;
   border: 1px solid #c7c5c5;
   border-radius: 10px;
   background-color: #fcfcfc;
-  padding: 1rem;
-  margin-bottom: 50px;
-  header,
-  main {
-    height: 35%;
-    margin-left: 3rem;
+  padding: 3rem 2rem 2rem 3rem;
+  /* margin-bottom: 50px; */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+  > main {
     display: flex;
-    align-items: flex-end;
-    font-size: 1.7rem;
+    flex-direction: column;
+    gap: 1rem;
+    font-size: 1.5rem;
     font-weight: 500;
     span {
-      font-size: 2.4rem;
+      font-size: 1.7rem;
       font-weight: 600;
       padding-right: 1rem;
     }
   }
-  main {
-    margin-bottom: 7%;
-  }
   footer {
-    height: 20%;
     display: flex;
     justify-content: flex-end;
     align-items: center;

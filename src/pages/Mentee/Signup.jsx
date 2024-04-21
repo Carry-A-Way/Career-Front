@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useState } from "react";
-import Button from "../../components/Button/Button";
+import { ButtonDiv } from "../../components/Button/Button";
 import MenuLine from "../../components/Line/MenuLine";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import Input from "../../components/Input/Input";
@@ -11,6 +11,14 @@ import { SV_LOCAL } from "../../constants";
 import { colors } from "../../styles/common/Theme";
 import { useNavigate } from "react-router-dom";
 import { checkValidNickname, checkValidUsername } from "../../api/checkValid";
+import TitleWithBar from "../../components/Input/InputWithTitle";
+import {
+  Label,
+  Radio,
+  SignupButton,
+  ValidWrapper,
+} from "../../styles/common/FormComponents";
+import { phoneNumberParse } from "../../utils/ParseFormat";
 
 const Signup = (props) => {
   const [confirmPassword, setConfirmPassword] = useState(false);
@@ -62,13 +70,12 @@ const Signup = (props) => {
         isTutor: false,
         email: user.email,
       };
-      console.log(jsonData);
       formData.append("json", JSON.stringify(jsonData));
       axios
         .post(`${SV_LOCAL}/user/signup/mentee`, jsonData)
-        .then((res) => {
+        .then(() => {
           window.alert("멘티 회원가입이 완료되었습니다.");
-          navigator("/");
+          navigator("/login");
         })
         .catch((err) => {
           console.error(err);
@@ -87,15 +94,12 @@ const Signup = (props) => {
       <Form onSubmit={onSubmit}>
         <div className="Form50">
           <Wrapper>
-            <div className="signup-subtitle">
-              <MenuLine size="small" />
-              <span>이름</span>
-              <Required>*</Required>
-            </div>
+            <TitleWithBar size="small" title="이름" required={true} />
             <InputForm>
               <Input
                 required={true}
                 placehaolder="이름을 입력하세요."
+                value={user.name}
                 onChange={(e) =>
                   setUser((user) => ({ ...user, name: e.target.value }))
                 }
@@ -103,21 +107,18 @@ const Signup = (props) => {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <div className="signup-subtitle">
-              <MenuLine size="small" />
-              <span>아이디</span>
-              <Required>*</Required>
-            </div>
+            <TitleWithBar size="small" title="아이디" required="true" />
             <InputForm>
               <Input
                 required={true}
                 placeholder="아이디를 입력하세요."
+                value={user.username}
                 onChange={(e) => {
                   setUser((user) => ({ ...user, username: e.target.value }));
                   setValidUsername(undefined);
                 }}
               />
-              <Button
+              <ButtonDiv
                 height="3rem"
                 onClick={() => {
                   checkValidUsername(user.username).then((res) =>
@@ -127,34 +128,31 @@ const Signup = (props) => {
                 disabled={validUsername}
               >
                 중복확인
-              </Button>
+              </ButtonDiv>
             </InputForm>
-            <div className="valid-wrapper">
+            <ValidWrapper>
               {validUsername === undefined && user.username && (
                 <span>아이디 중복확인이 필요합니다.</span>
               )}
               {validUsername === false && user.username && (
                 <span>이미 사용중인 아이디입니다.</span>
               )}
-            </div>
+              {validUsername === true && <span>사용가능한 닉네임입니다.</span>}
+            </ValidWrapper>
           </Wrapper>
           <Wrapper>
-            <div className="signup-subtitle">
-              <MenuLine size="small" />
-              <span>닉네임</span>
-              <Required>*</Required>
-            </div>
+            <TitleWithBar size="small" title="닉네임" required={true} />
             <InputForm>
               <Input
                 required={true}
                 placeholder="닉네임을 입력하세요."
-                // onChange={(e) => setNickname(e.target.value)}
+                value={user.nickname}
                 onChange={(e) => {
                   setUser((user) => ({ ...user, nickname: e.target.value }));
                   setValidNickname(undefined);
                 }}
               />
-              <Button
+              <ButtonDiv
                 height="3rem"
                 onClick={() => {
                   checkValidNickname(user.nickname).then((res) =>
@@ -164,9 +162,9 @@ const Signup = (props) => {
                 disabled={validNickname}
               >
                 중복확인
-              </Button>
+              </ButtonDiv>
             </InputForm>
-            <div className="valid-wrapper">
+            <ValidWrapper>
               {validNickname === undefined && user.nickname && (
                 <span>닉네임 중복확인이 필요합니다.</span>
               )}
@@ -174,20 +172,16 @@ const Signup = (props) => {
                 <span>이미 사용중인 닉네임입니다.</span>
               )}
               {validNickname === true && <span>사용가능한 닉네임입니다.</span>}
-            </div>
+            </ValidWrapper>
           </Wrapper>
           <Wrapper>
-            <div className="signup-subtitle">
-              <MenuLine size="small" />
-              <span>비밀번호</span>
-              <Required>*</Required>
-            </div>
+            <TitleWithBar size="small" title="비밀번호" required={true} />
             <InputForm>
               <Input
                 required={true}
                 type="password"
                 placeholder="비밀번호를 입력하세요."
-                // onChange={(e) => setPassword(e.target.value)}
+                value={user.password}
                 onChange={(e) =>
                   setUser((user) => ({ ...user, password: e.target.value }))
                 }
@@ -195,40 +189,33 @@ const Signup = (props) => {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <div className="signup-subtitle">
-              <MenuLine size="small" />
-              <span>비밀번호 확인</span>
-              <Required>*</Required>
-            </div>
+            <TitleWithBar size="small" title="비밀번호 확인" required={true} />
             <InputForm>
               <Input
                 required={true}
                 type="password"
                 placeholder="비밀번호를 다시 입력하세요."
+                value={confirmPassword}
                 onChange={(e) => {
-                  user.password === e.target.value
-                    ? setConfirmPassword(true)
-                    : setConfirmPassword(false);
+                  setConfirmPassword(e.target.value);
                 }}
               />
             </InputForm>
-            {!confirmPassword && user.password && (
-              <div className="valid-wrapper">
-                <span>비밀번호가 일치하지 않습니다.</span>
-              </div>
-            )}
+            {confirmPassword !== "" &&
+              confirmPassword !== user.password &&
+              user.password && (
+                <ValidWrapper>
+                  <span>비밀번호가 일치하지 않습니다.</span>
+                </ValidWrapper>
+              )}
           </Wrapper>
           <Wrapper>
-            <div className="signup-subtitle">
-              <MenuLine size="small" />
-              <span>생년월일</span>
-              <Required>*</Required>
-            </div>
+            <TitleWithBar size="small" title="생년월일" required={true} />
             <InputForm>
               <Input
                 required={true}
                 type="date"
-                placeholder="1900"
+                value={user.birth}
                 onChange={(e) => {
                   setUser((user) => ({ ...user, birth: e.target.value }));
                 }}
@@ -236,49 +223,45 @@ const Signup = (props) => {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <div className="signup-subtitle">
-              <MenuLine size="small" />
-              <span>전화번호</span>
-              <Required>*</Required>
-            </div>
+            <TitleWithBar size="small" title="전화번호" required={true} />
             <InputForm>
               <Input
                 required={true}
                 placeholder="010-1234-5678"
-                onChange={(e) =>
+                value={user.telephone}
+                onChange={(e) => {
+                  const withHypenNumber = phoneNumberParse(e.target.value);
                   setUser((user) => ({
                     ...user,
-                    telephone: e.target.value,
-                  }))
-                }
+                    telephone: withHypenNumber,
+                  }));
+                }}
               />
-              <Button
+              <ButtonDiv
                 height="3rem"
                 onClick={() => alert("인증코드가 전송되었습니다.")}
               >
                 인증코드 전송
-              </Button>
+              </ButtonDiv>
             </InputForm>
             <InputForm>
               <Input
                 required={true}
                 placeholder="인증코드를 입력하세요."
+                value={numberCode}
                 onChange={(e) => setNumberCode(e.target.value)}
               />
-              <Button height="3rem">확인</Button>
+              <ButtonDiv height="3rem">확인</ButtonDiv>
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <div className="signup-subtitle">
-              <MenuLine size="small" />
-              <span>이메일</span>
-              <Required>*</Required>
-            </div>
+            <TitleWithBar size="small" title="이메일" required={true} />
             <InputForm>
               <Input
                 required={true}
                 placeholder="이메일을 입력하세요."
                 type="email"
+                value={user.email}
                 onChange={(e) =>
                   setUser((user) => ({ ...user, email: e.target.value }))
                 }
@@ -286,14 +269,10 @@ const Signup = (props) => {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <div className="signup-subtitle">
-              <MenuLine size="small" />
-              <span>성별</span>
-              <Required>*</Required>
-            </div>
+            <TitleWithBar size="small" title="성별" required={true} />
             <InputForm>
-              <label className="signup-input__label">
-                <input
+              <Label isChecked={user.gender}>
+                <Radio
                   required
                   type="radio"
                   name="gender"
@@ -301,27 +280,25 @@ const Signup = (props) => {
                   onChange={
                     () => setUser((user) => ({ ...user, gender: true })) //true: 남자, false: 여자
                   }
-                  className="signup-input__radio"
                   checked={user.gender}
                 />
                 <div>남자</div>
-              </label>
-              <label className="signup-input__label">
-                <input
+              </Label>
+              <Label isChecked={!user.gender}>
+                <Radio
                   type="radio"
                   name="gender"
                   value="여자"
                   onChange={
                     () => setUser((user) => ({ ...user, gender: false })) //true: 남자, false: 여자
                   }
-                  className="signup-input__radio"
                 />
                 <div>여자</div>
-              </label>
+              </Label>
             </InputForm>
           </Wrapper>
         </div>
-        <button className="signup-submit__btn">회원가입</button>
+        <SignupButton>회원가입</SignupButton>
       </Form>
     </>
   );

@@ -72,22 +72,28 @@ const Community = () => {
       };
       fetchSearchData();
     } else {
-      axios
-        .get(`${SV_LOCAL}/community/article/all`, {
-          headers: {
-            "ngrok-skip-browser-warning": "69420",
-            Authorization: `Bearer ${getCookie("jwtToken")}`,
-          },
-          params: {
-            page: 0,
-            size: 10,
-          },
-        })
-        .then((res) => {
-          setPosts(res.data);
+      const fetchPostData = async () => {
+        try {
+          const response = await axios.get(
+            `${SV_LOCAL}/community/article/all`,
+            {
+              headers: {
+                "ngrok-skip-browser-warning": "69420",
+                Authorization: `Bearer ${getCookie("jwtToken")}`,
+              },
+              params: {
+                page: 0,
+                size: 10,
+              },
+            }
+          );
+          setPosts([...response.data]);
           setSearchInput("");
-        })
-        .catch((err) => console.error(err));
+        } catch (err) {
+          console.error(err);
+        }
+      };
+      fetchPostData();
     }
   }, [searchKeyword]);
   return (

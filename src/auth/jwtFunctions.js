@@ -1,3 +1,6 @@
+// jwt 토큰 decode
+import { jwtDecode } from "jwt-decode";
+
 export function decodeJwt(token) {
   try {
     return JSON.parse(atob(token.split(".")[1]));
@@ -15,6 +18,18 @@ export function isTokenExpired(token) {
 
 export function getIdFromToken(token) {
   const decoded = decodeJwt(token);
-  if (!decoded || decoded.id == "undefined") return -1;
+  if (!decoded || decoded.id === "undefined") return -1;
   return decoded.id;
+}
+
+export function getUsernameFromToken(token) {
+  const decoded = decodeJwt(token);
+  if (!decoded || decoded.sub === "undefined") return -1;
+  return decoded.sub;
+}
+
+export function getNicknameFromToken(token) {
+  const decoded = jwtDecode(token);
+  if (!decoded || typeof decoded.nickname === "undefined") return -1;
+  return decoded.nickname;
 }

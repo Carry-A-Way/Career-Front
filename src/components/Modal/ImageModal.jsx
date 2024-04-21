@@ -5,10 +5,14 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import { ModalWrapper } from "../../styles/common/ModalComponent";
 const ImageModal = (props) => {
   const { setModalOpen, selectImg, setSelectImg, imgList } = props;
   return (
-    <ModalWrapper onClick={() => setModalOpen(false)}>
+    <ModalWrapper
+      style={{ backgroundColor: "#000000bf" }}
+      onClick={() => setModalOpen(false)}
+    >
       <DetailModal onClick={(e) => e.stopPropagation()}>
         <FontAwesomeIcon
           className="icon"
@@ -18,7 +22,7 @@ const ImageModal = (props) => {
           }}
           onClick={() => setSelectImg(selectImg - 1)}
         />
-        <img src={imgList[selectImg]} alt="image" />
+        <img src={imgList[selectImg]} alt={`img-${selectImg}`} />
         <FontAwesomeIcon
           className="icon"
           icon={faChevronRight}
@@ -34,19 +38,6 @@ const ImageModal = (props) => {
 
 export default ImageModal;
 
-const ModalWrapper = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background-color: #000000bf;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-`;
 const DetailModal = styled.div`
   display: flex;
   align-items: center;

@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PostList from "../../components/List/PostList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faMagnifyingGlass,
-  faChevronUp,
-  faPencil,
-} from "@fortawesome/free-solid-svg-icons";
+import { faChevronUp, faPencil } from "@fortawesome/free-solid-svg-icons";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { getCookie } from "../../cookie";
@@ -150,11 +146,4 @@ const UtilBox = styled.div`
     background-color: ${colors.primaryBlue};
     color: white;
   }
-`;
-
-const CategoryLayout = styled.div`
-  width: 70rem;
-  display: grid;
-  grid-template-columns: repeat(2, 35rem);
-  grid-gap: 2rem;
 `;

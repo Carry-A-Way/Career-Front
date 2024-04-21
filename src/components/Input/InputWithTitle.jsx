@@ -2,11 +2,12 @@ import React from "react";
 import MenuLine from "../Line/MenuLine";
 import styled from "styled-components";
 
-const TitleWithBar = ({ size, title }) => {
+const TitleWithBar = ({ size, title, required, style }) => {
   return (
-    <StyledWrapper>
+    <StyledWrapper style={style}>
       <MenuLine size={size} />
       <span>{title}</span>
+      {required && <Required>*</Required>}
     </StyledWrapper>
   );
 };
@@ -22,4 +23,8 @@ const StyledWrapper = styled.div`
   span {
     margin-left: 1.2rem;
   }
+`;
+
+const Required = styled.span`
+  color: red;
 `;

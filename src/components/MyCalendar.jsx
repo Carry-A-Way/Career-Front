@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { SV_LOCAL } from "../constants";
 import axios from "axios";
 import { getCookie } from "../cookie";
+import { USER_CONSULT_LIST } from "../api/api";
 
 const localizer = momentLocalizer(moment);
 const MyCalendar = () => {
@@ -14,7 +15,7 @@ const MyCalendar = () => {
   const [possibleTimeList, setPossibleTimeList] = useState([]);
   const [isUpdatePossibleTime, setIsUpdatePossibleTime] = useState(true);
   const today = moment();
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  // const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState({
     start: "",
     end: "",
@@ -96,7 +97,7 @@ const MyCalendar = () => {
 
   useEffect(() => {
     axios
-      .get(`${SV_LOCAL}/consultation/mentor`, {
+      .get(`${SV_LOCAL}/${USER_CONSULT_LIST}`, {
         headers: {
           Authorization: `Bearer ${getCookie("jwtToken")}`,
         },

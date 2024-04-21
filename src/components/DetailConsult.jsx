@@ -2,6 +2,7 @@ import React from "react";
 import { dateTimeParse } from "../utils/ParseFormat";
 import { getCookie } from "../cookie";
 import { SV_LOCAL } from "../constants";
+import { ModalWrapper } from "../styles/common/Modal";
 
 const DetailConsult = (props) => {
   const { setIsDetailOpen, detailObject, setDetailObject } = props;
@@ -155,17 +156,6 @@ const DetailConsult = (props) => {
 
 export default DetailConsult;
 
-const ModalWrapper = styled.div`
-  width: 100%;
-  height: 100vh;
-  background-color: #8080806d;
-  position: fixed;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-`;
 const DetailModal = styled.div`
   width: 55rem;
   background-color: white;

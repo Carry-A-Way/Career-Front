@@ -14,8 +14,8 @@
     "chalk": "^5.2.0",
     "date-fns": "^2.30.0",
     "dotenv": "^16.0.3",
-    "env-cmd": "^10.1.0",
     "fs": "^0.0.1-security",
+    "jwt-decode": "^4.0.0",
     "moment": "^2.29.4",
     "os": "^0.1.2",
     "path": "^0.12.7",
@@ -34,7 +34,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "export PORT=3002 && react-scripts start",
+    "start": "react-scripts start",
+    "start:develop": "env-cmd -f .env.develop react-scripts start",
+    "start:local": "env-cmd -f .env.local react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -56,5 +58,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0"
   }
 }

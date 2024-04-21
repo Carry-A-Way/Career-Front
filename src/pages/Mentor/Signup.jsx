@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
-import { useState, useRef, useEffect } from "react";
-import Button from "../../components/Button/Button";
+import { useState } from "react";
+import { ButtonDiv } from "../../components/Button/Button";
 import MenuLine from "../../components/Line/MenuLine";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import Input from "../../components/Input/Input";
@@ -12,16 +12,19 @@ import { colors } from "../../styles/common/Theme";
 import { useNavigate } from "react-router-dom";
 import { checkValidNickname, checkValidUsername } from "../../api/checkValid";
 import TitleWithBar from "../../components/Input/InputWithTitle";
-import { Label, Radio, ValidWrapper } from "../../styles/common/FoamComponents";
+import {
+  Label,
+  Radio,
+  SignupButton,
+  ValidWrapper,
+} from "../../styles/common/FormComponents";
+import { phoneNumberParse } from "../../utils/ParseFormat";
 function Signup() {
   const navigator = useNavigate();
-  const [confirmPassword, setConfirmPassword] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [validUsername, setValidUsername] = useState(false);
   const [validNickname, setValidNickname] = useState(false);
   const [numberCode, setNumberCode] = useState("");
-  const [consult, setConsult] = useState([]);
-  const [profileImg, setProfileImg] = useState("/initProfileImg.jpg");
-  const [visibleImg, setVisibleImg] = useState("/initProfileImg.jpg");
   const [user, setUser] = useState({
     name: "", //필수
     username: "", //필수
@@ -44,82 +47,36 @@ function Signup() {
     email: "",
     // activeImg: [],
   });
-  const [schoolList, setSchoolList] = useState([
-    {
-      idx: 0,
-      school: "고등학교",
-      schoolName: "",
-      startDate: "",
-      endDate: "",
-      state: "졸업",
-    },
-  ]);
-  const [careerList, setCareerList] = useState([
-    {
-      idx: 0,
-      career: "교내활동",
-      careerName: "",
-      startDate: "",
-      endDate: "",
-      state: "수료",
-    },
-  ]);
 
-  const [careerFile, setCareerFile] = useState([]);
-  const [isFile, setIsFile] = useState(false);
-  const fileInput = useRef(null);
+  // const [careerFile, setCareerFile] = useState([]);
 
-  const onChangeImg = (e) => {
-    if (e.target.files[0]) setProfileImg(e.target.files[0]);
-    // setUser((user) => ({ ...user, profileImg: e.target.files[0] }));
-    else return;
+  // const fileUploadIdx = useRef(0);
+  // const onUploadFile = (e) => {
+  //   //재학 증명서 업로드
+  //   if (!e.target.files?.length) return;
+  //   const files = e.target.files;
+  //   const len = files.length;
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (reader.readyState === 2) setVisibleImg(reader.result);
+  //   for (let i = 0; i < len; i++) {
+  //     const file_name = files[i].name.toLowerCase();
+  //     setCareerFile((current) => {
+  //       return [
+  //         ...current,
+  //         { idx: fileUploadIdx.current + i, name: file_name },
+  //       ];
+  //     });
+  //   }
+  //   e.target.value = ""; //for firing onChange;
+  //   setIsFile(true);
+  // };
 
-      // setUser((user) => ({ ...user, profileImg: reader.result }));
-      // setProfileImg(reader.result);
-    };
-    reader.readAsDataURL(e.target.files[0]);
-  };
-  const onResetImg = () => {
-    // setUser((user) => ({
-    //   ...user,
-    //   profileImg:
-    //     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-    // }));
-    setProfileImg("/initProfileImg.jpg");
-    setVisibleImg("/initProfileImg.jpg");
-  };
+  // useEffect(() => {
+  //   fileUploadIdx.current = careerFile.length;
+  // }, [careerFile]);
 
-  const fileUploadIdx = useRef(0);
-  const onUploadFile = (e) => {
-    //재학 증명서 업로드
-    if (!e.target.files?.length) return;
-    const files = e.target.files;
-    const len = files.length;
-
-    for (let i = 0; i < len; i++) {
-      const file_name = files[i].name.toLowerCase();
-      setCareerFile((current) => {
-        return [
-          ...current,
-          { idx: fileUploadIdx.current + i, name: file_name },
-        ];
-      });
-    }
-    e.target.value = ""; //for firing onChange;
-    setIsFile(true);
-  };
-
-  useEffect(() => {
-    fileUploadIdx.current = careerFile.length;
-  }, [careerFile]);
-
-  const onDeleteFile = (idx) => {
-    setCareerFile(careerFile.filter((a) => a.idx !== idx));
-  };
+  // const onDeleteFile = (idx) => {
+  //   setCareerFile(careerFile.filter((a) => a.idx !== idx));
+  // };
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -129,13 +86,9 @@ function Signup() {
     else {
       setUser((user) => ({
         ...user,
-        schoolList: schoolList,
-        careerList: careerList,
-        tagList: [...tag],
       }));
 
       const formData = new FormData();
-      // formData.append("image", profileImg);
 
       const jsonData = {
         name: user.name, //필수
@@ -151,25 +104,15 @@ function Signup() {
       formData.append("json", JSON.stringify(jsonData));
       axios
         .post(`${SV_LOCAL}/user/signup/mentor`, jsonData)
-        .then((res) => {
+        .then(() => {
           window.alert("멘토 회원가입이 완료되었습니다.");
-          navigator("/");
+          navigator("/login");
         })
         .catch((err) => {
           console.error(err);
           window.alert("회원가입에 실패하였습니다. 다시 시도해 주세요.");
         });
     }
-  };
-
-  const [tag, setTag] = useState([]);
-  const tagIdx = useRef(0);
-  const onUpdateTag = (value) => {
-    setTag((current) => [...current, { idx: tagIdx.current, name: value }]);
-    tagIdx.current += 1;
-  };
-  const onDeleteTag = (idx) => {
-    setTag(tag.filter((a) => a.idx !== idx));
   };
   return (
     <>
@@ -182,13 +125,12 @@ function Signup() {
       <Form onSubmit={onSubmit}>
         <div className="Form50">
           <Wrapper>
-            <TitleWithBar size="small" title="이름">
-              <Required>*</Required>
-            </TitleWithBar>
+            <TitleWithBar size="small" title="이름" required={true} />
             <InputForm>
               <Input
                 required={true}
                 placehaolder="이름을 입력하세요."
+                value={user.name}
                 onChange={(e) =>
                   setUser((user) => ({ ...user, name: e.target.value }))
                 }
@@ -196,19 +138,18 @@ function Signup() {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="아이디">
-              <Required>*</Required>
-            </TitleWithBar>
+            <TitleWithBar size="small" title="아이디" required="true" />
             <InputForm>
               <Input
                 required={true}
                 placeholder="아이디를 입력하세요."
+                value={user.username}
                 onChange={(e) => {
                   setUser((user) => ({ ...user, username: e.target.value }));
                   setValidUsername(undefined);
                 }}
               />
-              <Button
+              <ButtonDiv
                 height="3rem"
                 onClick={() => {
                   checkValidUsername(user.username).then((res) =>
@@ -218,7 +159,7 @@ function Signup() {
                 disabled={validUsername}
               >
                 중복확인
-              </Button>
+              </ButtonDiv>
             </InputForm>
             <ValidWrapper>
               {validUsername === undefined && user.username && (
@@ -227,22 +168,22 @@ function Signup() {
               {validUsername === false && user.username && (
                 <span>이미 사용중인 아이디입니다.</span>
               )}
+              {validUsername === true && <span>사용가능한 닉네임입니다.</span>}
             </ValidWrapper>
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="닉네임">
-              <Required>*</Required>
-            </TitleWithBar>
+            <TitleWithBar size="small" title="닉네임" required={true} />
             <InputForm>
               <Input
                 required={true}
                 placeholder="닉네임을 입력하세요."
+                value={user.nickname}
                 onChange={(e) => {
                   setUser((user) => ({ ...user, nickname: e.target.value }));
                   setValidNickname(undefined);
                 }}
               />
-              <Button
+              <ButtonDiv
                 height="3rem"
                 onClick={() => {
                   checkValidNickname(user.nickname).then((res) =>
@@ -252,7 +193,7 @@ function Signup() {
                 disabled={validNickname}
               >
                 중복확인
-              </Button>
+              </ButtonDiv>
             </InputForm>
             <ValidWrapper>
               {validNickname === undefined && user.nickname && (
@@ -265,15 +206,13 @@ function Signup() {
             </ValidWrapper>
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="비밀번호">
-              <Required>*</Required>
-            </TitleWithBar>
+            <TitleWithBar size="small" title="비밀번호" required={true} />
             <InputForm>
               <Input
                 required={true}
                 type="password"
                 placeholder="비밀번호를 입력하세요."
-                // onChange={(e) => setPassword(e.target.value)}
+                value={user.password}
                 onChange={(e) =>
                   setUser((user) => ({ ...user, password: e.target.value }))
                 }
@@ -281,36 +220,33 @@ function Signup() {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="비밀번호 확인">
-              <Required>*</Required>
-            </TitleWithBar>
+            <TitleWithBar size="small" title="비밀번호 확인" required={true} />
             <InputForm>
               <Input
                 required={true}
                 type="password"
                 placeholder="비밀번호를 다시 입력하세요."
+                value={confirmPassword}
                 onChange={(e) => {
-                  user.password === e.target.value
-                    ? setConfirmPassword(true)
-                    : setConfirmPassword(false);
+                  setConfirmPassword(e.target.value);
                 }}
               />
             </InputForm>
-            {!confirmPassword && user.password && (
-              <ValidWrapper>
-                <span>비밀번호가 일치하지 않습니다.</span>
-              </ValidWrapper>
-            )}
+            {confirmPassword !== "" &&
+              confirmPassword !== user.password &&
+              user.password && (
+                <ValidWrapper>
+                  <span>비밀번호가 일치하지 않습니다.</span>
+                </ValidWrapper>
+              )}
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="생년월일">
-              <Required>*</Required>
-            </TitleWithBar>
+            <TitleWithBar size="small" title="생년월일" required={true} />
             <InputForm>
               <Input
                 required={true}
                 type="date"
-                placeholder="1900"
+                value={user.birth}
                 onChange={(e) => {
                   setUser((user) => ({ ...user, birth: e.target.value }));
                 }}
@@ -318,45 +254,45 @@ function Signup() {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="전화번호">
-              <Required>*</Required>
-            </TitleWithBar>
+            <TitleWithBar size="small" title="전화번호" required={true} />
             <InputForm>
               <Input
                 required={true}
                 placeholder="010-1234-5678"
-                onChange={(e) =>
+                value={user.telephone}
+                onChange={(e) => {
+                  const withHypenNumber = phoneNumberParse(e.target.value);
                   setUser((user) => ({
                     ...user,
-                    telephone: e.target.value,
-                  }))
-                }
+                    telephone: withHypenNumber,
+                  }));
+                }}
               />
-              <Button
+              <ButtonDiv
                 height="3rem"
                 onClick={() => alert("인증코드가 전송되었습니다.")}
               >
                 인증코드 전송
-              </Button>
+              </ButtonDiv>
             </InputForm>
             <InputForm>
               <Input
                 required={true}
                 placeholder="인증코드를 입력하세요."
+                value={numberCode}
                 onChange={(e) => setNumberCode(e.target.value)}
               />
-              <Button height="3rem">확인</Button>
+              <ButtonDiv height="3rem">확인</ButtonDiv>
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="이메일">
-              <Required>*</Required>
-            </TitleWithBar>
+            <TitleWithBar size="small" title="이메일" required={true} />
             <InputForm>
               <Input
                 required={true}
                 placeholder="이메일을 입력하세요."
                 type="email"
+                value={user.email}
                 onChange={(e) =>
                   setUser((user) => ({ ...user, email: e.target.value }))
                 }
@@ -364,11 +300,9 @@ function Signup() {
             </InputForm>
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="성별">
-              <Required>*</Required>
-            </TitleWithBar>
+            <TitleWithBar size="small" title="성별" required={true} />
             <InputForm>
-              <Label>
+              <Label isChecked={user.gender}>
                 <Radio
                   required
                   type="radio"
@@ -381,21 +315,22 @@ function Signup() {
                 />
                 <div>남자</div>
               </Label>
-              <Label className="signup-input__label">
+              <Label className="signup-input__label" isChecked={!user.gender}>
                 <Radio
                   type="radio"
                   name="gender"
                   value="여자"
                   onChange={
-                    (e) => setUser((user) => ({ ...user, gender: false })) //true: 남자, false: 여자
+                    () => setUser((user) => ({ ...user, gender: false })) //true: 남자, false: 여자
                   }
+                  checked={!user.gender}
                 />
                 <div>여자</div>
               </Label>
             </InputForm>
           </Wrapper>
         </div>
-        <button className="signup-submit__btn">회원가입</button>
+        <SignupButton>회원가입</SignupButton>
       </Form>
     </>
   );
@@ -410,37 +345,6 @@ const InputForm = styled.div`
   align-items: center;
   margin-bottom: 5px;
   gap: 10px;
-  .signup-input__radio {
-    width: 1.5rem;
-    height: 1.5rem;
-    margin: 0;
-  }
-  .signup-input__label {
-    width: 10rem;
-    height: 4rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid gray;
-    color: gray;
-    border-radius: 5px;
-    box-sizing: border-box;
-    &:hover {
-      border: 2px solid #2f5383;
-    }
-    &:hover div,
-    input:checked + div {
-      color: #2f5383;
-      font-weight: 600;
-    }
-    div {
-      margin: 0 10px;
-      height: 25px;
-      font-size: 1.3rem;
-      display: flex;
-      align-items: center;
-    }
-  }
 `;
 
 const Wrapper = styled.div`
@@ -448,16 +352,6 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin: 20px 0;
-  .signup-subtitle {
-    display: flex;
-    align-items: center;
-    font-size: 1.5rem;
-    font-weight: 500;
-    margin-bottom: 1.3rem;
-    span {
-      margin-left: 1rem;
-    }
-  }
 `;
 
 const Form = styled.form`
@@ -467,13 +361,6 @@ const Form = styled.form`
   margin-top: 60px;
   flex-direction: column;
   align-items: center;
-  .FormHalf {
-    min-width: 30%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 5rem;
-  }
   .Form50 {
     display: flex;
     flex-direction: column;
@@ -489,10 +376,6 @@ const Form = styled.form`
     cursor: pointer;
     border-radius: 5px;
   }
-`;
-
-const Required = styled.span`
-  color: red;
 `;
 
 const Title = styled.div`

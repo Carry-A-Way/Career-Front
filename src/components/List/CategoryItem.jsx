@@ -1,72 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileLines } from "@fortawesome/free-regular-svg-icons";
-import {
-  faChevronRight,
-  faStar as faStarFill,
-} from "@fortawesome/free-solid-svg-icons";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import CategoryPost from "../../pages/Community/CategoryPost";
 import { CommunityCategoryList } from "../../settings/config";
 
-const CategoryItem = ({ categories, setCategories }) => {
-  // const [categories, setCategories] = useState([
-  //   {
-  //     title: "진로고민",
-  //     info: "진로 관련된 상담이 필요한 게시글입니다.",
-  //     content:
-  //       "부모님과 희망 학과가 달라서 갈등이 있습니다. 어떻게 해결하면 좋을지 도와주세요.",
-  //     likeCount: "3,041",
-  //     message: "1,546",
-  //     interest: false,
-  //   },
-  //   {
-  //     title: "공부고민",
-  //     info: "공부 관련된 상담이 필요한 게시글입니다.",
-  //     content:
-  //       "부모님과 희망 학과가 달라서 갈등이 있습니다. 어떻게 해결하면 좋을지 도와주세요.",
-  //     likeCount: "3,041",
-  //     message: "1,546",
-  //     interest: true,
-  //   },
-  //   {
-  //     title: "일상고민",
-  //     info: "일상 관련된 상담이 필요한 게시글입니다.",
-  //     content:
-  //       "부모님과 희망 학과가 달라서 갈등이 있습니다. 어떻게 해결하면 좋을지 도와주세요.",
-  //     likeCount: "3,041",
-  //     message: "1,546",
-  //     interest: true,
-  //   },
-  //   {
-  //     title: "입시상담",
-  //     info: "입시 관련된 상담이 필요한 게시글입니다.",
-  //     content:
-  //       "부모님과 희망 학과가 달라서 갈등이 있습니다. 어떻게 해결하면 좋을지 도와주세요.",
-  //     likeCount: "3,041",
-  //     message: "1,546",
-  //     interest: false,
-  //   },
-  //   {
-  //     title: "진로고민",
-  //     info: "진로 관련된 상담이 필요한 게시글입니다.",
-  //     content:
-  //       "부모님과 희망 학과가 달라서 갈등이 있습니다. 어떻게 해결하면 좋을지 도와주세요.",
-  //     likeCount: "3,041",
-  //     message: "1,546",
-  //     interest: false,
-  //   },
-  //   {
-  //     title: "진로고민",
-  //     info: "진로 관련된 상담이 필요한 게시글입니다.",
-  //     content:
-  //       "부모님과 희망 학과가 달라서 갈등이 있습니다. 어떻게 해결하면 좋을지 도와주세요.",
-  //     likeCount: "3,041",
-  //     message: "1,546",
-  //     interest: true,
-  //   },
-  // ]);
+const CategoryItem = ({ categories }) => {
   const [selectCategory, setSelectCategory] = useState("");
   return (
     <>
@@ -74,14 +15,12 @@ const CategoryItem = ({ categories, setCategories }) => {
         categories.map((item, idx) => (
           <Category key={idx}>
             <Link
-              to={`/community/category/${item.categoryId}`}
+              to={`/community/category/${idx}`}
               className="category-header"
-              onClick={() => setSelectCategory(item.categoryId)}
+              onClick={() => setSelectCategory(idx)}
             >
               <div className="title">
-                <span className="name">
-                  {CommunityCategoryList[item.categoryId].title}
-                </span>
+                <span className="name">{CommunityCategoryList[idx].title}</span>
                 <FontAwesomeIcon
                   icon={faChevronRight}
                   style={{ fontSize: "1.4rem" }}
@@ -89,15 +28,10 @@ const CategoryItem = ({ categories, setCategories }) => {
               </div>
             </Link>
             <main>
-              <div className="info">
-                {CommunityCategoryList[item.categoryId].info}
-              </div>
-              <div className="content">{`> ${
-                CommunityCategoryList[item.categoryId].content
-              }`}</div>
+              <div className="info">{CommunityCategoryList[idx].info}</div>
+              <div className="content">{`> ${CommunityCategoryList[idx].content}`}</div>
             </main>
             <footer>
-
               {/* {item.interest ? (
                 <FontAwesomeIcon
                   icon={faStarFill}

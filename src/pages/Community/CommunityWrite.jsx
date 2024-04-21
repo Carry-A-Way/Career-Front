@@ -1,11 +1,13 @@
 import axios from "axios";
-import React, { useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { SV_LOCAL } from "../../constants";
 import { getCookie } from "../../cookie";
 import { CommunityCategoryList } from "../../settings/config";
 import { colors } from "../../styles/common/Theme";
+import { WRITE_POST } from "../../api/api";
+import { writePost } from "../../api/community";
 
 const CommunityWrite = () => {
   const [files, setFiles] = useState([]);
@@ -47,23 +49,19 @@ const CommunityWrite = () => {
 
   const navigate = useNavigate();
 
-  const onEnterPost = () => {
-    axios
-      .post(
-        `${SV_LOCAL}/community/article/add`,
-        { json: JSON.stringify(newPost) },
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${getCookie("jwtToken")}`,
-          },
-        }
-      )
-      .then((res) => {
+  const onEnterPost = async () => {
+    try {
+      const response = await writePost(newPost, files);
+      if (response.status === 200) {
         window.alert("게시글이 등록되었습니다.");
         navigate("/community");
-      })
-      .catch((err) => console.error(err));
+      } else {
+        window.alert(response.data);
+      }
+    } catch (err) {
+      console.error(err);
+      window.alert("게시글 등록에 실패하였습니다.");
+    }
   };
 
   return (

@@ -7,6 +7,7 @@ export const Form = styled.div`
   display: flex;
   margin-top: 60px;
   justify-content: center;
+  box-sizing: border-box;
 `;
 
 export const FormHalf = styled.div`
@@ -31,6 +32,7 @@ export const InputForm = styled.div`
   align-items: center;
   margin-bottom: 5px;
   gap: 0.8rem;
+  position: relative;
 `;
 
 export const Wrapper = styled.div`
@@ -61,10 +63,12 @@ export const Label = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid gray;
+  border: ${(props) =>
+    props.isChecked ? "2px solid #2f5383" : "1px solid gray"};
   color: gray;
   border-radius: 5px;
   box-sizing: border-box;
+  cursor: pointer;
   &:hover {
     border: 2px solid #2f5383;
   }
@@ -155,4 +159,17 @@ export const ValidWrapper = styled.div`
     font-weight: 500;
     color: ${colors.primaryBlue};
   }
+`;
+
+export const SignupButton = styled.button`
+  background-color: ${colors.primaryBlue};
+  color: white;
+  padding: 1rem;
+  width: 20rem;
+  margin: 5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
 `;

@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faPencil } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
-import CategoryList from "../../components/List/CategoryItem";
 import { Link } from "react-router-dom";
 import SubMenubar from "../../components/Menubar/SubMenubar";
-import { CommunityMenu, CommunityMenuLinkList } from "../../settings/config";
+import {
+  CommunityCategoryList,
+  CommunityMenu,
+  CommunityMenuLinkList,
+} from "../../settings/config";
 import axios from "axios";
 import { SV_LOCAL } from "../../constants";
 import { getCookie } from "../../cookie";
@@ -16,8 +19,16 @@ import { ScrollUp } from "../../components/Scroll";
 const Category = () => {
   const subMenuList = CommunityMenu;
   const subMenuLinkList = CommunityMenuLinkList;
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState(CommunityCategoryList);
 
+  const updateCategoriesCount = (data) => {
+    const updateCategories = categories.map((category, idx) => {
+      const matchData = data.find((item) => item.categoryId === idx);
+      if (matchData) return { ...category, count: matchData.count };
+      return category;
+    });
+    setCategories(updateCategories);
+  };
   useEffect(() => {
     axios
       .get(`${SV_LOCAL}/community/article/count-by-category`, {
@@ -27,7 +38,7 @@ const Category = () => {
         },
       })
       .then((res) => {
-        setCategories(res.data);
+        updateCategoriesCount(res.data);
       })
       .catch((err) => console.error(err));
   }, []);
@@ -44,10 +55,7 @@ const Category = () => {
             <span>게시글 카테고리</span>
           </div>
           <CategoryLayout>
-            <CategoryItem
-              categories={categories}
-              setCategories={setCategories}
-            />
+            <CategoryItem categories={categories} />
           </CategoryLayout>
           <UtilBox>
             <Link className="util-item write" to={"/community/write"}>

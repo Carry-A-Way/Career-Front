@@ -7,6 +7,7 @@ function Input({
   height,
   width,
   onChange,
+  onFocus,
   onBlur,
   value,
   disabled,
@@ -21,7 +22,10 @@ function Input({
       width={width}
       value={value || ""}
       onChange={onChange}
-      onBlur={onBlur}
+      onFocus={onFocus}
+      onBlur={() => {
+        setTimeout(onBlur, 150);
+      }}
       required={required}
       disabled={disabled}
     />

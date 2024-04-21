@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { dateTimeParse, timeParse } from "../../utils/ParseFormat";
+import React, { useState } from "react";
+import { dateTimeParse } from "../../utils/ParseFormat";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { getCookie } from "../../cookie";
 import {
+  CANCELED_CONSULT_TYPE,
   CANCEL_CONSULT_TYPE,
   COMPLETED_CONSULT_TYPE,
   PENDING_CONSULT_TYPE,
   SV_LOCAL,
   UPCOMING_CONSULT_TYPE,
 } from "../../constants";
+import { ModalWrapper } from "../../styles/common/ModalComponent";
 const DetailedModal = (props) => {
   const { setModalOpen, item, type } = props;
   const [detailObject, setDetailObject] = useState({
@@ -22,7 +24,7 @@ const DetailedModal = (props) => {
       await axios.post(
         `${SV_LOCAL}/calendar/mentor/accept`,
         {
-          consultId: detailObject.object.consultId,
+          consultId: detailObject.consultId,
         },
         {
           headers: {
@@ -70,6 +72,10 @@ const DetailedModal = (props) => {
         return "";
       case CANCEL_CONSULT_TYPE: // 3
         return `취소 사유 : ${detailObject.reason}`;
+      case CANCELED_CONSULT_TYPE: // 4
+        return `취소 사유 : ${detailObject.reason}`;
+      default:
+        return "";
     }
   };
 
@@ -82,6 +88,10 @@ const DetailedModal = (props) => {
       case COMPLETED_CONSULT_TYPE: // 2
         return "";
       case CANCEL_CONSULT_TYPE: // 3
+        return "";
+      case CANCELED_CONSULT_TYPE: // 4
+        return "";
+      default:
         return "";
     }
   };
@@ -189,19 +199,6 @@ const DetailedModal = (props) => {
 
 export default DetailedModal;
 
-const ModalWrapper = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background-color: #8080806d;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-`;
 const DetailModal = styled.div`
   width: 55rem;
   background-color: white;
@@ -246,7 +243,10 @@ const DetailModal = styled.div`
       font-weight: 600;
       padding: 0.5rem 1rem;
       background-color: ${(props) =>
-        props.type === CANCEL_CONSULT_TYPE ? "#777777" : "#334b6c"};
+        props.type === CANCEL_CONSULT_TYPE ||
+        props.type === CANCELED_CONSULT_TYPE
+          ? "#777777"
+          : "#334b6c"};
       color: white;
       border-radius: 0.7rem;
     }
@@ -265,7 +265,10 @@ const DetailModal = styled.div`
       }
       .detail-main__tag {
         background-color: ${(props) =>
-          props.type === CANCEL_CONSULT_TYPE ? "#777777" : "#334b6c"};
+          props.type === CANCEL_CONSULT_TYPE ||
+          props.type === CANCELED_CONSULT_TYPE
+            ? "#777777"
+            : "#334b6c"};
         color: white;
         padding: 0.2rem 0.5rem;
         border-radius: 1rem;
@@ -305,7 +308,10 @@ const DetailModal = styled.div`
     &__btn {
       font-size: 1.3rem;
       font-weight: 600;
-      cursor: pointer;
+      cursor: ${(props) =>
+        props.type === CANCEL_CONSULT_TYPE || CANCELED_CONSULT_TYPE
+          ? "default"
+          : "pointer"};
       &:last-child {
         color: #334b6c;
       }

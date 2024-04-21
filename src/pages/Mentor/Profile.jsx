@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import Button from "../../components/Button/Button";
+import { ButtonDiv } from "../../components/Button/Button";
 import MenuLine from "../../components/Line/MenuLine";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import Input from "../../components/Input/Input";
@@ -24,7 +24,7 @@ import {
   FileItem,
   FileUploadBtn,
   ValidWrapper,
-} from "../../styles/common/FoamComponents";
+} from "../../styles/common/FormComponents";
 import TitleWithBar from "../../components/Input/InputWithTitle";
 import ReviewList from "../../components/List/ReviewList";
 import { ScrollUp } from "../../components/Scroll";
@@ -34,7 +34,6 @@ import { useQuery } from "react-query";
 import {
   birthHypenParse,
   birthOnlyNumberParse,
-  jsonParse,
   phoneNumberParse,
 } from "../../utils/ParseFormat";
 import { checkValidNickname } from "../../api/checkValid";
@@ -183,9 +182,9 @@ const MentorProfile = (props) => {
         ...data,
         birth: birthHypenParse(data.birth),
       });
-      setSchoolList([...data.schoolList]);
-      setTagList([...data.tagList]);
-      setCareerList([...data.careerList]);
+      data.schoolList && setSchoolList([...data.schoolList]);
+      data.tagList && setTagList([...data.tagList]);
+      data.careerList && setCareerList([...data.careerList]);
       setImage(
         data.profileImg ||
           "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
@@ -309,14 +308,14 @@ const MentorProfile = (props) => {
                   setValidNickname(undefined);
                 }}
                 disabled={view}
-                onBlur={(e) => {
-                  if (e.target.value === "") {
-                    setUser((prev) => ({ ...prev, nickname: data.nickname }));
-                  }
-                }}
+                // onBlur={(e) => {
+                //   if (e.target.value === "") {
+                //     setUser((prev) => ({ ...prev, nickname: data.nickname }));
+                //   }
+                // }}
               />
               {!view && user.nickname && user.nickname !== data.nickname && (
-                <Button
+                <ButtonDiv
                   height="3rem"
                   onClick={() => {
                     checkValidNickname(user.nickname).then((res) =>
@@ -326,7 +325,7 @@ const MentorProfile = (props) => {
                   disabled={validNickname}
                 >
                   중복확인
-                </Button>
+                </ButtonDiv>
               )}
             </InputForm>
             <ValidWrapper>
@@ -355,11 +354,11 @@ const MentorProfile = (props) => {
               onChange={(e) =>
                 setUser((prev) => ({ ...prev, email: e.target.value }))
               }
-              onBlur={(e) => {
-                if (e.target.value === "") {
-                  setUser((prev) => ({ ...prev, email: data.email }));
-                }
-              }}
+              // onBlur={(e) => {
+              //   if (e.target.value === "") {
+              //     setUser((prev) => ({ ...prev, email: data.email }));
+              //   }
+              // }}
               disabled={view}
             />
           </Wrapper>
@@ -414,16 +413,16 @@ const MentorProfile = (props) => {
                     telephone: withHypenNumber,
                   }));
                 }}
-                onBlur={(e) => {
-                  if (e.target.value === "") {
-                    setUser((prev) => ({ ...prev, telephone: data.telephone }));
-                  }
-                }}
+                // onBlur={(e) => {
+                //   if (e.target.value === "") {
+                //     setUser((prev) => ({ ...prev, telephone: data.telephone }));
+                //   }
+                // }}
                 disabled={view}
               />
 
               {!view && user.telephone && user.telephone !== data.telephone && (
-                <Button height="3rem">인증코드 전송</Button>
+                <ButtonDiv height="3rem">인증코드 전송</ButtonDiv>
               )}
             </InputForm>
             {!view && user.telephone && user.telephone !== data.telephone && (
@@ -433,7 +432,7 @@ const MentorProfile = (props) => {
                   onChange={(e) => setNumberCode(e.target.value)}
                   value={numberCode}
                 />
-                <Button height="3rem">확인</Button>
+                <ButtonDiv height="3rem">확인</ButtonDiv>
               </InputForm>
             )}
           </Wrapper>
@@ -629,9 +628,9 @@ const MentorProfile = (props) => {
         </Form>
       )}
       <Form style={{ marginBottom: "8rem" }}>
-        <Button onClick={onChangeEdit} size="large" height="3rem">
+        <ButtonDiv onClick={onChangeEdit} size="large" height="3rem">
           {view ? "수정하기" : "저장하기"}
-        </Button>
+        </ButtonDiv>
       </Form>
       {alertOpen && (
         <AlertModal

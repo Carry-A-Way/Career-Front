@@ -1,17 +1,11 @@
 import { useState, useRef, useEffect } from "react";
-import Button from "../../components/Button/Button";
+import { ButtonDiv } from "../../components/Button/Button";
 import MenuLine from "../../components/Line/MenuLine";
 import HorizontalLine from "../../components/Line/HorizontalLine";
 import Input from "../../components/Input/Input";
 import "react-datepicker/dist/react-datepicker.css";
-import SchoolList from "../../components/List/SchoolList";
-import CareerList from "../../components/List/CareerList";
-import Image from "../../components/Image/Image";
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import {
-  Form50,
   FormHalf,
   Title,
   Form,
@@ -19,202 +13,111 @@ import {
   Label,
   InputForm,
   Radio,
-  FileUpload,
-  FileList,
-  FileItem,
-  FileUploadBtn,
-} from "../../styles/common/FoamComponents";
+  ValidWrapper,
+} from "../../styles/common/FormComponents";
 import TitleWithBar from "../../components/Input/InputWithTitle";
-import ReviewList from "../../components/List/ReviewList";
 import { ScrollUp } from "../../components/Scroll";
 import TagList from "../../components/List/TagList";
 import { fetchMenteeProfile } from "../../api/fetchProfile";
 import { useQuery } from "react-query";
-import { birthHypenParse, phoneNumberParse } from "../../utils/ParseFormat";
+import {
+  birthHypenParse,
+  birthOnlyNumberParse,
+  phoneNumberParse,
+} from "../../utils/ParseFormat";
 import { checkValidNickname } from "../../api/checkValid";
+import { CompareObjects } from "../../utils/CompareObjects";
+import { modifyMenteeProfile } from "../../api/modifyProfile";
+import AlertModal from "../../components/Modal/AlertModal";
+import BottomFixButton from "../../components/Button/BottomFixButton";
 
 const MenteeProfile = (props) => {
-  const [gender, setGender] = useState(false);
-  const [intro, setIntro] = useState("안녕하세요. 김사장입니다.");
-  const [birth, setBirth] = useState(new Date());
-  const [phoneNumber, setphoneNumber] = useState("01039419805");
   const [numberCode, setNumberCode] = useState("");
-  const [consult, setConsult] = useState({
-    first: "컴퓨터공학과",
-    second: "전자공학과",
-    third: "화학공학과",
-  });
-  const [careerPlan, setCareerPlan] = useState(
-    "뛰어난 프론트엔드 개발자가 목표입니다."
-  );
-  const [hobby, setHobby] = useState("코딩");
   const [view, setView] = useState(true);
-  const [schoolList, setSchoolList] = useState([
-    {
-      id: 0,
-      school: "고등학교",
-      schoolName: "한양고등학교",
-      startDate: new Date("2014-03-01"),
-      endDate: new Date("2017-02-07"),
-      state: "졸업",
+  const [image, setImage] = useState(null);
+  const [imgFile, setImgFile] = useState(null);
+  const [tagList, setTagList] = useState([]);
+  const [user, setUser] = useState(null);
+  const { data, isLoading, refetch } = useQuery("profile", fetchMenteeProfile, {
+    // staleTime: 1000 * 60 * 10,
+    onSuccess: (data) => {
+      setUser({
+        ...data,
+        birth: birthHypenParse(data.birth),
+      });
+      setImage(
+        data.profileImg ||
+          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+      );
     },
-    {
-      id: 1,
-      school: "대학교",
-      schoolName: "고려대학교",
-      startDate: new Date("2018-03-01"),
-      endDate: new Date("2023-02-17"),
-      state: "졸업",
-      majorList: [
-        {
-          id: 0,
-          unit: "주전공",
-          major: "컴퓨터소프트웨어학부",
-        },
-        {
-          id: 1,
-          unit: "복수전공",
-          major: "화학공학과",
-        },
-      ],
-    },
-  ]);
-  const [careerList, setCareerList] = useState([
-    {
-      id: 0,
-      career: "인턴",
-      careerName: "voronoi 연구단",
-      startDate: new Date("2022-09-01"),
-      endDate: new Date("2023-02-28"),
-      state: "퇴사",
-      content:
-        "단백질 구조 시각화를 위한 웹페이지 제작에 디자이너 및 프론트엔드 개발자로 참여함.",
-    },
-    {
-      id: 1,
-      career: "프로젝트",
-      careerName: "Carry-A-Way",
-      startDate: new Date("2023-02-01"),
-      endDate: new Date("2023-06-30"),
-      state: "완료",
-    },
-  ]);
-  const [image, setImage] = useState(
-    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-  );
-  const [careerFile, setCareerFile] = useState([]);
-  const [isFile, setIsFile] = useState(false);
-  const { data, isLoading } =
-    ("profile",
-    fetchMenteeProfile,
-    {
-      enabled: view,
-      onSuccess: (data) => {
-        setUser({ ...data, birth: birthHypenParse(data.birth) });
-      },
-    });
-  const tag = [
-    { id: 0, name: "머신러닝" },
-    { id: 1, name: "앱개발" },
-    { id: 2, name: "안드로이드" },
-    { id: 3, name: "알고리즘" },
-  ];
+    refetchOnWindowFocus: false,
+  });
+  const [validNickname, setValidNickname] = useState(false);
   const fileInput = useRef(null);
 
-  //서버에서 받아오는 데이터
-  const [user, setUser] = useState({
-    name: "",
-    username: "",
-    nickname: "",
-    password: "",
-    telephone: "",
-    gender: null,
-    introduce: "",
-    plan: "",
-    hobby: "",
-    schoolList: [],
-    careerList: [],
-    consultMajor1: "",
-    consultMajor2: "",
-    consultMajor3: "",
-    tagList: [],
-  });
+  const [alertOpen, setAlertOpen] = useState(false);
   const onChangeImg = (e) => {
-    if (e.target.files[0]) setImage(e.target.files[0]);
-    else return;
+    const file = e.target.files[0];
+    if (!file) return;
 
+    setImgFile(file);
+    // FileReader를 사용하여 이미지 데이터를 읽음
     const reader = new FileReader();
     reader.onload = () => {
-      if (reader.readyState === 2) setImage(reader.result);
+      if (reader.readyState === 2) {
+        setImage(reader.result); // 이미지 데이터를 상태로 설정
+      }
     };
-    reader.readAsDataURL(e.target.files[0]);
+    reader.readAsDataURL(file);
+
+    setImgFile(file);
   };
   const onResetImg = () => {
     setImage(
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
     );
+    setImgFile(null);
   };
 
-  const fileUploadId = useRef(0);
-  const onUploadFile = (e) => {
-    if (!e.target.files?.length) return;
-    const files = e.target.files;
-    const len = files.length;
+  // console.log(data);
 
-    for (let i = 0; i < len; i++) {
-      const file_name = files[i].name.toLowerCase();
-      setCareerFile((current) => {
-        return [...current, { id: fileUploadId.current + i, name: file_name }];
-      });
+  const onChangeEdit = async (e) => {
+    e.preventDefault();
+    ScrollUp();
+    if (view) {
+      setView((current) => !current);
+    } else {
+      if (!validNickname && data.nickname !== user.nickname) {
+        setAlertOpen(true);
+      } else {
+        setView((current) => !current);
+        const compareObj = CompareObjects(data, {
+          ...user,
+          birth: birthOnlyNumberParse(user.birth),
+          tagList: [...tagList],
+        });
+        console.log(compareObj);
+        await modifyMenteeProfile(compareObj, imgFile);
+        refetch();
+      }
     }
-    // const formData = new FormData();
-    // formData.append("file", file);
-    e.target.value = ""; //for firing onChange;
-    setIsFile(true);
   };
 
   useEffect(() => {
-    fileUploadId.current = careerFile.length;
-  }, [careerFile]);
+    if (!!data) {
+      setUser({
+        ...data,
+        birth: birthHypenParse(data.birth),
+      });
+      setTagList([...data.tagList]);
+      setImage(
+        data.profileImg ||
+          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+      );
+    }
+  }, [data]);
 
-  const onDeleteFile = (id) => {
-    setCareerFile(careerFile.filter((a) => a.id !== id));
-  };
-  const onChangeEdit = (e) => {
-    e.preventDefault();
-    setView((current) => !current);
-    console.log("user ", user);
-    ScrollUp();
-  };
-
-  const review = [
-    {
-      writer: "신종민",
-      content: "멘토님 너무 친절하고 재밌으셔서 시간 가는 줄 몰랐습니다.",
-      score: 5,
-    },
-    {
-      writer: "한재준",
-      content: "상담비가 전혀 아깝지 않을 정도로 열정적이세요.",
-      score: 5,
-    },
-    {
-      writer: "채희문",
-      content:
-        "멘토님은 정말 좋으세요. 하지만 사전질문에 대한 답변을 듣지 못해 아쉬웠어요. 다음 상담을 기대해보겠습니다!",
-      score: 4,
-    },
-  ];
-
-  //   useEffect(() => {
-  //     if (!isLoading) {
-  //       setUser({
-  //         ...data,
-  //         birth: birthParse(data.birth),
-  //       });
-  //     }
-  //   }, []);
-  if (isLoading) return <div>loading...</div>;
+  if (isLoading || user === null) return <div>loading...</div>;
   return (
     <>
       <Title>
@@ -227,7 +130,7 @@ const MenteeProfile = (props) => {
           <Wrapper>
             <TitleWithBar size="small" title="프로필 사진" />
             <ProfileImg
-              src={image}
+              src={image || data.profileImg}
               alt=""
               onClick={() => {
                 fileInput.current.click();
@@ -236,12 +139,12 @@ const MenteeProfile = (props) => {
             {!view && (
               <span
                 style={{
-                  width: "200px",
+                  width: "18rem",
                   textAlign: "center",
                   color: "#334b6c",
                   cursor: "pointer",
                   fontWeight: "600",
-                  marginBottom: "40px",
+                  marginBottom: "2rem",
                 }}
                 onClick={onResetImg}
               >
@@ -271,19 +174,6 @@ const MenteeProfile = (props) => {
             />
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="커리어 목표" />
-            <Input
-              size="large"
-              height="8rem"
-              value={user.plan}
-              placeholder="당신의 커리어 목표는 무엇인가요."
-              onChange={(e) =>
-                setUser((prev) => ({ ...prev, plan: e.target.value }))
-              }
-              disabled={view}
-            />
-          </Wrapper>
-          <Wrapper>
             <TitleWithBar size="small" title="취미" />
             <Input
               size="large"
@@ -295,18 +185,25 @@ const MenteeProfile = (props) => {
               disabled={view}
             />
           </Wrapper>
+          <Wrapper>
+            <TitleWithBar size="small" title="태그" />
+            <TagList tagList={tagList} setTagList={setTagList} view={view} />
+          </Wrapper>
         </FormHalf>
+
+        {/* 우측 입력창 */}
         <FormHalf>
           <Wrapper>
-            <TitleWithBar size="small" title="이름" />
+            <TitleWithBar size="small" title="이름" required={true} />
             <Input
               value={user.name}
               placeholder="이름을 입력하세요."
               disabled={true}
+              required={true}
             />
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="아이디" />
+            <TitleWithBar size="small" title="아이디" required={true} />
             <Input
               placeholder="아이디를 입력하세요."
               value={user.username}
@@ -317,62 +214,57 @@ const MenteeProfile = (props) => {
             />
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="닉네임" />
+            <TitleWithBar size="small" title="닉네임" required={true} />
             <InputForm>
               <Input
                 value={user.nickname}
                 placeholder={data.nickname}
                 onChange={(e) => {
+                  console.log(e.target.value);
                   setUser((prev) => ({ ...prev, nickname: e.target.value }));
+                  setValidNickname(undefined);
                 }}
                 disabled={view}
-                onBlur={(e) => {
-                  if (e.target.value === "") {
+                onBlur={() => {
+                  if (user.nickname === "") {
                     setUser((prev) => ({ ...prev, nickname: data.nickname }));
                   }
                 }}
               />
               {!view && user.nickname && user.nickname !== data.nickname && (
-                <Button
+                <ButtonDiv
                   height="3rem"
                   onClick={() => {
-                    checkValidNickname(user.nickname);
+                    checkValidNickname(user.nickname).then((res) =>
+                      setValidNickname(res)
+                    );
                   }}
+                  disabled={validNickname}
                 >
                   중복확인
-                </Button>
+                </ButtonDiv>
               )}
             </InputForm>
+            <ValidWrapper>
+              {!view &&
+                validNickname === undefined &&
+                user.nickname &&
+                user.nickname !== data.nickname && (
+                  <span>닉네임 중복확인이 필요합니다.</span>
+                )}
+              {!view &&
+                validNickname === false &&
+                user.nickname &&
+                user.nickname !== data.nickname && (
+                  <span>이미 사용중인 닉네임입니다.</span>
+                )}
+              {!view && validNickname === true && (
+                <span>사용가능한 닉네임입니다.</span>
+              )}
+            </ValidWrapper>
           </Wrapper>
-          {/* <Wrapper>
-            <TitleWithBar size="small" title="비밀번호" />
-            <Input
-              type="password"
-              value={user.password}
-              placeholder="비밀번호를 입력하세요."
-              onChange={(e) =>
-                setUser((prev) => ({ ...prev, password: e.target.value }))
-              }
-              disabled={view}
-            />
-          </Wrapper>
-          {!view && (
-            <Wrapper>
-              <TitleWithBar size="small" title="비밀번호 확인" />
-              <Input
-                type="password"
-                value={password}
-                placeholder="비밀번호를 다시 입력하세요."
-                onChange={(e) => {
-                  user.password === e.target.value
-                    ? setConfirmPassword(true)
-                    : setConfirmPassword(false);
-                }}
-              />
-            </Wrapper>
-          )} */}
           <Wrapper>
-            <TitleWithBar size="small" title="생년월일" />
+            <TitleWithBar size="small" title="생년월일" required={true} />
             <Input
               type="date"
               value={user.birth}
@@ -383,7 +275,7 @@ const MenteeProfile = (props) => {
             />
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="전화번호" />
+            <TitleWithBar size="small" title="전화번호" required={true} />
             <InputForm>
               <Input
                 value={user.telephone}
@@ -395,8 +287,8 @@ const MenteeProfile = (props) => {
                     telephone: withHypenNumber,
                   }));
                 }}
-                onBlur={(e) => {
-                  if (e.target.value === "") {
+                onBlur={() => {
+                  if (user.telephone === "") {
                     setUser((prev) => ({ ...prev, telephone: data.telephone }));
                   }
                 }}
@@ -404,7 +296,7 @@ const MenteeProfile = (props) => {
               />
 
               {!view && user.telephone && user.telephone !== data.telephone && (
-                <Button height="3rem">인증코드 전송</Button>
+                <ButtonDiv height="3rem">인증코드 전송</ButtonDiv>
               )}
             </InputForm>
             {!view && user.telephone && user.telephone !== data.telephone && (
@@ -412,13 +304,30 @@ const MenteeProfile = (props) => {
                 <Input
                   placeholder="인증코드를 입력하세요."
                   onChange={(e) => setNumberCode(e.target.value)}
+                  value={numberCode}
                 />
-                <Button height="3rem">확인</Button>
+                <ButtonDiv height="3rem">확인</ButtonDiv>
               </InputForm>
             )}
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="성별" />
+            <TitleWithBar size="small" title="이메일" required={true} />
+            <Input
+              placeholder={data.email}
+              value={user.email}
+              onChange={(e) =>
+                setUser((prev) => ({ ...prev, email: e.target.value }))
+              }
+              onBlur={() => {
+                if (user.email === "") {
+                  setUser((prev) => ({ ...prev, email: data.email }));
+                }
+              }}
+              disabled={view}
+            />
+          </Wrapper>
+          <Wrapper>
+            <TitleWithBar size="small" title="성별" required={true} />
             <InputForm>
               <Label style={{ pointerEvents: view ? "none" : "" }}>
                 <Radio
@@ -457,149 +366,67 @@ const MenteeProfile = (props) => {
       </Form>
       {/* 여기는 아래 부분 */}
       <Form>
-        <Form50>
+        <FormHalf>
           <Wrapper>
-            <TitleWithBar size="small" title="학력" />
-            <SchoolList
-              schoolList={schoolList}
-              setSchoolList={setSchoolList}
-              view={view}
-            />
-          </Wrapper>
-          <Wrapper>
-            <TitleWithBar size="small" title="경력" />
-            <CareerList
-              careerList={careerList}
-              setCareerList={setCareerList}
-              view={view}
-            />
-          </Wrapper>
-          <Wrapper>
-            <TitleWithBar size="small" title="상담학과1" />
+            <TitleWithBar size="small" title="관심학과1" />
             <Input
               size="large"
-              placeholder="첫번째 상담 학과를 입력하세요."
+              placeholder="첫번째 관심 학과를 입력하세요."
               onChange={(e) => {
-                setConsult({ ...consult, first: e.target.value });
+                setUser((prev) => ({
+                  ...prev,
+                  interestingMajor1: e.target.value,
+                }));
               }}
-              value={consult.first}
+              value={user.interestingMajor1}
               disabled={view}
             />
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="상담학과2" />
+            <TitleWithBar size="small" title="관심학과2" />
             <Input
               size="large"
-              placeholder="두번째 상담 학과를 입력하세요."
+              placeholder="두번째 관심 학과를 입력하세요."
               onChange={(e) => {
-                setConsult({ ...consult, second: e.target.value });
+                setUser((prev) => ({
+                  ...prev,
+                  interestingMajor2: e.target.value,
+                }));
               }}
-              value={consult.second}
+              value={user.interestingMajor2}
               disabled={view}
             />
           </Wrapper>
           <Wrapper>
-            <TitleWithBar size="small" title="상담학과3" />
+            <TitleWithBar size="small" title="관심학과3" />
             <InputForm>
               <Input
                 size="large"
-                placeholder="세번째 상담 학과를 입력하세요."
+                placeholder="세번째 관심 학과를 입력하세요."
                 onChange={(e) => {
-                  setConsult({ ...consult, third: e.target.value });
+                  setUser((prev) => ({
+                    ...prev,
+                    interestingMajor3: e.target.value,
+                  }));
                 }}
-                value={consult.third}
+                value={user.interestingMajor3}
                 disabled={view}
               />
             </InputForm>
           </Wrapper>
-          <Wrapper>
-            <TitleWithBar size="small" title="학력 증명" />
-            <FileUpload>
-              {careerFile.length ? (
-                <FileList>
-                  {careerFile.map((file) => {
-                    return (
-                      <FileItem>
-                        <span>{file.name}</span>
-                        <FontAwesomeIcon
-                          className="icon"
-                          icon={faXmark}
-                          onClick={() => onDeleteFile(file.id)}
-                        />
-                      </FileItem>
-                    );
-                  })}
-                </FileList>
-              ) : (
-                <FileList
-                  style={{
-                    color: "gray",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    fontSize: "0.8rem",
-                  }}
-                >
-                  <span>증명서를 첨부해 주세요.</span>
-                  <span>(졸업 증명서, 재학 증명서, ... 택1)</span>
-                </FileList>
-              )}
-              {!view && (
-                <FileUploadBtn
-                  htmlFor="file"
-                  style={{ pointerEvents: view ? "none" : "" }}
-                >
-                  업로드
-                </FileUploadBtn>
-              )}
-              <input
-                multiple
-                type="file"
-                id="file"
-                onChange={onUploadFile}
-                style={{ display: "none" }}
-                disabled={view}
-              />
-            </FileUpload>
-          </Wrapper>
-        </Form50>
-      </Form>
-      <Form>
-        <FormHalf>
-          <Wrapper>
-            <TitleWithBar size="small" title="활동 사진" />
-            <ImageWrapper>
-              <Image disabled={view} />
-              <Image disabled={view} />
-              <Image disabled={view} />
-              <Image disabled={view} />
-              <Image disabled={view} />
-              <Image disabled={view} />
-            </ImageWrapper>
-          </Wrapper>
-        </FormHalf>
-        <FormHalf>
-          <Wrapper>
-            <TitleWithBar size="small" title="태그" />
-            <TagList tagList={tag} view={view} />
-          </Wrapper>
         </FormHalf>
       </Form>
-      {view && (
-        <Form>
-          <Form50>
-            <Wrapper>
-              {/* pagination 추가해야함 */}
-              <TitleWithBar size="small" title="나에 대한 리뷰" />
-              <ReviewList review={review} />
-            </Wrapper>
-          </Form50>
-        </Form>
-      )}
       <Form style={{ marginBottom: "8rem" }}>
-        <Button onClick={onChangeEdit} size="large" height="3rem">
+        <BottomFixButton onClick={onChangeEdit}>
           {view ? "수정하기" : "저장하기"}
-        </Button>
+        </BottomFixButton>
       </Form>
+      {alertOpen && (
+        <AlertModal
+          message="닉네임 중복확인이 필요합니다."
+          setModalOpen={setAlertOpen}
+        />
+      )}
     </>
   );
 };
@@ -607,19 +434,11 @@ const MenteeProfile = (props) => {
 export default MenteeProfile;
 
 const ProfileImg = styled.img`
-  max-width: 200px;
-  max-height: 220px;
+  /* max-width: 200px;
+  max-height: 220px; */
   width: 18rem;
   height: 19rem;
   margin-bottom: 10px;
+  object-fit: cover;
   cursor: pointer;
-`;
-
-const ImageWrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 8rem);
-  grid-template-rows: repeat(2, 8rem);
-  width: 100%;
-  height: 100%;
-  gap: 10px;
 `;

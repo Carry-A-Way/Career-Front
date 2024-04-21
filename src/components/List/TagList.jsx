@@ -3,12 +3,18 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import Input from "../Input/Input";
-import { InputForm } from "../../styles/common/FoamComponents";
-import Button from "../Button/Button";
+import { InputForm } from "../../styles/common/FormComponents";
+import { Button } from "../Button/Button";
+import MajorAutoComplete from "./MajorAutoComplete";
+import { fetchMajorAutoComplete } from "../../api/fetchMajorList";
+import { useQuery } from "react-query";
 
 const TagList = ({ tagList, setTagList, view }) => {
   const [tmpTag, setTmpTag] = useState("");
   const tagId = useRef(tagList.length ? tagList.length + 1 : 1);
+  const [isInputFocused, setIsInputFocused] = useState(false);
+  const INPUT_WIDTH = "15rem";
+  const INPUT_HEIGHT = "3rem";
   const onUpdateTag = (value) => {
     setTagList((current) => [...current, { idx: tagId.current, name: value }]);
     tagList = [...tagList, { idx: tagId.current, name: value }];
@@ -18,21 +24,56 @@ const TagList = ({ tagList, setTagList, view }) => {
     setTagList(tagList.filter((a) => a.idx !== idx));
   };
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const handleInputFocus = () => {
+    setIsInputFocused(true);
+  };
+
+  const handleInputBlur = () => {
+    setIsInputFocused(false);
+  };
+
+  const { data: keywordData } = useQuery(
+    tmpTag,
+    () => fetchMajorAutoComplete(tmpTag),
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  useEffect(() => {
+    tagId.current = tagList.length + 1;
+  }, [tagList]);
   return (
-    <>
+    <StyledForm onSubmit={onSubmit}>
       <InputForm>
         <Input
-          width="15rem"
+          width={INPUT_WIDTH}
+          height={INPUT_HEIGHT}
           placeholder="태그명"
           onChange={(e) => {
             setTmpTag(e.target.value);
           }}
           value={tmpTag}
           disabled={view}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
         />
+        {isInputFocused && keywordData && (
+          <MajorAutoComplete
+            inputWidth={INPUT_WIDTH}
+            inputHeight={INPUT_HEIGHT}
+            keywordData={keywordData}
+            inputValue={tmpTag}
+            setInputValue={setTmpTag}
+          />
+        )}
         {!view && (
           <Button
-            height="3rem"
+            height={INPUT_HEIGHT}
             onClick={() => {
               onUpdateTag(tmpTag);
               setTmpTag("");
@@ -61,12 +102,13 @@ const TagList = ({ tagList, setTagList, view }) => {
             })
           : ""}
       </TagWrapper>
-    </>
+    </StyledForm>
   );
 };
 
 export default TagList;
 
+const StyledForm = styled.form``;
 const TagWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
