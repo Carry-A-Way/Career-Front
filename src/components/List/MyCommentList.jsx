@@ -49,6 +49,8 @@ const MyCommentList = ({ comments, setComments }) => {
     if (deleteComment === null) document.body.style.overflow = "auto";
     else document.body.style.overflow = "hidden";
   }, [deleteComment]);
+
+  if (comments === null) return <NoneList>Loading...</NoneList>;
   return (
     <>
       {comments.length ? (

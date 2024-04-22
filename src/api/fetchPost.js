@@ -19,19 +19,40 @@ export const fetchPostDetail = async (postId) => {
   }
 };
 
-export const fetchPostAll = async () => {
+export const fetchPostAll = async (params = { page: 0, size: 10 }) => {
   try {
     const response = await axios.get(`${SV_LOCAL}/${ALL_POST}`, {
       headers: {
         Authorization: `Bearer ${getCookie("jwtToken")}`,
       },
       params: {
-        page: 0,
-        size: 10,
+        page: params.page,
+        size: params.size,
       },
     });
     return response.data;
   } catch (err) {
     console.error(err);
+  }
+};
+
+export const fetchSearchPosts = async (
+  searchKeyword,
+  params = { page: 0, size: 10 }
+) => {
+  try {
+    const response = await axios.get(`${SV_LOCAL}/search/community`, {
+      headers: {
+        Authorization: `Bearer ${getCookie("jwtToken")}`,
+      },
+      params: {
+        keyWord: searchKeyword,
+        page: params.page,
+        size: params.size,
+      },
+    });
+    return response.data;
+  } catch (e) {
+    console.error(e);
   }
 };

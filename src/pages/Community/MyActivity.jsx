@@ -20,9 +20,9 @@ const MyActivity = () => {
   const subMenuLinkList = CommunityMenuLinkList;
   const [selectMenu, setSelectMenu] = useState(0);
   const menuList = ["작성한 게시글", "좋아요한 게시글", "댓글 목록"];
-  const [comments, setComments] = useState([]);
-  const [likedPosts, setLikedPosts] = useState([]);
-  const [myPosts, setMyPosts] = useState([]);
+  const [comments, setComments] = useState(null);
+  const [likedPosts, setLikedPosts] = useState(null);
+  const [myPosts, setMyPosts] = useState(null);
 
   // useEffect(() => {}, [selectMenu]);
 
@@ -71,7 +71,7 @@ const MyActivity = () => {
       };
       fetchData();
     }
-  }, [myPosts.length, selectMenu]);
+  }, [myPosts?.length, selectMenu]);
 
   useEffect(() => {
     if (selectMenu === 1) {
@@ -91,7 +91,7 @@ const MyActivity = () => {
         })
         .catch((err) => console.error(err));
     }
-  }, [likedPosts.length, selectMenu]);
+  }, [likedPosts?.length, selectMenu]);
 
   useEffect(() => {
     if (selectMenu === 2) {
@@ -111,7 +111,7 @@ const MyActivity = () => {
         })
         .catch((err) => console.error(err));
     }
-  }, [comments.length, selectMenu]);
+  }, [comments?.length, selectMenu]);
   return (
     <>
       <SubMenubar

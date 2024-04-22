@@ -24,30 +24,30 @@ const Community = () => {
 
   const subMenuList = CommunityMenu;
   const subMenuLinkList = CommunityMenuLinkList;
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(null);
   const [searchInput, setSearchInput] = useState("");
 
   const submitSearch = (e) => {
     e.preventDefault();
     navigate(`/community?search=${searchInput}`);
-    const fetchSearchData = async () => {
-      try {
-        const response = await axios.get(`${SV_LOCAL}/search/community`, {
-          headers: {
-            Authorization: `Bearer ${getCookie("jwtToken")}`,
-          },
-          params: {
-            keyWord: searchInput,
-            page: 0,
-            size: 10,
-          },
-        });
-        setPosts([...response.data]);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-    fetchSearchData();
+    // const fetchSearchData = async () => {
+    //   try {
+    //     const response = await axios.get(`${SV_LOCAL}/search/community`, {
+    //       headers: {
+    //         Authorization: `Bearer ${getCookie("jwtToken")}`,
+    //       },
+    //       params: {
+    //         keyWord: searchInput,
+    //         page: 0,
+    //         size: 10,
+    //       },
+    //     });
+    //     setPosts([...response.data]);
+    //   } catch (e) {
+    //     console.error(e);
+    //   }
+    // };
+    // fetchSearchData();
   };
 
   useEffect(() => {
