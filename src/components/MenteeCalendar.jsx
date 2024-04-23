@@ -22,7 +22,6 @@ const MenteeCalendar = (props) => {
     ...lastUpcomingConsult,
     ...upcomingConsult,
   ]);
-  console.log(events);
   //const [possibleTimeList, setPossibleTimeList] = useState(PossibleDateList);
   const today = moment();
   const [selectedSlot, setSelectedSlot] = useState({

@@ -167,7 +167,7 @@ const PostList = ({ posts, setPosts, postStyle }) => {
                   (img, imgIdx) =>
                     imgIdx < 2 && <img src={img} key={imgIdx} alt={imgIdx} />
                 )}
-                {item.imgs.length > 2 && (
+                {item.imgs.length > 3 && (
                   <div
                     className="more-imgs-number"
                     style={{

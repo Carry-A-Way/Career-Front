@@ -6,9 +6,6 @@ import ProfileImage from "../Image/ProfileImage";
 import { dateParse } from "../../utils/ParseFormat";
 import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartFull } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
-import { SV_LOCAL } from "../../constants";
-import { getCookie } from "../../cookie";
 import { onAddHeart, onDeleteHeart } from "../../api/heartPost";
 const PostItem = ({ item, idx, refetch }) => {
   const navigate = useNavigate();
