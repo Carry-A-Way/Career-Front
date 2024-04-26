@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import Menubar from "./components/Menubar/Menubar";
 import Login from "./pages/Login/Login";
 import SignupMentee from "./pages/Mentee/Signup";
@@ -67,7 +67,7 @@ function App() {
   useEffect(() => {
     setupAxiosInterceptors(dispatch);
     const jwtToken = getCookie("jwtToken");
-    if (jwtToken) {
+    if (!!jwtToken) {
       const parts = jwtToken.split(".");
       const payload = JSON.parse(atob(parts[1]));
       dispatch(setIsLogin(true));
