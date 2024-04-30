@@ -31,10 +31,8 @@
     "react-scripts": "5.0.1",
     "sass": "^1.69.6",
     "styled-components": "^5.3.10",
-    "web-vitals": "^2.1.4",
-    "env-cmd": "^10.1.0"
+    "web-vitals": "^2.1.4"
   },
-  
   "scripts": {
     "start": "react-scripts start",
     "start:develop": "env-cmd -f .env.develop react-scripts start",
@@ -60,5 +58,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0"
   }
 }
