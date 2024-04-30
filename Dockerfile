@@ -2,9 +2,9 @@ FROM node:18
 
 WORKDIR /app
 
-COPY package.json .
-
 RUN npm install -g npm@10.6.0
+
+COPY package.json .
 
 COPY . .
 
