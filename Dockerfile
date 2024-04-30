@@ -2,7 +2,7 @@ FROM node:lts
 
 WORKDIR /app
 
-RUN npm install -g npm@10.6.0 env-cmd
+RUN npm install -g npm@10.6.0 env-cmd react-scripts
 
 COPY package.json .
 
