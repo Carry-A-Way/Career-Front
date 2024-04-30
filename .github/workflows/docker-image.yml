@@ -35,3 +35,17 @@ jobs:
         docker build -t $REPO .
         docker tag $REPO:latest $NAME/$REPO:front
         docker push $NAME/$REPO:front
+
+    - name: Notify Discord on Success
+      if: success()
+      uses: Sniddl/discord-commits@v1.6
+      with:
+        message: "CI : Frontend GitHub Action 빌드가 성공했습니다. ${{ github.run_id }}"
+        webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+    - name: Notify Discord on Failure
+      if: failure()
+      uses: Sniddl/discord-commits@v1.6
+      with:
+        message: "CI : Frontend GitHub Action 빌드가 실패했습니다. ${{ github.run_id }}"
+        webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
