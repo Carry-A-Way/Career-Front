@@ -1,10 +1,10 @@
-FROM node:16
+FROM node:22
 
 WORKDIR /app
 
 COPY package.json .
 
-RUN npm install -g npm@latest env-cmd
+RUN npm install -g npm@10.5.1 env-cmd
 
 COPY . .
 
