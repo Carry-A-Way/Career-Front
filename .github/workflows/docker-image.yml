@@ -1,0 +1,51 @@
+name: Publish Docker image
+
+
+on:
+  push:
+    branches:
+      - main
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.15
+
+    - name: Build
+      run: go build -v ./...
+    
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{secrets.DOCKER_USERNAME}}
+        password: ${{secrets.DOCKER_PASSWORD}}
+    
+    - name: build and release to DockerHub
+      env:
+        NAME: jongdo737 # 계정 명
+        REPO: carryaway # 레포 이름
+      run: |
+        docker build --platform=linux/amd64 -t $REPO .
+        docker tag $REPO:latest $NAME/$REPO:front
+        docker push $NAME/$REPO:front
+
+    - name: Notify Discord on Success
+      if: success()
+      uses: Sniddl/discord-commits@v1.6
+      with:
+        message: "CI : Frontend GitHub Action 빌드가 성공했습니다. ${{ github.run_id }}"
+        webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+    - name: Notify Discord on Failure
+      if: failure()
+      uses: Sniddl/discord-commits@v1.6
+      with:
+        message: "CI : Frontend GitHub Action 빌드가 실패했습니다. ${{ github.run_id }}"
+        webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
