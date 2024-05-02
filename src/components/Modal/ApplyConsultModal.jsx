@@ -15,7 +15,7 @@ import { localToIsoParse } from "../../utils/ParseFormat";
 import { applyConsult } from "../../api/applyConsult";
 
 const ApplyConsultModal = (props) => {
-  const { setModalClose, startTime, endTime, mentor } = props;
+  const { setModalClose, startTime, endTime, mentor, refetch } = props;
   const titleStyle = {
     marginBottom: 0,
     fontSize: "1.2rem",
@@ -57,6 +57,7 @@ const ApplyConsultModal = (props) => {
     applyConsult(data);
     setModalClose();
     window.alert("상담 신청이 완료되었습니다.");
+    refetch();
   };
   return (
     <ModalWrapper>

@@ -22,7 +22,7 @@ const RecommendMentorList = (props) => {
     () =>
       fetchMentor({
         keyword: "",
-        sortOption: 2,
+        sortOption: 0,
         page: 0,
         size: 20,
       }),

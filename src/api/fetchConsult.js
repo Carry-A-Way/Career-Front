@@ -26,9 +26,6 @@ export const fetchUserConsult = async () => {
         Authorization: `Bearer ${getCookie("jwtToken")}`,
       },
     });
-    // setLastUpcomingConsult(response.data.object.lastUpcomingConsult);
-    // setUpcomingConsult(response.data.object.upcomingConsult);
-    // setCompletedConsult(response.data.object.previousConsult);
     return response.data.object;
   } catch (e) {
     console.error(e);

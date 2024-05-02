@@ -1,47 +1,56 @@
 import React, { useState } from "react";
 import "../../styles/calendar.css";
 import styled from "styled-components";
-import MenteeScheduleList from "../../components/List/MenteeScheduleList";
+import MenteeScheduleList from "../../components/List/Schedule/MenteeScheduleList";
 import MenteeCalendar from "../../components/MenteeCalendar";
 import PointBox from "../../components/Box/PointBox";
 import WageBox from "../../components/Wage/WageBox";
 import { ScheduleLayout } from "../../styles/common/Layout";
 import RecommendMentorList from "../../components/List/Recommend/RecommendMentorList";
-import useGetConsult from "../../hooks/useGetConsult";
+import { useQuery } from "react-query";
+import { fetchUserConsult } from "../../api/fetchConsult";
 // import { colors } from "../../styles/common/Theme";
 
 const MenteeSchedule = () => {
   const [target, setTarget] = useState(null); // 타겟 시간표. 디폴트는 본인
   const point = 12000;
 
-  const { lastUpcomingConsult, upcomingConsult } = useGetConsult();
+  const { data, isLoading, refetch } = useQuery([], () => fetchUserConsult(), {
+    refetchOnWindowFocus: false,
+  });
 
+  if (isLoading) return <div>Loading...</div>;
   return (
-    <ScheduleLayout>
-      <MenteeCalendar
-        target={target}
-        setTarget={setTarget}
-        lastUpcomingConsult={lastUpcomingConsult}
-        upcomingConsult={upcomingConsult}
-      />
-      <Right>
-        <MenteeScheduleList
-          lastUpcomingConsult={lastUpcomingConsult}
-          upcomingConsult={upcomingConsult}
-        />
-        <MentorRecommendWrapper>
-          <div className="header-wrapper">
-            <header className="list-title">추천 멘토</header>
-            <span className="list-subtitle">
-              * 클릭시 멘토의 시간표가 보여집니다.
-            </span>
-          </div>
-          <RecommendMentorList target={target} setTarget={setTarget} />
-        </MentorRecommendWrapper>
-        {target === null && <PointBox point={point} />}
-        {!!target && <WageBox target={target} wage={target.wage} />}
-      </Right>
-    </ScheduleLayout>
+    <>
+      {data && (
+        <ScheduleLayout>
+          <MenteeCalendar
+            target={target}
+            setTarget={setTarget}
+            lastUpcomingConsult={isLoading ? [] : data.lastUpcomingConsult}
+            upcomingConsult={isLoading ? [] : data.upcomingConsult}
+            refetch={refetch}
+          />
+          <Right>
+            <MenteeScheduleList
+              lastUpcomingConsult={isLoading ? [] : data.lastUpcomingConsult}
+              upcomingConsult={isLoading ? [] : data.upcomingConsult}
+            />
+            <MentorRecommendWrapper>
+              <div className="header-wrapper">
+                <header className="list-title">추천 멘토</header>
+                <span className="list-subtitle">
+                  * 클릭시 멘토의 시간표가 보여집니다.
+                </span>
+              </div>
+              <RecommendMentorList target={target} setTarget={setTarget} />
+            </MentorRecommendWrapper>
+            {target === null && <PointBox point={point} />}
+            {!!target && <WageBox target={target} wage={target.wage} />}
+          </Right>
+        </ScheduleLayout>
+      )}
+    </>
   );
 };
 

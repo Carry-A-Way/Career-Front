@@ -1,5 +1,5 @@
 import moment from "moment/moment";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "../styles/big-calendar.css";
 import styled from "styled-components";
@@ -16,12 +16,19 @@ import ColorInfo from "./ColorInfo";
 
 const localizer = momentLocalizer(moment);
 const MenteeCalendar = (props) => {
-  const { target, setTarget, lastUpcomingConsult, upcomingConsult } = props;
+  const { target, setTarget, upcomingConsult, lastUpcomingConsult, refetch } =
+    props;
   // state 0 이면 수락전, 1이면 수락완료-상담전, 2이면 상담완료
+  console.log(lastUpcomingConsult, upcomingConsult);
   const [events, setEvents] = useState([
     ...lastUpcomingConsult,
     ...upcomingConsult,
   ]);
+  console.log(events);
+  useEffect(() => {
+    console.log("here");
+    setEvents([...lastUpcomingConsult, ...upcomingConsult]);
+  }, [lastUpcomingConsult, upcomingConsult]);
   //const [possibleTimeList, setPossibleTimeList] = useState(PossibleDateList);
   const today = moment();
   const [selectedSlot, setSelectedSlot] = useState({
@@ -70,31 +77,32 @@ const MenteeCalendar = (props) => {
     }
   };
 
-  const slotPropGetter = (date) => {
-    const isSelected = isCustomTimeCell(date);
-
-    var style = {
-      backgroundColor: isSelected
-        ? "#fff893"
-        : isSelected === null
-        ? "#dcdcdc98"
-        : "white",
-    };
-    // if (!!target) {
-    if (
-      // 드래그할때
-      new Date(date) >= new Date(selectedSlot.start) &&
-      new Date(date) < new Date(selectedSlot.end)
-    ) {
-      if (!moment(selectedSlot.start).isBefore(today)) {
-        style = { backgroundColor: "#526684", border: "none" };
+  const slotPropGetter = useCallback(
+    (date) => {
+      const isSelected = isCustomTimeCell(date);
+      var style = {
+        backgroundColor: isSelected
+          ? "#fff893"
+          : isSelected === null
+          ? "#dcdcdc98"
+          : "white",
+      };
+      if (
+        // 드래그할때
+        new Date(date) >= new Date(selectedSlot.start) &&
+        new Date(date) < new Date(selectedSlot.end)
+      ) {
+        if (!moment(selectedSlot.start).isBefore(today)) {
+          style = { backgroundColor: "#526684", border: "none" };
+        }
       }
-    }
-    return { style };
-    // } else return null;
-  };
+      return { style };
+    },
+    [possibleTimeList]
+  );
 
   const eventPropGetter = (event, start) => {
+    console.log("events ", event);
     const isPastDate = moment(start).isBefore(today); // 오늘 이전인지 확인
 
     const style = {
@@ -113,7 +121,7 @@ const MenteeCalendar = (props) => {
     return { style };
   };
 
-  const { refetch } = useQuery([target], () => fetchMentorCalendar(target.id), {
+  const { data } = useQuery([target], () => fetchMentorCalendar(target.id), {
     refetchOnWindowFocus: false,
     enabled: !!target,
     onSuccess: (data) => {
@@ -136,8 +144,8 @@ const MenteeCalendar = (props) => {
         (event) => event.status !== 3
       );
       setEvents([
-        ...lastUpcomingConsult,
-        ...upcomingConsult,
+        // ...lastUpcomingConsult,
+        // ...upcomingConsult,
         ...filteredEvents,
       ]);
     },
@@ -239,7 +247,8 @@ const MenteeCalendar = (props) => {
               height="2rem"
               onClick={() => {
                 setTarget(null);
-                setEvents([]);
+                console.log([...lastUpcomingConsult, ...upcomingConsult]);
+                setEvents([...lastUpcomingConsult, ...upcomingConsult]);
               }}
             >
               내 시간표 보기
@@ -272,6 +281,7 @@ const MenteeCalendar = (props) => {
           startTime={selectedSlot.start}
           endTime={selectedSlot.end}
           mentor={target}
+          refetch={refetch}
         />
       )}
     </CalendarContainer>
