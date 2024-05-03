@@ -5,14 +5,14 @@ FROM node:22
 WORKDIR /app
 
 # 패키지 파일 복사
-COPY package.json ./
-COPY package-lock.json ./
+COPY package.json /app
+COPY package-lock.json /app
 
 # 의존성 설치
 RUN npm install
 
 # 나머지 프로젝트 파일 복사
-COPY . .
+COPY . /app
 
 # 3000번 포트 노출
 EXPOSE 3000
