@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package.json .
 
-RUN npm install -g npm@10.5.1 env-cmd
+RUN npm install -g npm@10.7.0 env-cmd
 
 COPY . .
 
