@@ -37,7 +37,8 @@
     "start": "react-scripts start",
     "start:develop": "env-cmd -f .env.develop react-scripts start",
     "start:local": "env-cmd -f .env.local react-scripts start",
-    "build": "env-cmd -f .env.develop react-scripts build",
+    "build": "react-scripts build",
+    "build:develop": "env-cmd -f .env.develop react-scripts build",
     "build:local": "env-cmd -f .env.local react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -47,18 +48,18 @@
       "react-app",
       "react-app/jest"
     ]
-    },
+  },
   "browserslist": {
     "production": [
       ">0.2%",
       "not dead",
       "not op_mini all"
-      ],
+    ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-      ]
+    ]
   },
   "devDependencies": {
     "env-cmd": "^10.1.0"
