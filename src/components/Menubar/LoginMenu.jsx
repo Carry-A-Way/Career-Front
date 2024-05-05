@@ -124,7 +124,7 @@ const LoginMenu = (props) => {
               dispatch(setIsLogin(false));
               setCookie("jwtToken", null, {
                 path: "/",
-                secure: true,
+                // secure: true,
                 sameSite: "none",
               });
             }}

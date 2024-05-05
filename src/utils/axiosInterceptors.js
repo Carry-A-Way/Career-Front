@@ -11,7 +11,7 @@ export const setupAxiosInterceptors = (dispatch) => {
         dispatch(setIsLogin(false));
         setCookie("jwtToken", null, {
           path: "/",
-          secure: true,
+          // secure: true,
           sameSite: "none",
         });
         const navigate = getGlobalNavigate();

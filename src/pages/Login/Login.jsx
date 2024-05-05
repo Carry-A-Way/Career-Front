@@ -23,13 +23,14 @@ function Login() {
     const responseData = await handleLogin(id, password);
     if (!!responseData) {
       const jwtToken = responseData.token;
+      console.log(responseData, jwtToken);
       const parts = jwtToken.split(".");
       const payload = JSON.parse(atob(parts[1]));
       dispatch(setIsLogin(true));
       dispatch(setIsMentor(payload.isTutor));
       setCookie("jwtToken", jwtToken, {
         path: "/",
-        secure: true,
+        // secure: true,
         sameSite: "none",
       });
       window.alert(`${getNicknameFromToken(jwtToken)}님 환영합니다!`);
