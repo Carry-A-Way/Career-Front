@@ -37,9 +37,10 @@ export const ScheduleLayout = styled.div`
   gap: 5rem;
   margin: 60px auto;
   min-width: 70rem;
+  max-width: 110rem;
   min-height: 50rem;
-  height: 80vh;
-  max-height: 67rem;
+  /* height: 80vh; */
+  /* max-height: 67rem; */
   justify-content: center;
   box-sizing: border-box;
 `;

@@ -4,7 +4,6 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import "../styles/big-calendar.css";
 import styled from "styled-components";
 import { ButtonDiv } from "./Button/Button";
-import { PossibleDateList } from "../settings/config";
 import { ModalWrapper } from "../styles/common/ModalComponent";
 import ApplyConsultModal from "./Modal/ApplyConsultModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,20 +12,18 @@ import { fetchMentorCalendar } from "../api/calendar";
 import { useQuery } from "react-query";
 import { fetchMentorPossibleTime } from "../api/possibleTime";
 import ColorInfo from "./ColorInfo";
+import { yScrollStyle } from "../styles/common/Scroll";
 
 const localizer = momentLocalizer(moment);
 const MenteeCalendar = (props) => {
   const { target, setTarget, upcomingConsult, lastUpcomingConsult, refetch } =
     props;
   // state 0 이면 수락전, 1이면 수락완료-상담전, 2이면 상담완료
-  console.log(lastUpcomingConsult, upcomingConsult);
   const [events, setEvents] = useState([
     ...lastUpcomingConsult,
     ...upcomingConsult,
   ]);
-  console.log(events);
   useEffect(() => {
-    console.log("here");
     setEvents([...lastUpcomingConsult, ...upcomingConsult]);
   }, [lastUpcomingConsult, upcomingConsult]);
   //const [possibleTimeList, setPossibleTimeList] = useState(PossibleDateList);
@@ -102,7 +99,6 @@ const MenteeCalendar = (props) => {
   );
 
   const eventPropGetter = (event, start) => {
-    console.log("events ", event);
     const isPastDate = moment(start).isBefore(today); // 오늘 이전인지 확인
 
     const style = {
@@ -234,6 +230,22 @@ const MenteeCalendar = (props) => {
     setSelectedSlot({ start: "", end: "" });
   };
 
+  useEffect(() => {
+    if (target === null) {
+      const convertEvents = [];
+      events.forEach((item) =>
+        convertEvents.push({
+          ...item,
+          id: item.consultId,
+          title: `[${item.major}]\n${item.mentor.nickname}`,
+          start: new Date(item.startTime),
+          end: new Date(item.endTime),
+          status: item.status,
+        })
+      );
+      setEvents([...convertEvents]);
+    }
+  }, [target]);
   return (
     <CalendarContainer>
       <Header>
@@ -247,7 +259,6 @@ const MenteeCalendar = (props) => {
               height="2rem"
               onClick={() => {
                 setTarget(null);
-                console.log([...lastUpcomingConsult, ...upcomingConsult]);
                 setEvents([...lastUpcomingConsult, ...upcomingConsult]);
               }}
             >
@@ -295,6 +306,7 @@ const CalendarContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 2rem;
+  width: 60%;
 `;
 
 const Header = styled.header`

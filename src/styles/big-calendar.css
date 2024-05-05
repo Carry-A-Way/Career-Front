@@ -28,8 +28,9 @@ button.rbc-input::-moz-focus-inner {
 }
 
 .rbc-calendar {
-  min-width: 50rem;
-  width: 50%;
+  min-width: 100%;
+  /* max-width: 60rem; */
+  /* max-width: 50%; */
   min-height: 50rem;
   height: 100% !important;
   -webkit-box-sizing: border-box;
@@ -571,7 +572,7 @@ button.rbc-input::-moz-focus-inner {
 
 .rbc-timeslot-group {
   border-bottom: 1px solid #ddd;
-  min-height: 2.5rem;
+  min-height: 7rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -625,6 +626,14 @@ button.rbc-input::-moz-focus-inner {
   overflow: hidden;
   position: absolute;
 }
+
+.rbc-day-slot .rbc-event {
+  flex-flow: column nowrap;
+  gap: 1rem;
+}
+.rbc-day-slot .rbc-event:hover {
+  font-size: 5rem;
+}
 .rbc-day-slot .rbc-background-event {
   opacity: 0.75;
 }
@@ -634,6 +643,7 @@ button.rbc-input::-moz-focus-inner {
   flex: none;
   padding-right: 5px;
   width: auto;
+  order: 2;
 }
 .rbc-day-slot .rbc-event-content {
   width: 100%;
@@ -645,6 +655,8 @@ button.rbc-input::-moz-focus-inner {
   height: 100%;
   min-height: 1.3em;
   font-size: 0.9rem;
+  order: 1;
+  white-space: pre;
 }
 .rbc-day-slot .rbc-time-slot {
   border-top: 1px solid #f7f7f7;
@@ -822,6 +834,7 @@ button.rbc-input::-moz-focus-inner {
   align-items: flex-start;
   width: 100%;
   border-top: 2px solid #ddd;
+  max-height: 60rem;
   overflow-y: auto;
   position: relative;
 }
