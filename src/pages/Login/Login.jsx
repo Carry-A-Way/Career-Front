@@ -30,8 +30,8 @@ function Login() {
       dispatch(setIsMentor(payload.isTutor));
       setCookie("jwtToken", jwtToken, {
         path: "/",
-        // secure: true,
-        sameSite: "none",
+        secure: false,
+        sameSite: "lax",
       });
       window.alert(`${getNicknameFromToken(jwtToken)}님 환영합니다!`);
       if (payload.isTutor) navigate("/mentor");

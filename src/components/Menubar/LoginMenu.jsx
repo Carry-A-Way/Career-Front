@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Fragment, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { getNicknameFromToken } from "../../auth/jwtFunctions";
-import { getCookie, setCookie } from "../../cookie";
+import { deleteCookie, getCookie, setCookie } from "../../cookie";
 import { FRONT_URL } from "../../constants";
 import { useDispatch, useSelector } from "react-redux";
 import { colors } from "../../styles/common/Theme";
@@ -122,10 +122,10 @@ const LoginMenu = (props) => {
               //   setSubMenu("로그아웃");
               setIsSubModal(false);
               dispatch(setIsLogin(false));
-              setCookie("jwtToken", null, {
+              deleteCookie("jwtToken", {
                 path: "/",
-                // secure: true,
-                sameSite: "none",
+                secure: false,
+                sameSite: "lax",
               });
             }}
           >

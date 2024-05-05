@@ -78,12 +78,6 @@ function App() {
     <BrowserRouter>
       <Menubar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup/mentee" element={<SignupMentee />} />
-        <Route path="/home" element={<SignupMentee />} />
-        <Route path="/signup/mentor" element={<SignupMentor />} />
-        <Route path="/password" element={<FindPassword />} />
         <Route path="/restricted" element={<Restricted />} />
         {isLogin ? (
           <>
@@ -194,7 +188,12 @@ function App() {
           </>
         ) : (
           <>
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup/mentee" element={<SignupMentee />} />
+            <Route path="/home" element={<SignupMentee />} />
+            <Route path="/signup/mentor" element={<SignupMentor />} />
+            <Route path="/password" element={<FindPassword />} />
             <Route path="*" Navigate to={"/"} />
           </>
         )}

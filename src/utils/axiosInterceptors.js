@@ -9,10 +9,10 @@ export const setupAxiosInterceptors = (dispatch) => {
     (error) => {
       if (!!error.response && error.response.status === 401) {
         dispatch(setIsLogin(false));
-        setCookie("jwtToken", null, {
+        deleteCookie("jwtToken", {
           path: "/",
-          // secure: true,
-          sameSite: "none",
+          secure: false,
+          sameSite: "lax",
         });
         const navigate = getGlobalNavigate();
         if (navigate) {
