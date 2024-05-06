@@ -9,7 +9,7 @@ import { getCookie } from "../cookie";
 import { USER_CONSULT_LIST } from "../api/api";
 
 const localizer = momentLocalizer(moment);
-const MyCalendar = () => {
+const MentorCalendar = () => {
   // state 0 이면 수락전, 1이면 수락완료-상담전, 2이면 상담완료
   const [events, setEvents] = useState([]);
   const [possibleTimeList, setPossibleTimeList] = useState([]);
@@ -30,13 +30,18 @@ const MyCalendar = () => {
     const beforeToday = start <= today;
     if (beforeToday) return null;
     else {
-      possibleTimeList &&
+      !!possibleTimeList &&
         possibleTimeList.some((possibleTime) => {
           check = false;
           possibleTime.possibleTimeList.some((time) => {
-            customStartTime = new Date(possibleTime.date + " " + time.start);
-            customEndTime = new Date(possibleTime.date + " " + time.end);
-
+            customStartTime = moment(
+              possibleTime.date + " " + time.start,
+              "YYYY-MM-DD HH:mm"
+            ).toDate();
+            customEndTime = moment(
+              possibleTime.date + " " + time.end,
+              "YYYY-MM-DD HH:mm"
+            ).toDate();
             if (start >= customStartTime && start < customEndTime) {
               // 시간 범위안에 포함되면 true
               check = true;
@@ -54,7 +59,6 @@ const MyCalendar = () => {
 
   const slotPropGetter = (date) => {
     const isSelected = isCustomTimeCell(date);
-
     var style = {
       backgroundColor: isSelected
         ? "#fff893"
@@ -62,10 +66,17 @@ const MyCalendar = () => {
         ? "#dcdcdc98"
         : "white",
     };
+    // console.log(
+    //   date,
+    //   new Date(moment(selectedSlot.start, "YYYY.MM.DD HH:mm").toDate())
+    // );
+
     if (
       // 드래그할때
-      new Date(date) >= new Date(selectedSlot.start) &&
-      new Date(date) < new Date(selectedSlot.end)
+      new Date(date) >=
+        new Date(moment(selectedSlot.start, "YYYY.MM.DD HH:mm").toDate()) &&
+      new Date(date) <
+        new Date(moment(selectedSlot.end, "YYYY.MM.DD HH:mm").toDate())
     ) {
       if (!moment(selectedSlot.start).isBefore(today)) {
         style = { backgroundColor: "#526684", border: "none" };
@@ -86,7 +97,7 @@ const MyCalendar = () => {
     if (!event.status) {
       style.opacity = "0.8";
       style.borderColor = "white";
-      style.color = "white";
+      style.color = isPastDate ? "#3b3b3b" : "white";
       style.borderStyle = "dashed";
     }
 
@@ -112,7 +123,7 @@ const MyCalendar = () => {
           convertEvents.push({
             ...item,
             id: item.consultId,
-            title: item.student.nickname,
+            title: `[${item.major}]\n${item.student.nickname}`,
             start: new Date(item.startTime),
             end: new Date(item.endTime),
             status: item.status,
@@ -159,12 +170,14 @@ const MyCalendar = () => {
   };
 
   const onAddPossibleTime = () => {
-    const formattedStartDate = moment(new Date(selectedSlot.start)).format(
-      "YYYY-MM-DDTHH:mm:ss.S"
-    );
-    const formattedEndDate = moment(new Date(selectedSlot.end)).format(
-      "YYYY-MM-DDTHH:mm:ss.S"
-    );
+    const formattedStartDate = moment(
+      selectedSlot.start,
+      "YYYY.MM.DD HH:mm"
+    ).format("YYYY-MM-DDTHH:mm:ss.S");
+    const formattedEndDate = moment(
+      selectedSlot.end,
+      "YYYY.MM.DD HH:mm"
+    ).format("YYYY-MM-DDTHH:mm:ss.S");
     axios
       .post(
         `${SV_LOCAL}/calendar/mentor/insert/possible/time`,
@@ -185,12 +198,14 @@ const MyCalendar = () => {
   };
 
   const onDeletePossibleTime = () => {
-    const formattedStartDate = moment(new Date(selectedSlot.start)).format(
-      "YYYY-MM-DDTHH:mm:00.0"
-    );
-    const formattedEndDate = moment(new Date(selectedSlot.end)).format(
-      "YYYY-MM-DDTHH:mm:00.0"
-    );
+    const formattedStartDate = moment(
+      selectedSlot.start,
+      "YYYY.MM.DD HH:mm"
+    ).format("YYYY-MM-DDTHH:mm:ss.S");
+    const formattedEndDate = moment(
+      selectedSlot.end,
+      "YYYY.MM.DD HH:mm"
+    ).format("YYYY-MM-DDTHH:mm:ss.S");
     axios
       .post(
         `${SV_LOCAL}/calendar/mentor/delete/possible/time`,
@@ -211,7 +226,7 @@ const MyCalendar = () => {
   };
 
   return (
-    <>
+    <CalendarContainer>
       <Calendar
         localizer={localizer}
         events={events}
@@ -263,11 +278,15 @@ const MyCalendar = () => {
           </DeleteModal>
         </DeleteWrapper>
       )}
-    </>
+    </CalendarContainer>
   );
 };
 
-export default MyCalendar;
+export default MentorCalendar;
+
+const CalendarContainer = styled.div`
+  width: 60%;
+`;
 
 const DeleteWrapper = styled.div`
   width: 100%;

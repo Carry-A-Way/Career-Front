@@ -17,6 +17,7 @@ import { SV_LOCAL } from "../../../constants";
 import { colors } from "../../../styles/common/Theme";
 import { USER_CONSULT_LIST } from "../../../api/api";
 import ProfileImage from "../../Image/ProfileImage";
+import { ModalWrapper } from "../../../styles/common/ModalComponent";
 
 const MenteeScheduleList = ({ lastUpcomingConsult, upcomingConsult }) => {
   const [pendingConsult, setPendingConsult] = useState([]);
@@ -94,11 +95,11 @@ const MenteeScheduleList = ({ lastUpcomingConsult, upcomingConsult }) => {
               <Fragment key={upcoming.id}>
                 <ul className="main">
                   <li>{upcomingIdx + 1}</li>
-                  <li>{upcoming.name}</li>
-                  <li>{dateParse(upcoming.briefConsultRespDto.startTime)}</li>
+                  <li>{upcoming.mentor.nickname}</li>
+                  <li>{dateParse(upcoming.startTime)}</li>
                   <li>
-                    {timeParse(upcoming.briefConsultRespDto.startTime)} ~{" "}
-                    {timeParse(upcoming.briefConsultRespDto.endTime)}
+                    {timeParse(upcoming.startTime)} ~{" "}
+                    {timeParse(upcoming.endTime)}
                   </li>
                   <li>
                     {upcomingDetailId === upcomingIdx ? (
@@ -108,6 +109,7 @@ const MenteeScheduleList = ({ lastUpcomingConsult, upcomingConsult }) => {
                         onClick={() => {
                           setUpcomingDetailId("");
                         }}
+                        key={upcoming.id}
                       />
                     ) : (
                       <FontAwesomeIcon
@@ -116,6 +118,7 @@ const MenteeScheduleList = ({ lastUpcomingConsult, upcomingConsult }) => {
                         onClick={() => {
                           setUpcomingDetailId(upcomingIdx);
                         }}
+                        key={upcoming.id}
                       />
                     )}
                   </li>
@@ -124,22 +127,16 @@ const MenteeScheduleList = ({ lastUpcomingConsult, upcomingConsult }) => {
                   <div className="main-detail">
                     <div className="main-detail__item">
                       <span className="item__title">- 상담할 전공 : </span>
-                      <span className="item__content">
-                        {upcoming.briefConsultRespDto.major}
-                      </span>
+                      <span className="item__content">{upcoming.major}</span>
                     </div>
                     <div className="main-detail__item">
                       <span className="item__title">- 상담 방식 : </span>
-                      <span className="item__content">
-                        {upcoming.briefConsultRespDto.flow}
-                      </span>
+                      <span className="item__content">{upcoming.flow}</span>
                     </div>
                     <div className="main-detail__item">
                       <span className="item__title">- 주요 질문 : </span>
                       <div className="question-wrapper">
-                        <p className="item__content">
-                          {upcoming.briefConsultRespDto.questions}
-                        </p>
+                        <p className="item__content">{upcoming.questions}</p>
                       </div>
                     </div>
                     <button
@@ -441,18 +438,6 @@ const List = styled.div`
   }
 `;
 
-const ModalWrapper = styled.div`
-  width: 100%;
-  height: 100vh;
-  background-color: #8080806d;
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-`;
 const DetailModal = styled.div`
   width: 55rem;
   background-color: white;
@@ -461,7 +446,6 @@ const DetailModal = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  z-index: -1;
   .detail-header {
     display: flex;
     align-items: center;

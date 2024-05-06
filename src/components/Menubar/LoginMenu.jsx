@@ -19,7 +19,6 @@ const LoginMenu = (props) => {
 
   useEffect(() => {
     const outSideClick = (e) => {
-      console.log(myInfoModalRef.current.contains(e.target));
       if (
         isSubModal &&
         !myInfoModalRef.current.contains(e.target) &&

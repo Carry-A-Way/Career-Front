@@ -57,8 +57,14 @@ const MenteeCalendar = (props) => {
         possibleTimeList.some((possibleTime) => {
           check = false;
           possibleTime.possibleTimeList.some((time) => {
-            customStartTime = new Date(possibleTime.date + " " + time.start);
-            customEndTime = new Date(possibleTime.date + " " + time.end);
+            customStartTime = moment(
+              possibleTime.date + " " + time.start,
+              "YYYY-MM-DD HH:mm"
+            ).toDate();
+            customEndTime = moment(
+              possibleTime.date + " " + time.end,
+              "YYYY-MM-DD HH:mm"
+            ).toDate();
             if (start >= customStartTime && start < customEndTime) {
               // 시간 범위안에 포함되면 true
               check = true;
@@ -74,29 +80,28 @@ const MenteeCalendar = (props) => {
     }
   };
 
-  const slotPropGetter = useCallback(
-    (date) => {
-      const isSelected = isCustomTimeCell(date);
-      var style = {
-        backgroundColor: isSelected
-          ? "#fff893"
-          : isSelected === null
-          ? "#dcdcdc98"
-          : "white",
-      };
-      if (
-        // 드래그할때
-        new Date(date) >= new Date(selectedSlot.start) &&
-        new Date(date) < new Date(selectedSlot.end)
-      ) {
-        if (!moment(selectedSlot.start).isBefore(today)) {
-          style = { backgroundColor: "#526684", border: "none" };
-        }
+  const slotPropGetter = (date) => {
+    const isSelected = isCustomTimeCell(date);
+    var style = {
+      backgroundColor: isSelected
+        ? "#fff893"
+        : isSelected === null
+        ? "#dcdcdc98"
+        : "white",
+    };
+    if (
+      // 드래그할때
+      new Date(date) >=
+        new Date(moment(selectedSlot.start, "YYYY.MM.DD HH:mm").toDate()) &&
+      new Date(date) <
+        new Date(moment(selectedSlot.end, "YYYY.MM.DD HH:mm").toDate())
+    ) {
+      if (!moment(selectedSlot.start).isBefore(today)) {
+        style = { backgroundColor: "#526684", border: "none" };
       }
-      return { style };
-    },
-    [possibleTimeList]
-  );
+    }
+    return { style };
+  };
 
   const eventPropGetter = (event, start) => {
     const isPastDate = moment(start).isBefore(today); // 오늘 이전인지 확인
@@ -155,28 +160,34 @@ const MenteeCalendar = (props) => {
     setSelectedSlot({ start: formattedStartDate, end: formattedEndDate });
     const today = new Date();
     const beforeToday = date.start <= today;
-    if (!beforeToday) {
-      setApplyModalOpen(true);
-    }
+    if (!beforeToday) setApplyModalOpen(true);
     setIsPossibleConsult(onCheckPossibleTime(date.start, date.end));
   };
 
   const onCheckPossibleTime = (start, end) => {
-    let startTime = new Date();
-    let endTime = new Date();
-    return (
-      !!possibleTimeList &&
-      possibleTimeList.some((possibleTime) => {
-        return possibleTime.possibleTimeList.some((time) => {
-          startTime = new Date(possibleTime.date + " " + time.start);
-          endTime = new Date(possibleTime.date + " " + time.end);
-          if (start >= startTime && end <= endTime) {
-            // 시간 범위안에 포함되면 true
-            return true;
-          }
-        });
-      })
-    );
+    let customStartTime = new Date();
+    let customEndTime = new Date();
+    return possibleTimeList.some((possibleTime) => {
+      return possibleTime.possibleTimeList.some((time) => {
+        customStartTime = moment(
+          possibleTime.date + " " + time.start,
+          "YYYY-MM-DD HH:mm"
+        ).toDate();
+        customEndTime = moment(
+          possibleTime.date + " " + time.end,
+          "YYYY-MM-DD HH:mm"
+        ).toDate();
+        if (start >= customStartTime && start < customEndTime) {
+          // 시간 범위안에 포함되면 true
+          return true;
+        }
+      });
+    });
+  };
+
+  const onCloseModal = () => {
+    setApplyModalOpen(false);
+    setSelectedSlot({ start: "", end: "" });
   };
 
   const renderApplyModal = () => {
@@ -224,25 +235,20 @@ const MenteeCalendar = (props) => {
       );
     }
   };
-
-  const onCloseModal = () => {
-    setApplyModalOpen(false);
-    setSelectedSlot({ start: "", end: "" });
-  };
-
   useEffect(() => {
     if (target === null) {
       const convertEvents = [];
-      events.forEach((item) =>
-        convertEvents.push({
-          ...item,
-          id: item.consultId,
-          title: `[${item.major}]\n${item.mentor.nickname}`,
-          start: new Date(item.startTime),
-          end: new Date(item.endTime),
-          status: item.status,
-        })
-      );
+      !!events &&
+        events.forEach((item) =>
+          convertEvents.push({
+            ...item,
+            id: item.consultId,
+            title: `[${item.major}]\n${item.mentor.nickname}`,
+            start: new Date(item.startTime),
+            end: new Date(item.endTime),
+            status: item.status,
+          })
+        );
       setEvents([...convertEvents]);
     }
   }, [target]);

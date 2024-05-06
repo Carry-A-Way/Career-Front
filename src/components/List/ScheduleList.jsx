@@ -403,6 +403,8 @@ const List = styled.div`
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-size: 1rem;
+      line-height: 1.5;
       &:first-child,
       &:last-child {
         flex: 0.5;
