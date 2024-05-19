@@ -234,6 +234,7 @@ const Consult = styled.div`
   position: relative;
   margin-top: 2rem;
   overflow: auto hidden;
+  ${xScrollStyle};
   > span {
     margin-bottom: 10px;
     text-align: center;
