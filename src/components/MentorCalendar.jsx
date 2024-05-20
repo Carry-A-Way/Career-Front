@@ -9,9 +9,18 @@ import { getCookie } from "../cookie";
 import { USER_CONSULT_LIST } from "../api/api";
 
 const localizer = momentLocalizer(moment);
-const MentorCalendar = () => {
+const MentorCalendar = (props) => {
+  const { upcomingConsult, lastUpcomingConsult, refetch } = props;
   // state 0 이면 수락전, 1이면 수락완료-상담전, 2이면 상담완료
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState([
+    ...lastUpcomingConsult,
+    ...upcomingConsult,
+  ]);
+
+  useEffect(() => {
+    setEvents([...lastUpcomingConsult, ...upcomingConsult]);
+  }, [lastUpcomingConsult, upcomingConsult]);
+
   const [possibleTimeList, setPossibleTimeList] = useState([]);
   const [isUpdatePossibleTime, setIsUpdatePossibleTime] = useState(true);
   const today = moment();
@@ -106,37 +115,37 @@ const MentorCalendar = () => {
     return { style };
   };
 
-  useEffect(() => {
-    axios
-      .get(`${SV_LOCAL}/${USER_CONSULT_LIST}`, {
-        headers: {
-          Authorization: `Bearer ${getCookie("jwtToken")}`,
-        },
-      })
-      .then((res) => {
-        const consultDataList = res.data.object;
-        const tmpList = [...consultDataList.lastUpcomingConsult];
-        tmpList.push(...consultDataList.previousConsult);
-        tmpList.push(...consultDataList.upcomingConsult);
-        const convertEvents = [];
-        tmpList.forEach((item) =>
-          convertEvents.push({
-            ...item,
-            id: item.consultId,
-            title: `[${item.major}]\n${item.student.nickname}`,
-            start: new Date(item.startTime),
-            end: new Date(item.endTime),
-            status: item.status,
-          })
-        );
-        const filteredEvents = convertEvents.filter(
-          // 거절된 상담을 시간표에 표시되지 않도록 작업
-          (event) => event.status !== 3
-        );
-        setEvents(filteredEvents);
-      })
-      .catch((err) => console.error(err));
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get(`${SV_LOCAL}/${USER_CONSULT_LIST}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${getCookie("jwtToken")}`,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       const consultDataList = res.data.object;
+  //       const tmpList = [...consultDataList.lastUpcomingConsult];
+  //       tmpList.push(...consultDataList.previousConsult);
+  //       tmpList.push(...consultDataList.upcomingConsult);
+  //       const convertEvents = [];
+  //       tmpList.forEach((item) =>
+  //         convertEvents.push({
+  //           ...item,
+  //           id: item.consultId,
+  //           title: `[${item.major}]\n${item.student.nickname}`,
+  //           start: new Date(item.startTime),
+  //           end: new Date(item.endTime),
+  //           status: item.status,
+  //         })
+  //       );
+  //       const filteredEvents = convertEvents.filter(
+  //         // 거절된 상담을 시간표에 표시되지 않도록 작업
+  //         (event) => event.status !== 3
+  //       );
+  //       setEvents(filteredEvents);
+  //     })
+  //     .catch((err) => console.error(err));
+  // }, []);
   useEffect(() => {
     if (isUpdatePossibleTime) {
       axios

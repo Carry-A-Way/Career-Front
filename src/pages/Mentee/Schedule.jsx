@@ -20,7 +20,7 @@ const MenteeSchedule = () => {
     lastUpcomingConsult: [],
   });
 
-  function transformConsultData(consultData) {
+  const transformConsultData = (consultData) => {
     if (target === null) {
       return consultData.map((item) => ({
         ...item,
@@ -40,7 +40,7 @@ const MenteeSchedule = () => {
         status: item.status,
       }));
     }
-  }
+  };
 
   const useFetchConsultData = (target) => {
     return useQuery(
