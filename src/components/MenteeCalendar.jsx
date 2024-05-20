@@ -23,6 +23,7 @@ const MenteeCalendar = (props) => {
     ...lastUpcomingConsult,
     ...upcomingConsult,
   ]);
+
   useEffect(() => {
     setEvents([...lastUpcomingConsult, ...upcomingConsult]);
   }, [lastUpcomingConsult, upcomingConsult]);
@@ -122,36 +123,6 @@ const MenteeCalendar = (props) => {
     return { style };
   };
 
-  const { data } = useQuery([target], () => fetchMentorCalendar(target.id), {
-    refetchOnWindowFocus: false,
-    enabled: !!target,
-    onSuccess: (data) => {
-      const consultDataList = data;
-      const tmpList = [...consultDataList.lastUpcomingConsult];
-      tmpList.push(...consultDataList.upcomingConsult);
-      const convertEvents = [];
-      tmpList.forEach((item) =>
-        convertEvents.push({
-          ...item,
-          id: item.consultId,
-          title: item.status ? "상담 예정" : "상담 대기",
-          start: new Date(item.startTime),
-          end: new Date(item.endTime),
-          status: item.status,
-        })
-      );
-      const filteredEvents = convertEvents.filter(
-        // 거절된 상담을 시간표에 표시되지 않도록 작업
-        (event) => event.status !== 3
-      );
-      setEvents([
-        // ...lastUpcomingConsult,
-        // ...upcomingConsult,
-        ...filteredEvents,
-      ]);
-    },
-  });
-
   const handleSelectSlot = (date) => {
     const momentStart = moment(new Date(date.start));
     const momentEnd = moment(new Date(date.end));
@@ -235,23 +206,7 @@ const MenteeCalendar = (props) => {
       );
     }
   };
-  useEffect(() => {
-    if (target === null) {
-      const convertEvents = [];
-      !!events &&
-        events.forEach((item) =>
-          convertEvents.push({
-            ...item,
-            id: item.consultId,
-            title: `[${item.major}]\n${item.mentor.nickname}`,
-            start: new Date(item.startTime),
-            end: new Date(item.endTime),
-            status: item.status,
-          })
-        );
-      setEvents([...convertEvents]);
-    }
-  }, [target]);
+
   return (
     <CalendarContainer>
       <Header>
@@ -265,6 +220,7 @@ const MenteeCalendar = (props) => {
               height="2rem"
               onClick={() => {
                 setTarget(null);
+                refetch();
                 setEvents([...lastUpcomingConsult, ...upcomingConsult]);
               }}
             >
