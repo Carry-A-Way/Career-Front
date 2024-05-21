@@ -148,7 +148,7 @@ const MenteeCalendar = (props) => {
           possibleTime.date + " " + time.end,
           "YYYY-MM-DD HH:mm"
         ).toDate();
-        if (start >= customStartTime && start < customEndTime) {
+        if (start >= customStartTime && end <= customEndTime) {
           // 시간 범위안에 포함되면 true
           return true;
         }
