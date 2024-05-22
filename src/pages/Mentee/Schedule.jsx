@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/calendar.css";
 import styled from "styled-components";
 import MenteeScheduleList from "../../components/List/Schedule/MenteeScheduleList";
@@ -10,6 +10,7 @@ import RecommendMentorList from "../../components/List/Recommend/RecommendMentor
 import { useQuery } from "react-query";
 import { fetchUserConsult } from "../../api/fetchConsult";
 import { fetchMentorCalendar } from "../../api/calendar";
+import DetailedModal from "../../components/Modal/DetailedModal";
 // import { colors } from "../../styles/common/Theme";
 
 const MenteeSchedule = () => {
@@ -19,6 +20,9 @@ const MenteeSchedule = () => {
     upcomingConsult: [],
     lastUpcomingConsult: [],
   });
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [detailObject, setDetailObject] = useState({ type: "", object: {} });
 
   const transformConsultData = (consultData) => {
     if (target === null) {
@@ -55,12 +59,18 @@ const MenteeSchedule = () => {
             upcomingConsult: transformConsultData(data.upcomingConsult),
           };
           setEvents({ ...convertedData });
+          setSelectedEvent(null);
         },
       }
     );
   };
 
   const { isLoading, refetch } = useFetchConsultData(target);
+
+  useEffect(() => {
+    if (isDetailOpen) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "auto";
+  }, [isDetailOpen]);
 
   if (isLoading) return <div>Loading...</div>;
   return (
@@ -71,11 +81,16 @@ const MenteeSchedule = () => {
         lastUpcomingConsult={isLoading ? [] : events.lastUpcomingConsult}
         upcomingConsult={isLoading ? [] : events.upcomingConsult}
         refetch={refetch}
+        setDetailObject={setDetailObject}
+        setIsDetailOpen={setIsDetailOpen}
       />
       <Right>
         <MenteeScheduleList
           lastUpcomingConsult={isLoading ? [] : events.lastUpcomingConsult}
           upcomingConsult={isLoading ? [] : events.upcomingConsult}
+          detailObject={detailObject}
+          setDetailObject={setDetailObject}
+          setIsDetailOpen={setIsDetailOpen}
         />
         <MentorRecommendWrapper>
           <div className="header-wrapper">
@@ -89,6 +104,13 @@ const MenteeSchedule = () => {
         {!target && <PointBox point={12000} />}
         {target && <WageBox target={target} wage={target.wage} />}
       </Right>
+      {isDetailOpen && (
+        <DetailedModal
+          setModalOpen={setIsDetailOpen}
+          item={detailObject.object}
+          type={Number(detailObject.type)}
+        />
+      )}
     </ScheduleLayout>
   );
 };

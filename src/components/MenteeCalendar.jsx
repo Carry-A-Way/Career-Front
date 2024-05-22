@@ -1,5 +1,5 @@
 import moment from "moment/moment";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "../styles/big-calendar.css";
 import styled from "styled-components";
@@ -8,16 +8,21 @@ import { ModalWrapper } from "../styles/common/ModalComponent";
 import ApplyConsultModal from "./Modal/ApplyConsultModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { fetchMentorCalendar } from "../api/calendar";
 import { useQuery } from "react-query";
 import { fetchMentorPossibleTime } from "../api/possibleTime";
 import ColorInfo from "./ColorInfo";
-import { yScrollStyle } from "../styles/common/Scroll";
 
 const localizer = momentLocalizer(moment);
 const MenteeCalendar = (props) => {
-  const { target, setTarget, upcomingConsult, lastUpcomingConsult, refetch } =
-    props;
+  const {
+    target,
+    setTarget,
+    upcomingConsult,
+    lastUpcomingConsult,
+    refetch,
+    setDetailObject,
+    setIsDetailOpen,
+  } = props;
   // state 0 이면 수락전, 1이면 수락완료-상담전, 2이면 상담완료
   const [events, setEvents] = useState([
     ...lastUpcomingConsult,
@@ -45,6 +50,7 @@ const MenteeCalendar = (props) => {
       enabled: !!target?.id,
     }
   );
+
   const isCustomTimeCell = (start) => {
     let customStartTime = new Date();
     let customEndTime = new Date();
@@ -124,15 +130,18 @@ const MenteeCalendar = (props) => {
   };
 
   const handleSelectSlot = (date) => {
-    const momentStart = moment(new Date(date.start));
-    const momentEnd = moment(new Date(date.end));
-    const formattedStartDate = momentStart.format("YYYY.MM.DD HH:mm");
-    const formattedEndDate = momentEnd.format("YYYY.MM.DD HH:mm");
-    setSelectedSlot({ start: formattedStartDate, end: formattedEndDate });
-    const today = new Date();
-    const beforeToday = date.start <= today;
-    if (!beforeToday) setApplyModalOpen(true);
-    setIsPossibleConsult(onCheckPossibleTime(date.start, date.end));
+    setDetailObject(null);
+    if (!!target) {
+      const momentStart = moment(new Date(date.start));
+      const momentEnd = moment(new Date(date.end));
+      const formattedStartDate = momentStart.format("YYYY.MM.DD HH:mm");
+      const formattedEndDate = momentEnd.format("YYYY.MM.DD HH:mm");
+      setSelectedSlot({ start: formattedStartDate, end: formattedEndDate });
+      const today = new Date();
+      const beforeToday = date.start <= today;
+      if (!beforeToday) setApplyModalOpen(true);
+      setIsPossibleConsult(onCheckPossibleTime(date.start, date.end));
+    }
   };
 
   const onCheckPossibleTime = (start, end) => {
@@ -207,6 +216,16 @@ const MenteeCalendar = (props) => {
     }
   };
 
+  const handleSelectEvent = (event) => {
+    if (target == null) {
+      setDetailObject({
+        type: event.status,
+        object: { ...event },
+      });
+      setIsDetailOpen(true);
+    }
+  };
+
   return (
     <CalendarContainer>
       <Header>
@@ -240,6 +259,8 @@ const MenteeCalendar = (props) => {
         eventPropGetter={eventPropGetter}
         slotPropGetter={slotPropGetter}
         onSelectSlot={handleSelectSlot}
+        onSelectEvent={handleSelectEvent}
+        // components={{ event: CustomEvent }}
         min={new Date(0, 0, 0, 7, 0, 0)} // 표시할 최소 시간
         max={new Date(0, 0, 0, 23, 59, 59)} // 표시할 최대 시간
         step={30}

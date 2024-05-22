@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { dateTimeParse } from "../../utils/ParseFormat";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,18 +13,15 @@ import {
   SV_LOCAL,
   UPCOMING_CONSULT_TYPE,
 } from "../../constants";
-import { ModalWrapper } from "../../styles/common/ModalComponent";
+// import { ModalWrapper } from "../../styles/common/ModalComponent";
 const DetailedModal = (props) => {
   const { setModalOpen, item, type } = props;
-  const [detailObject, setDetailObject] = useState({
-    ...item,
-  });
   const acceptConsult = async () => {
     try {
       await axios.post(
         `${SV_LOCAL}/calendar/mentor/accept`,
         {
-          consultId: detailObject.consultId,
+          consultId: item.consultId,
         },
         {
           headers: {
@@ -43,7 +40,7 @@ const DetailedModal = (props) => {
       await axios.post(
         `${SV_LOCAL}/calendar/mentor/deny`,
         {
-          consultId: detailObject.consultId,
+          consultId: item.consultId,
           reason: reason,
         },
         {
@@ -59,7 +56,7 @@ const DetailedModal = (props) => {
   };
 
   const enterZoomLink = () => {
-    window.open(`${detailObject.zoomLink}`, "_blank");
+    window.open(`${item.zoomLink}`, "_blank");
   };
 
   const leftButton = () => {
@@ -71,9 +68,9 @@ const DetailedModal = (props) => {
       case COMPLETED_CONSULT_TYPE: // 2
         return "";
       case CANCEL_CONSULT_TYPE: // 3
-        return `취소 사유 : ${detailObject.reason}`;
+        return `취소 사유 : ${item.reason}`;
       case CANCELED_CONSULT_TYPE: // 4
-        return `취소 사유 : ${detailObject.reason}`;
+        return `취소 사유 : ${item.reason}`;
       default:
         return "";
     }
@@ -101,14 +98,12 @@ const DetailedModal = (props) => {
         <header className="detail-header">
           <div
             className="detail-header__img"
-            img={detailObject.student.profileImg}
+            img={item.student.profileImg}
           ></div>
-          <span className="detail-header__name">
-            {detailObject.student.nickname}
-          </span>
+          <span className="detail-header__name">{item.student.nickname}</span>
           <div className="detail-header__date">
-            상담 예정 시간 : {dateTimeParse(detailObject.startTime)} ~{" "}
-            {dateTimeParse(detailObject.endTime)}
+            상담 예정 시간 : {dateTimeParse(item.startTime)} ~{" "}
+            {dateTimeParse(item.endTime)}
           </div>
           <FontAwesomeIcon
             icon={faXmark}
@@ -119,13 +114,13 @@ const DetailedModal = (props) => {
         <main>
           <div className="detail-main detail-consult">
             <div className="detail-main__title">상담 내용</div>
-            <div className="detail-main__content">{detailObject.questions}</div>
+            <div className="detail-main__content">{item.questions}</div>
           </div>
           <div className="detail-main-row">
             <div className="detail-main detail-row__item">
               <div className="detail-main__title">원하는 상담 스타일</div>
               <div className="detail-main__tag-wrapper">
-                {detailObject.flow
+                {item.flow
                   .split("#")
                   .slice(1)
                   .map((type, typeIdx) => (
@@ -145,7 +140,7 @@ const DetailedModal = (props) => {
                 var result = window.prompt(
                   "상담을 취소하시겠습니까? 사유를 적어주세요."
                 );
-                setDetailObject({ ...detailObject, reason: result || "" });
+                // setDetailObject({ ...item, reason: result || "" });
                 if (result !== null) {
                   alert("상담이 취소되었습니다.");
                   setModalOpen(false);
@@ -155,10 +150,10 @@ const DetailedModal = (props) => {
                 result = window.prompt(
                   "상담을 거절하시겠습니까? 사유를 적어주세요."
                 );
-                setDetailObject((prev) => ({
-                  ...prev,
-                  reason: result || "",
-                }));
+                // setDetailObject((prev) => ({
+                //   ...prev,
+                //   reason: result || "",
+                // }));
                 if (result !== null) {
                   alert("상담이 거절되었습니다.");
                   setModalOpen(false);
@@ -167,7 +162,7 @@ const DetailedModal = (props) => {
               }
             }}
           >
-            {/* {detailObject.type === "0" ? "상담 취소하기" : "상담 거절하기"} */}
+            {/* {item.type === "0" ? "상담 취소하기" : "상담 거절하기"} */}
             {leftButton()}
           </span>
           <span
@@ -198,6 +193,20 @@ const DetailedModal = (props) => {
 };
 
 export default DetailedModal;
+
+const ModalWrapper = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background-color: #8080806d;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  z-index: 100;
+`;
 
 const DetailModal = styled.div`
   width: 55rem;
@@ -309,7 +318,8 @@ const DetailModal = styled.div`
       font-size: 1.3rem;
       font-weight: 600;
       cursor: ${(props) =>
-        props.type === CANCEL_CONSULT_TYPE || CANCELED_CONSULT_TYPE
+        props.type === CANCEL_CONSULT_TYPE ||
+        props.type === CANCELED_CONSULT_TYPE
           ? "default"
           : "pointer"};
       &:last-child {
