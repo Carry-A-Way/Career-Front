@@ -21,7 +21,7 @@ import {
 } from "../../../styles/common/mentor/MentorForm";
 import RecommendMenteeList from "../../../components/List/Recommend/RecommendMenteeList";
 import { useQuery } from "react-query";
-import { fetchConsultWithStatus } from "../../../api/fetchConsult";
+import { fetchConsultWithStatus } from "../../../api/consult/fetchConsult";
 
 const CanceledConsult = () => {
   const subMenuList = MentorConsultMenu;

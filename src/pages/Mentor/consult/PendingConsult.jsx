@@ -22,7 +22,7 @@ import {
   SectionHeader,
 } from "../../../styles/common/mentor/MentorForm";
 import { useQuery } from "react-query";
-import { fetchConsultWithStatus } from "../../../api/fetchConsult";
+import { fetchConsultWithStatus } from "../../../api/consult/fetchConsult";
 import RecommendMenteeList from "../../../components/List/Recommend/RecommendMenteeList";
 
 const PendingConsult = () => {

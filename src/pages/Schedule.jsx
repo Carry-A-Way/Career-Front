@@ -4,7 +4,7 @@ import MentorCalendar from "../components/MentorCalendar";
 import ScheduleList from "../components/List/ScheduleList";
 import { ScheduleLayout } from "../styles/common/Layout";
 import { useQuery } from "react-query";
-import { fetchUserConsult } from "../api/fetchConsult";
+import { fetchUserConsult } from "../api/consult/fetchConsult";
 
 const Schedule = () => {
   const [events, setEvents] = useState({

@@ -23,7 +23,7 @@ import {
   Section,
   SectionHeader,
 } from "../../../styles/common/mentor/MentorForm";
-import { fetchConsultWithStatus } from "../../../api/fetchConsult";
+import { fetchConsultWithStatus } from "../../../api/consult/fetchConsult";
 import RecommendMentorList from "../../../components/List/Recommend/RecommendMentorList";
 
 const MenteePendingConsult = () => {

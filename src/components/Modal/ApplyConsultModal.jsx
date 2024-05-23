@@ -12,7 +12,7 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { getIdFromToken } from "../../auth/jwtFunctions";
 import { getCookie } from "../../cookie";
 import { localToIsoParse } from "../../utils/ParseFormat";
-import { applyConsult } from "../../api/applyConsult";
+import { applyConsult } from "../../api/consult/applyConsult";
 
 const ApplyConsultModal = (props) => {
   const { setModalClose, startTime, endTime, mentor, refetch } = props;

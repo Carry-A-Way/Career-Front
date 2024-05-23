@@ -8,7 +8,7 @@ import { UPCOMING_CONSULT_TYPE } from "../../constants";
 import { GridRightCol, TwoColGrid } from "../../styles/common/Layout";
 import MentorLeftForm from "../../components/MentorLeftForm";
 import { useQuery } from "react-query";
-import { fetchConsultWithStatus } from "../../api/fetchConsult";
+import { fetchConsultWithStatus } from "../../api/consult/fetchConsult";
 import EventList from "../../components/List/EventList";
 import { fetchPostAll } from "../../api/fetchPost";
 import PostItem from "../../components/List/PostItem";

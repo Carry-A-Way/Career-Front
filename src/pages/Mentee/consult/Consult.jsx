@@ -25,7 +25,7 @@ import {
   SectionHeader,
 } from "../../../styles/common/mentor/MentorForm";
 import { useQuery } from "react-query";
-import { fetchUserConsult } from "../../../api/fetchConsult";
+import { fetchUserConsult } from "../../../api/consult/fetchConsult";
 
 const MenteeConsult = () => {
   const subMenuList = MenteeConsultMenu;

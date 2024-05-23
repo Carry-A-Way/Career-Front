@@ -3,55 +3,29 @@ import { dateTimeParse } from "../../utils/ParseFormat";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
-import { getCookie } from "../../cookie";
 import {
   CANCELED_CONSULT_TYPE,
   CANCEL_CONSULT_TYPE,
   COMPLETED_CONSULT_TYPE,
   PENDING_CONSULT_TYPE,
-  SV_LOCAL,
   UPCOMING_CONSULT_TYPE,
 } from "../../constants";
+import { useSelector } from "react-redux";
+import {
+  menteeCancelConsult,
+  mentorCancelConsult,
+} from "../../api/consult/cancelConsult";
+import { mentorAcceptConsult } from "../../api/consult/acceptConsult";
 // import { ModalWrapper } from "../../styles/common/ModalComponent";
 const DetailedModal = (props) => {
   const { setModalOpen, item, type } = props;
-  const acceptConsult = async () => {
-    try {
-      await axios.post(
-        `${SV_LOCAL}/calendar/mentor/accept`,
-        {
-          consultId: item.consultId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("jwtToken")}`,
-          },
-        }
-      );
-      window.location.reload();
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  const isMentor = useSelector((state) => state.isMentor.value);
 
-  const rejectConsult = async (reason) => {
-    try {
-      await axios.post(
-        `${SV_LOCAL}/calendar/mentor/deny`,
-        {
-          consultId: item.consultId,
-          reason: reason,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("jwtToken")}`,
-          },
-        }
-      );
-      window.location.reload();
-    } catch (e) {
-      console.error(e);
+  const handleCancelConsult = (reason) => {
+    if (isMentor) {
+      mentorCancelConsult(reason, item.consultId);
+    } else {
+      menteeCancelConsult(reason, item.consultId);
     }
   };
 
@@ -59,10 +33,46 @@ const DetailedModal = (props) => {
     window.open(`${item.zoomLink}`, "_blank");
   };
 
+  const onClickLeftFooterButton = () => {
+    if (type === UPCOMING_CONSULT_TYPE) {
+      var result = window.prompt("상담을 취소하시겠습니까? 사유를 적어주세요.");
+      if (result !== null) {
+        alert("상담이 취소되었습니다.");
+        setModalOpen(false);
+        handleCancelConsult(result);
+      }
+    } else if (type === PENDING_CONSULT_TYPE) {
+      result = window.prompt("상담을 거절하시겠습니까? 사유를 적어주세요.");
+      if (result !== null) {
+        alert("상담이 거절되었습니다.");
+        setModalOpen(false);
+        handleCancelConsult(result);
+      }
+    }
+  };
+
+  const onClickRightFooterButton = () => {
+    if (type === UPCOMING_CONSULT_TYPE) {
+      var result = window.confirm("상담 링크에 접속하시겠습니까?");
+      if (result) {
+        enterZoomLink();
+        setModalOpen(false);
+      }
+    } else if (type === PENDING_CONSULT_TYPE) {
+      result = window.confirm("상담을 수락하시겠습니까?");
+      if (result) {
+        alert("상담이 수락되었습니다.");
+        setModalOpen(false);
+        mentorAcceptConsult(item.consultId);
+      }
+    }
+  };
+
   const leftButton = () => {
     switch (type) {
       case PENDING_CONSULT_TYPE: // 0
-        return "상담 거절하기";
+        if (isMentor) return "상담 거절하기";
+        else return "상담 취소하기";
       case UPCOMING_CONSULT_TYPE: // 1
         return "상담 취소하기";
       case COMPLETED_CONSULT_TYPE: // 2
@@ -94,14 +104,11 @@ const DetailedModal = (props) => {
   };
   return (
     <ModalWrapper onClick={() => setModalOpen(false)}>
-      <DetailModal onClick={(e) => e.stopPropagation()} type={type}>
-        <header className="detail-header">
-          <div
-            className="detail-header__img"
-            img={item.student.profileImg}
-          ></div>
-          <span className="detail-header__name">{item.student.nickname}</span>
-          <div className="detail-header__date">
+      <DetailModal onClick={(e) => e.stopPropagation()}>
+        <Header type={type}>
+          <div className="header-img" img={item.student.profileImg}></div>
+          <span className="header-name">{item.student.nickname}</span>
+          <div className="header-date">
             상담 예정 시간 : {dateTimeParse(item.startTime)} ~{" "}
             {dateTimeParse(item.endTime)}
           </div>
@@ -110,8 +117,8 @@ const DetailedModal = (props) => {
             className="icon"
             onClick={() => setModalOpen(false)}
           />
-        </header>
-        <main>
+        </Header>
+        <Main type={type}>
           <div className="detail-main detail-consult">
             <div className="detail-main__title">상담 내용</div>
             <div className="detail-main__content">{item.questions}</div>
@@ -131,62 +138,15 @@ const DetailedModal = (props) => {
               </div>
             </div>
           </div>
-        </main>
-        <footer className="detail-footer">
-          <span
-            className="detail-footer__btn"
-            onClick={() => {
-              if (type === UPCOMING_CONSULT_TYPE) {
-                var result = window.prompt(
-                  "상담을 취소하시겠습니까? 사유를 적어주세요."
-                );
-                // setDetailObject({ ...item, reason: result || "" });
-                if (result !== null) {
-                  alert("상담이 취소되었습니다.");
-                  setModalOpen(false);
-                  rejectConsult(result);
-                }
-              } else if (type === PENDING_CONSULT_TYPE) {
-                result = window.prompt(
-                  "상담을 거절하시겠습니까? 사유를 적어주세요."
-                );
-                // setDetailObject((prev) => ({
-                //   ...prev,
-                //   reason: result || "",
-                // }));
-                if (result !== null) {
-                  alert("상담이 거절되었습니다.");
-                  setModalOpen(false);
-                  rejectConsult(result);
-                }
-              }
-            }}
-          >
-            {/* {item.type === "0" ? "상담 취소하기" : "상담 거절하기"} */}
+        </Main>
+        <Footer type={type}>
+          <span className="footer-btn" onClick={onClickLeftFooterButton}>
             {leftButton()}
           </span>
-          <span
-            className="detail-footer__btn"
-            onClick={() => {
-              if (type === UPCOMING_CONSULT_TYPE) {
-                var result = window.confirm("상담 링크에 접속하시겠습니까?");
-                if (result) {
-                  enterZoomLink();
-                  setModalOpen(false);
-                }
-              } else if (type === PENDING_CONSULT_TYPE) {
-                result = window.confirm("상담을 수락하시겠습니까?");
-                if (result) {
-                  alert("상담이 수락되었습니다.");
-                  setModalOpen(false);
-                  acceptConsult();
-                }
-              }
-            }}
-          >
+          <span className="footer-btn" onClick={onClickRightFooterButton}>
             {rightButton()}
           </span>
-        </footer>
+        </Footer>
       </DetailModal>
     </ModalWrapper>
   );
@@ -218,113 +178,110 @@ const DetailModal = styled.div`
   gap: 2rem;
   z-index: -1;
   color: black;
-  .detail-header {
+`;
+
+const Header = styled.header`
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  position: relative;
+  padding-top: 0.5rem;
+  .icon {
+    font-size: 2rem;
+    cursor: pointer;
+    position: absolute;
+    top: 0rem;
+    right: 0rem;
+    color: #515151;
+  }
+  > .header-img {
+    width: 5rem;
+    height: 5rem;
+    background-image: ${(props) =>
+      props.img
+        ? `url(${props.img})`
+        : `url("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")`};
+    background-size: cover;
+    border: 1px solid gray;
+    border-radius: 50%;
+  }
+  > .header-name {
+    font-size: 2rem;
+    font-weight: 500;
+  }
+  > .header-date {
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    background-color: ${(props) =>
+      props.type === CANCEL_CONSULT_TYPE || props.type === CANCELED_CONSULT_TYPE
+        ? "#777777"
+        : "#334b6c"};
+    color: white;
+    border-radius: 0.7rem;
+  }
+`;
+
+const Main = styled.main`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  .detail-main-row {
     display: flex;
-    align-items: center;
-    gap: 2rem;
-    position: relative;
-    padding-top: 0.5rem;
-    .icon {
-      font-size: 2rem;
-      cursor: pointer;
-      position: absolute;
-      top: 0rem;
-      right: 0rem;
-      color: #515151;
+    gap: 1rem;
+    .detail-main__tag-wrapper {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
     }
-    &__img {
-      width: 5rem;
-      height: 5rem;
-      background-image: ${(props) =>
-        props.img
-          ? `url(${props.img})`
-          : `url("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")`};
-      background-size: cover;
-      border: 1px solid gray;
-      border-radius: 50%;
-    }
-    &__name {
-      font-size: 2rem;
-      font-weight: 500;
-    }
-    &__date {
-      font-size: 1.2rem;
-      font-weight: 600;
-      padding: 0.5rem 1rem;
+    .detail-main__tag {
       background-color: ${(props) =>
         props.type === CANCEL_CONSULT_TYPE ||
         props.type === CANCELED_CONSULT_TYPE
           ? "#777777"
           : "#334b6c"};
       color: white;
-      border-radius: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 1rem;
+      font-size: 1rem;
     }
   }
-  > main {
+  .detail-main {
+    max-height: 10rem;
+    overflow: auto;
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+    border: 1px solid black;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    background-color: #f3f3f3;
+    box-shadow: 0 0.1rem 0.5rem 0 gray;
     gap: 1rem;
-    .detail-main-row {
-      display: flex;
-      gap: 1rem;
-      .detail-main__tag-wrapper {
-        display: flex;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-      }
-      .detail-main__tag {
-        background-color: ${(props) =>
-          props.type === CANCEL_CONSULT_TYPE ||
-          props.type === CANCELED_CONSULT_TYPE
-            ? "#777777"
-            : "#334b6c"};
-        color: white;
-        padding: 0.2rem 0.5rem;
-        border-radius: 1rem;
-        font-size: 1rem;
-        /* max-width: 5rem; */
-        /* white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis; */
-      }
+    flex: 1;
+    &__title {
+      font-weight: 600;
     }
-    .detail-main {
-      max-height: 10rem;
-      overflow: auto;
-      font-size: 1.2rem;
-      line-height: 1.5rem;
-      border: 1px solid black;
-      padding: 2rem 1rem;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      background-color: #f3f3f3;
-      box-shadow: 0 0.1rem 0.5rem 0 gray;
-      gap: 1rem;
-      flex: 1;
-      &__title {
-        font-weight: 600;
-      }
-      &__content {
-        white-space: pre-line;
-      }
+    &__content {
+      white-space: pre-line;
     }
   }
-  .detail-footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1rem;
-    &__btn {
-      font-size: 1.3rem;
-      font-weight: 600;
-      cursor: ${(props) =>
-        props.type === CANCEL_CONSULT_TYPE ||
-        props.type === CANCELED_CONSULT_TYPE
-          ? "default"
-          : "pointer"};
-      &:last-child {
-        color: #334b6c;
-      }
+`;
+
+const Footer = styled.footer`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  .footer-btn {
+    font-size: 1.3rem;
+    font-weight: 600;
+    cursor: ${(props) =>
+      props.type === CANCEL_CONSULT_TYPE || props.type === CANCELED_CONSULT_TYPE
+        ? "default"
+        : "pointer"};
+    &:last-child {
+      color: #334b6c;
     }
   }
 `;

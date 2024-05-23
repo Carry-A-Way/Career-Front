@@ -8,7 +8,7 @@ import WageBox from "../../components/Wage/WageBox";
 import { ScheduleLayout } from "../../styles/common/Layout";
 import RecommendMentorList from "../../components/List/Recommend/RecommendMentorList";
 import { useQuery } from "react-query";
-import { fetchUserConsult } from "../../api/fetchConsult";
+import { fetchUserConsult } from "../../api/consult/fetchConsult";
 import { fetchMentorCalendar } from "../../api/calendar";
 import DetailedModal from "../../components/Modal/DetailedModal";
 // import { colors } from "../../styles/common/Theme";
