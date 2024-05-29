@@ -38,6 +38,7 @@ export const USER_CONSULT_LIST = "consultation/user";
 
 // Calendar
 export const CALENDAR_MENTOR_VIEW = "calendar/mentor/view";
+export const MENTOR_SCHEDULE = `mentor/schedule`;
 export const MENTEE_SCHEDULE = `mentee/schedule`;
 export const APPLY_CONSULT_TO_MENTOR = "calendar/mentee/register";
 export const MENTOR_POSSIBLE_CONSULT_TIME = "calendar/mentee/get/possible/time";

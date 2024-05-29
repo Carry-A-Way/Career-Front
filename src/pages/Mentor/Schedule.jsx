@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import "../styles/calendar.css";
-import MentorCalendar from "../components/MentorCalendar";
-import ScheduleList from "../components/List/ScheduleList";
-import { ScheduleLayout } from "../styles/common/Layout";
+import "../../styles/calendar.css";
+import MentorCalendar from "../../components/MentorCalendar";
+import MentorScheduleList from "../../components/List/Schedule/MentorScheduleList";
+import { ScheduleLayout } from "../../styles/common/Layout";
 import { useQuery } from "react-query";
-import { fetchUserConsult } from "../api/consult/fetchConsult";
+import { fetchUserConsult } from "../../api/consult/fetchConsult";
 
-const Schedule = () => {
+const MentorSchedule = () => {
   const [events, setEvents] = useState({
     upcomingConsult: [],
     lastUpcomingConsult: [],
@@ -24,7 +24,7 @@ const Schedule = () => {
   };
 
   const useFetchConsultData = () => {
-    return useQuery(["mentor-schedule"], () => fetchUserConsult(), {
+    return useQuery(["mentee-schedule"], () => fetchUserConsult(), {
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
         const convertedData = {
@@ -46,7 +46,7 @@ const Schedule = () => {
         upcomingConsult={isLoading ? [] : events.upcomingConsult}
         refetch={refetch}
       />
-      <ScheduleList
+      <MentorScheduleList
         lastUpcomingConsult={isLoading ? [] : events.lastUpcomingConsult}
         upcomingConsult={isLoading ? [] : events.upcomingConsult}
         refetch={refetch}
@@ -55,4 +55,4 @@ const Schedule = () => {
   );
 };
 
-export default Schedule;
+export default MentorSchedule;

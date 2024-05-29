@@ -219,8 +219,7 @@ const MenteeCalendar = (props) => {
   const handleSelectEvent = (event) => {
     if (target == null) {
       setDetailObject({
-        type: event.status,
-        object: { ...event },
+        ...event,
       });
       setIsDetailOpen(true);
     }

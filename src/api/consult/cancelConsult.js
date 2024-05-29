@@ -1,6 +1,6 @@
 import axios from "axios";
 import { SV_LOCAL } from "../../constants";
-import { MENTEE_CANCEL_CONSULT } from "../api";
+import { MENTEE_CANCEL_CONSULT, MENTOR_CANCEL_CONSULT } from "../api";
 import { getCookie } from "../../cookie";
 
 export const menteeCancelConsult = async (reason, consultId) => {
@@ -25,7 +25,7 @@ export const menteeCancelConsult = async (reason, consultId) => {
 export const mentorCancelConsult = async (reason, consultId) => {
   try {
     await axios.post(
-      `${SV_LOCAL}/calendar/mentor/deny`,
+      `${SV_LOCAL}/${MENTOR_CANCEL_CONSULT}`,
       {
         consultId: consultId,
         reason: reason,
@@ -36,7 +36,7 @@ export const mentorCancelConsult = async (reason, consultId) => {
         },
       }
     );
-    window.location.reload();
+    // window.location.reload();
   } catch (e) {
     console.error(e);
   }

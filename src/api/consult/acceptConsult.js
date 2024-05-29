@@ -16,7 +16,7 @@ export const mentorAcceptConsult = async (consultId) => {
         },
       }
     );
-    window.location.reload();
+    // window.location.reload();
   } catch (e) {
     console.error(e);
   }

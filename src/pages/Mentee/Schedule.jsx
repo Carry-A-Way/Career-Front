@@ -22,7 +22,7 @@ const MenteeSchedule = () => {
   });
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const [detailObject, setDetailObject] = useState({ type: "", object: {} });
+  const [detailObject, setDetailObject] = useState({});
 
   const transformConsultData = (consultData) => {
     if (target === null) {
@@ -107,8 +107,9 @@ const MenteeSchedule = () => {
       {isDetailOpen && (
         <DetailedModal
           setModalOpen={setIsDetailOpen}
-          item={detailObject.object}
-          type={Number(detailObject.type)}
+          item={detailObject}
+          type={Number(detailObject.status)}
+          refetch={refetch}
         />
       )}
     </ScheduleLayout>

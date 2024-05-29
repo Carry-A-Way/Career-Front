@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Menubar from "./components/Menubar/Menubar";
 import Login from "./pages/Login/Login";
 import SignupMentee from "./pages/Mentee/Signup";
@@ -17,7 +17,6 @@ import Category from "./pages/Community/Category";
 import CategoryPost from "./pages/Community/CategoryPost";
 import MyActivity from "./pages/Community/MyActivity";
 import PostDetail from "./pages/Community/PostDetail";
-import Schedule from "./pages/Schedule";
 import UpcomingConsult from "./pages/Mentor/consult/UpcomingConsult";
 import CompletedConsult from "./pages/Mentor/consult/CompletedConsult";
 import CancelConsult from "./pages/Mentor/consult/CancelConsult";
@@ -38,6 +37,7 @@ import LikeMentor from "./pages/Mentee/LikeMentor";
 import ConsultMenteeMentor from "./pages/Mentee/ConsultMentor";
 import UserCard from "./pages/UserCard";
 import ConsultMentorCard from "./pages/ConsultMentorCard";
+import MentorSchedule from "./pages/Mentor/Schedule";
 import MenteeSchedule from "./pages/Mentee/Schedule";
 import PendingConsult from "./pages/Mentor/consult/PendingConsult";
 import MenteePendingConsult from "./pages/Mentee/consult/PendingConsult";
@@ -56,6 +56,7 @@ import {
   COMMUNITY_WRITE,
   CONSULT_MENTOR_INFO,
   MENTEE_SCHEDULE,
+  MENTOR_SCHEDULE,
   USER_CARD_INFO,
 } from "./settings/url";
 import { setupAxiosInterceptors } from "./utils/axiosInterceptors";
@@ -87,7 +88,7 @@ function App() {
             <Route path={`/${COMMUNITY_WRITE}`} element={<CommunityWrite />} />
             <Route path={`/${COMMUNITY_ACTIVITY}`} element={<MyActivity />} />
             <Route path={`/${COMMUNITY_POST}/:id`} element={<PostDetail />} />
-            <Route path="/schedule" element={<Schedule />} />
+            {/* <Route path="/schedule" element={<Schedule />} /> */}
             <Route path={`/${USER_CARD_INFO}`} element={<UserCard />} />
             <Route
               path={`/${CONSULT_MENTOR_INFO}`}
@@ -119,6 +120,10 @@ function App() {
                 <Route
                   path="/mentor/consult/canceled"
                   element={<CanceledConsult />}
+                />
+                <Route
+                  path={`/${MENTOR_SCHEDULE}`}
+                  element={<MentorSchedule />}
                 />
               </>
             ) : (

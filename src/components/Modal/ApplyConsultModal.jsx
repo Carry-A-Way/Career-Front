@@ -25,6 +25,7 @@ const ApplyConsultModal = (props) => {
   const [consultFlow, setConsultFlow] = useState(""); // 상담 방식
   const [consultQuestion, setConsultQuestion] = useState(""); // 상담 질문
   const [isInputFocused, setIsInputFocused] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const { data: keywordData } = useQuery(
     consultMajor,
@@ -45,20 +46,25 @@ const ApplyConsultModal = (props) => {
   };
 
   const onApplyConsult = () => {
-    const data = {
-      mentorId: mentor.id,
-      menteeId: getIdFromToken(getCookie("jwtToken")),
-      startTime: localToIsoParse(startTime),
-      endTime: localToIsoParse(endTime),
-      major: consultMajor,
-      flow: "#" + consultFlow.replace(", ", ",").split(",").join("#"),
-      questions: consultQuestion,
-    };
-    applyConsult(data);
-    setModalClose();
-    window.alert("상담 신청이 완료되었습니다.");
-    refetch();
+    if (consultMajor === "") {
+      setErrorMessage("상담할 전공을 선택하세요.");
+    } else {
+      const data = {
+        mentorId: mentor.id,
+        menteeId: getIdFromToken(getCookie("jwtToken")),
+        startTime: localToIsoParse(startTime),
+        endTime: localToIsoParse(endTime),
+        major: consultMajor,
+        flow: "#" + consultFlow.replace(", ", ",").split(",").join("#"),
+        questions: consultQuestion,
+      };
+      applyConsult(data);
+      setModalClose();
+      window.alert("상담 신청이 완료되었습니다.");
+      refetch();
+    }
   };
+
   return (
     <ModalWrapper>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
@@ -82,7 +88,9 @@ const ApplyConsultModal = (props) => {
             <Input
               placeholder="상담할 전공을 선택해 주세요."
               value={consultMajor}
-              onChange={(e) => setConsultMajor(e.target.value)}
+              onChange={(e) => {
+                setConsultMajor(e.target.value);
+              }}
               width={INPUT_WIDTH}
               height={INPUT_HEIGHT}
               onFocus={handleInputFocus}
@@ -127,6 +135,18 @@ const ApplyConsultModal = (props) => {
             onChange={(e) => setConsultQuestion(e.target.value)}
           />
         </div>
+        {consultMajor === "" && (
+          <span
+            style={{
+              color: "red",
+              margin: "0 auto",
+              fontSize: "1.1rem",
+              fontWeight: "600",
+            }}
+          >
+            {errorMessage}
+          </span>
+        )}
         <div className="button-wrapper">
           <ButtonDiv onClick={onApplyConsult}>상담 신청하기</ButtonDiv>
         </div>

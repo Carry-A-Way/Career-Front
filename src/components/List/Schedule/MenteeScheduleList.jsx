@@ -98,8 +98,7 @@ const MenteeScheduleList = ({
                       className="detail-btn"
                       onClick={() => {
                         setDetailObject({
-                          type: "0",
-                          object: { ...upcoming },
+                          ...upcoming,
                         });
                         setIsDetailOpen(true);
                       }}
@@ -192,8 +191,7 @@ const MenteeScheduleList = ({
                       className="detail-btn"
                       onClick={() => {
                         setDetailObject({
-                          type: "1",
-                          object: { ...pending },
+                          ...pending,
                         });
                         setIsDetailOpen(true);
                       }}

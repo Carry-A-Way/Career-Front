@@ -16,9 +16,8 @@ import {
   mentorCancelConsult,
 } from "../../api/consult/cancelConsult";
 import { mentorAcceptConsult } from "../../api/consult/acceptConsult";
-// import { ModalWrapper } from "../../styles/common/ModalComponent";
 const DetailedModal = (props) => {
-  const { setModalOpen, item, type } = props;
+  const { setModalOpen, item, type, refetch } = props;
   const isMentor = useSelector((state) => state.isMentor.value);
 
   const handleCancelConsult = (reason) => {
@@ -49,6 +48,7 @@ const DetailedModal = (props) => {
         handleCancelConsult(result);
       }
     }
+    refetch();
   };
 
   const onClickRightFooterButton = () => {
@@ -66,6 +66,7 @@ const DetailedModal = (props) => {
         mentorAcceptConsult(item.consultId);
       }
     }
+    refetch();
   };
 
   const leftButton = () => {
@@ -89,7 +90,8 @@ const DetailedModal = (props) => {
   const rightButton = () => {
     switch (type) {
       case PENDING_CONSULT_TYPE: // 0
-        return "상담 수락하기";
+        if (isMentor) return "상담 수락하기";
+        else return "";
       case UPCOMING_CONSULT_TYPE: // 1
         return "상담 입장하기";
       case COMPLETED_CONSULT_TYPE: // 2

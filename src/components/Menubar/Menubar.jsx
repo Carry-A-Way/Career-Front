@@ -37,7 +37,7 @@ const Menubar = () => {
             leftLink: [
               `${FRONT_URL}/mentor`,
               `${FRONT_URL}/mentor/consult`,
-              `${FRONT_URL}/schedule`,
+              `${FRONT_URL}/mentor/schedule`,
               `${FRONT_URL}/community`,
             ],
             rightMenu: ["초대하기", "추가메뉴"],
