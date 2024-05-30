@@ -20,7 +20,6 @@ const MenteeSchedule = () => {
     upcomingConsult: [],
     lastUpcomingConsult: [],
   });
-  const [selectedEvent, setSelectedEvent] = useState(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [detailObject, setDetailObject] = useState({});
 
@@ -59,7 +58,6 @@ const MenteeSchedule = () => {
             upcomingConsult: transformConsultData(data.upcomingConsult),
           };
           setEvents({ ...convertedData });
-          setSelectedEvent(null);
         },
       }
     );
@@ -88,7 +86,6 @@ const MenteeSchedule = () => {
         <MenteeScheduleList
           lastUpcomingConsult={isLoading ? [] : events.lastUpcomingConsult}
           upcomingConsult={isLoading ? [] : events.upcomingConsult}
-          detailObject={detailObject}
           setDetailObject={setDetailObject}
           setIsDetailOpen={setIsDetailOpen}
         />

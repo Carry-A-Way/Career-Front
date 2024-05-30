@@ -1,24 +1,18 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { dateParse, timeParse } from "../../../utils/ParseFormat";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { List, ListWrapper } from "../../../styles/common/ScheduleComponents";
-import DetailedModal from "../../Modal/DetailedModal";
 
 const MentorScheduleList = ({
   lastUpcomingConsult,
   upcomingConsult,
   refetch,
+  setDetailObject,
+  setIsDetailOpen,
 }) => {
   const [upcomingDetailId, setUpcomingDetailId] = useState("");
   const [pendingDetailId, setPendingDetailId] = useState("");
-  const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const [detailObject, setDetailObject] = useState({});
-
-  useEffect(() => {
-    if (isDetailOpen) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "auto";
-  }, [isDetailOpen]);
 
   return (
     <>
@@ -192,7 +186,6 @@ const MentorScheduleList = ({
                     <button
                       className="detail-btn"
                       onClick={() => {
-                        console.log(pending);
                         setDetailObject({
                           ...pending,
                         });
@@ -207,14 +200,6 @@ const MentorScheduleList = ({
             ))}
         </List>
       </ListWrapper>
-      {isDetailOpen && (
-        <DetailedModal
-          setModalOpen={setIsDetailOpen}
-          item={detailObject}
-          type={Number(detailObject.status)}
-          refetch={refetch}
-        />
-      )}
     </>
   );
 };

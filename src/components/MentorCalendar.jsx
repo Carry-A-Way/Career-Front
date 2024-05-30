@@ -10,7 +10,12 @@ import { USER_CONSULT_LIST } from "../api/api";
 
 const localizer = momentLocalizer(moment);
 const MentorCalendar = (props) => {
-  const { upcomingConsult, lastUpcomingConsult, refetch } = props;
+  const {
+    upcomingConsult,
+    lastUpcomingConsult,
+    setDetailObject,
+    setIsDetailOpen,
+  } = props;
   // state 0 이면 수락전, 1이면 수락완료-상담전, 2이면 상담완료
   const [events, setEvents] = useState([
     ...lastUpcomingConsult,
@@ -30,6 +35,7 @@ const MentorCalendar = (props) => {
     end: "",
   });
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
   const isCustomTimeCell = (start, end) => {
     let customStartTime = new Date();
     let customEndTime = new Date();
@@ -115,58 +121,8 @@ const MentorCalendar = (props) => {
     return { style };
   };
 
-  // useEffect(() => {
-  //   axios
-  //     .get(`${SV_LOCAL}/${USER_CONSULT_LIST}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${getCookie("jwtToken")}`,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       const consultDataList = res.data.object;
-  //       const tmpList = [...consultDataList.lastUpcomingConsult];
-  //       tmpList.push(...consultDataList.previousConsult);
-  //       tmpList.push(...consultDataList.upcomingConsult);
-  //       const convertEvents = [];
-  //       tmpList.forEach((item) =>
-  //         convertEvents.push({
-  //           ...item,
-  //           id: item.consultId,
-  //           title: `[${item.major}]\n${item.student.nickname}`,
-  //           start: new Date(item.startTime),
-  //           end: new Date(item.endTime),
-  //           status: item.status,
-  //         })
-  //       );
-  //       const filteredEvents = convertEvents.filter(
-  //         // 거절된 상담을 시간표에 표시되지 않도록 작업
-  //         (event) => event.status !== 3
-  //       );
-  //       setEvents(filteredEvents);
-  //     })
-  //     .catch((err) => console.error(err));
-  // }, []);
-  useEffect(() => {
-    if (isUpdatePossibleTime) {
-      axios
-        .post(
-          `${SV_LOCAL}/calendar/mentor/get/possible/time`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${getCookie("jwtToken")}`,
-            },
-          }
-        )
-        .then((res) => {
-          if (res.data.dateList) setPossibleTimeList([...res.data.dateList]);
-          setIsUpdatePossibleTime(false);
-        })
-        .catch((err) => console.error(err));
-    }
-  }, [isUpdatePossibleTime]);
-
   const handleSelectSlot = (date) => {
+    setDetailObject(null);
     const momentStart = moment(new Date(date.start));
     const momentEnd = moment(new Date(date.end));
     const formattedStartDate = momentStart.format("YYYY.MM.DD HH:mm");
@@ -234,6 +190,33 @@ const MentorCalendar = (props) => {
       .catch((err) => console.error(err));
   };
 
+  const handleSelectEvent = (event) => {
+    setDetailObject({
+      ...event,
+    });
+    setIsDetailOpen(true);
+  };
+
+  useEffect(() => {
+    if (isUpdatePossibleTime) {
+      axios
+        .post(
+          `${SV_LOCAL}/calendar/mentor/get/possible/time`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${getCookie("jwtToken")}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data.dateList) setPossibleTimeList([...res.data.dateList]);
+          setIsUpdatePossibleTime(false);
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [isUpdatePossibleTime]);
+
   return (
     <CalendarContainer>
       <Calendar
@@ -246,6 +229,7 @@ const MentorCalendar = (props) => {
         eventPropGetter={eventPropGetter}
         slotPropGetter={slotPropGetter}
         onSelectSlot={handleSelectSlot}
+        onSelectEvent={handleSelectEvent}
         min={new Date(0, 0, 0, 7, 0, 0)} // 표시할 최소 시간
         max={new Date(0, 0, 0, 23, 59, 59)} // 표시할 최대 시간
         step={30}
