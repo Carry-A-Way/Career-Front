@@ -13,7 +13,6 @@ import EventList from "../../components/List/EventList";
 import { fetchPostAll } from "../../api/fetchPost";
 import PostItem from "../../components/List/PostItem";
 import { xScrollStyle } from "../../styles/common/Scroll";
-import PostList from "../../components/List/PostList";
 
 const Home = () => {
   const { data: upcomingData, isLoading: upcomingLoading } = useQuery(
@@ -23,13 +22,13 @@ const Home = () => {
       refetchOnWindowFocus: false,
     }
   );
-  const {
-    data: postData,
-    isLoading: isPostLoading,
-    refetch,
-  } = useQuery("post", () => fetchPostAll(), {
-    refetchOnWindowFocus: false,
-  });
+  const { data: postData, isLoading: isPostLoading } = useQuery(
+    "post",
+    () => fetchPostAll(),
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
   const navigate = useNavigate();
   return (
     <TwoColGrid>
@@ -47,12 +46,7 @@ const Home = () => {
               <header>이런 고민이 있어요</header>
               <PostContainer>
                 {postData.map((post, idx) => (
-                  <PostItem
-                    item={post}
-                    idx={idx}
-                    refetch={refetch}
-                    key={post.id}
-                  />
+                  <PostItem item={post} idx={idx} key={post.id} />
                 ))}
               </PostContainer>
             </Wrapper>

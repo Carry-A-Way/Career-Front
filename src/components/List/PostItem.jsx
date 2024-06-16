@@ -7,21 +7,25 @@ import { dateParse } from "../../utils/ParseFormat";
 import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartFull } from "@fortawesome/free-solid-svg-icons";
 import { onAddHeart, onDeleteHeart } from "../../api/heartPost";
-const PostItem = ({ item, idx, refetch }) => {
+const PostItem = ({ item }) => {
   const navigate = useNavigate();
-  // const [isHeartClicked, setIsHeartClicked] = useState(item.isHeartClicked);
-  // const [heartCount, setHeartCount] = useState(item.heartCnt);
+  const [isHeartClicked, setIsHeartClicked] = useState(item.isHeartClicked);
+  const [heartCount, setHeartCount] = useState(item.heartCnt);
   // console.log(item.heartCnt);
   const handleAddHeart = (e, id) => {
     e.stopPropagation();
     onAddHeart(0, id);
-    if (refetch) refetch();
+    setIsHeartClicked(true);
+    setHeartCount((current) => current + 1);
+    //if (refetch) refetch();
   };
 
   const handleDeleteHeart = (e, id) => {
     e.stopPropagation();
     onDeleteHeart(0, id);
-    if (refetch) refetch();
+    setIsHeartClicked(false);
+    setHeartCount((current) => current - 1);
+    //if (refetch) refetch();
   };
   return (
     <Post
@@ -79,7 +83,7 @@ const PostItem = ({ item, idx, refetch }) => {
         </div>
       </MainWrapper>
       <footer>
-        {item.isHeartClicked ? (
+        {isHeartClicked ? (
           <FontAwesomeIcon
             icon={faHeartFull}
             className="icon heart-full"
@@ -92,7 +96,7 @@ const PostItem = ({ item, idx, refetch }) => {
             onClick={(e) => handleAddHeart(e, item.id)}
           />
         )}
-        <span>{item.heartCnt}</span>
+        <span>{heartCount}</span>
         <FontAwesomeIcon icon={faMessage} className="icon" />
         <span>{item.commentCnt}</span>
       </footer>
