@@ -20,6 +20,10 @@ const MenteeSchedule = () => {
     upcomingConsult: [],
     lastUpcomingConsult: [],
   });
+  const [mentorEvents, setMentorEvents] = useState({
+    upcomingConsult: [],
+    lastUpcomingConsult: [],
+  });
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [detailObject, setDetailObject] = useState({});
 
@@ -57,7 +61,40 @@ const MenteeSchedule = () => {
             lastUpcomingConsult: transformConsultData(data.lastUpcomingConsult),
             upcomingConsult: transformConsultData(data.upcomingConsult),
           };
-          setEvents({ ...convertedData });
+          if (!!target) {
+            // 멘토시간표면 내 시간표 + 멘토시간표
+            // setMentorEvents({
+            //   lastUpcomingConsult: [
+            //     ...events.lastUpcomingConsult,
+            //     ...convertedData.lastUpcomingConsult,
+            //   ],
+            //   upcomingConsult: [
+            //     ...events.upcomingConsult,
+            //     ...convertedData.upcomingConsult,
+            //   ],
+            // });
+            const existingConsultIds = new Set(
+              events.lastUpcomingConsult.map((consult) => consult.consultId)
+            );
+
+            const filteredLastUpcomingConsult =
+              convertedData.lastUpcomingConsult.filter(
+                (consult) => !existingConsultIds.has(consult.consultId)
+              );
+
+            return setMentorEvents({
+              lastUpcomingConsult: [
+                ...events.lastUpcomingConsult,
+                ...filteredLastUpcomingConsult,
+              ],
+              upcomingConsult: [
+                ...events.upcomingConsult,
+                ...convertedData.upcomingConsult,
+              ],
+            });
+          } else {
+            setEvents({ ...convertedData });
+          }
         },
       }
     );
@@ -76,8 +113,14 @@ const MenteeSchedule = () => {
       <MenteeCalendar
         target={target}
         setTarget={setTarget}
-        lastUpcomingConsult={isLoading ? [] : events.lastUpcomingConsult}
-        upcomingConsult={isLoading ? [] : events.upcomingConsult}
+        lastUpcomingConsult={
+          !!target
+            ? mentorEvents.lastUpcomingConsult
+            : events.lastUpcomingConsult
+        }
+        upcomingConsult={
+          !!target ? mentorEvents.upcomingConsult : events.upcomingConsult
+        }
         refetch={refetch}
         setDetailObject={setDetailObject}
         setIsDetailOpen={setIsDetailOpen}

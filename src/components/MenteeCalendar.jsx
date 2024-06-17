@@ -112,7 +112,6 @@ const MenteeCalendar = (props) => {
 
   const eventPropGetter = (event, start) => {
     const isPastDate = moment(start).isBefore(today); // 오늘 이전인지 확인
-
     const style = {
       backgroundColor: isPastDate ? "lightgray" : "", // 오늘 이전인 경우 회색 배경, 그렇지 않으면 흰 배경
       borderColor: isPastDate ? "lightgray" : "",
