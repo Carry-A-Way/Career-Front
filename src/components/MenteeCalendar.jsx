@@ -17,21 +17,24 @@ const MenteeCalendar = (props) => {
   const {
     target,
     setTarget,
-    upcomingConsult,
-    lastUpcomingConsult,
+    consultList,
+    setConsultList,
     refetch,
     setDetailObject,
     setIsDetailOpen,
   } = props;
   // state 0 이면 수락전, 1이면 수락완료-상담전, 2이면 상담완료
   const [events, setEvents] = useState([
-    ...lastUpcomingConsult,
-    ...upcomingConsult,
+    ...consultList.lastUpcomingConsult,
+    ...consultList.upcomingConsult,
   ]);
 
   useEffect(() => {
-    setEvents([...lastUpcomingConsult, ...upcomingConsult]);
-  }, [lastUpcomingConsult, upcomingConsult]);
+    setEvents([
+      ...consultList.lastUpcomingConsult,
+      ...consultList.upcomingConsult,
+    ]);
+  }, [consultList.lastUpcomingConsult, consultList.upcomingConsult]);
   //const [possibleTimeList, setPossibleTimeList] = useState(PossibleDateList);
   const today = moment();
   const [selectedSlot, setSelectedSlot] = useState({
@@ -117,14 +120,18 @@ const MenteeCalendar = (props) => {
       borderColor: isPastDate ? "lightgray" : "",
       color: isPastDate ? "#3b3b3b" : "white",
     };
-
     if (!event.status) {
+      // 수락대기중인 상담일때
       style.opacity = "0.8";
       style.borderColor = "white";
       style.color = isPastDate ? "#3b3b3b" : "white";
       style.borderStyle = "dashed";
     }
-
+    if (!!event.target) {
+      // 멘토 상담이면
+      style.opacity = "0.9";
+      style.backgroundColor = "green";
+    }
     return { style };
   };
 
@@ -216,7 +223,7 @@ const MenteeCalendar = (props) => {
   };
 
   const handleSelectEvent = (event) => {
-    if (target == null) {
+    if (target == null || event.target == null) {
       setDetailObject({
         ...event,
       });
@@ -229,6 +236,8 @@ const MenteeCalendar = (props) => {
       <Header>
         <ColorInfoWrapper>
           <ColorInfo color="yellow">멘토 상담 가능 시간</ColorInfo>
+          <ColorInfo color="green">멘토의 상담 일정</ColorInfo>
+          <ColorInfo color="#265985">나의 상담 일정</ColorInfo>
         </ColorInfoWrapper>
         <Title>
           {!!target ? `${target.name} 멘토의 시간표` : "내 시간표"}
@@ -238,7 +247,7 @@ const MenteeCalendar = (props) => {
               onClick={() => {
                 setTarget(null);
                 refetch();
-                setEvents([...lastUpcomingConsult, ...upcomingConsult]);
+                // setEvents([...lastUpcomingConsult, ...upcomingConsult]);
               }}
             >
               내 시간표 보기

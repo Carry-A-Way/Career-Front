@@ -11,96 +11,30 @@ import { useQuery } from "react-query";
 import { fetchUserConsult } from "../../api/consult/fetchConsult";
 import { fetchMentorCalendar } from "../../api/calendar";
 import DetailedModal from "../../components/Modal/DetailedModal";
+import {
+  useFetchConsultList,
+  useGetConsultList,
+} from "../../hooks/useGetConsultList";
+import { transformConsultData } from "../../utils/TransformConsultData";
 // import { colors } from "../../styles/common/Theme";
 
 const MenteeSchedule = () => {
   const [target, setTarget] = useState(null); // 타겟 시간표. 디폴트는 본인
   const point = 12000;
-  const [events, setEvents] = useState({
-    upcomingConsult: [],
-    lastUpcomingConsult: [],
-  });
-  const [mentorEvents, setMentorEvents] = useState({
-    upcomingConsult: [],
-    lastUpcomingConsult: [],
-  });
+
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [detailObject, setDetailObject] = useState({});
 
-  const transformConsultData = (consultData) => {
-    if (target === null) {
-      return consultData.map((item) => ({
-        ...item,
-        id: item.consultId,
-        title: `[${item.major}]\n${item.mentor.nickname}`,
-        start: new Date(item.startTime),
-        end: new Date(item.endTime),
-        status: item.status,
-      }));
-    } else {
-      return consultData.map((item) => ({
-        ...item,
-        id: item.consultId,
-        title: item.status ? "상담 예정" : "상담 대기",
-        start: new Date(item.startTime),
-        end: new Date(item.endTime),
-        status: item.status,
-      }));
-    }
-  };
+  const { menteeEvent, mentorEvent, isLoading, refetch } =
+    useGetConsultList(target);
 
-  const useFetchConsultData = (target) => {
-    return useQuery(
-      [target],
-      () =>
-        target === null ? fetchUserConsult() : fetchMentorCalendar(target.id),
-      {
-        refetchOnWindowFocus: false,
-        onSuccess: (data) => {
-          const convertedData = {
-            lastUpcomingConsult: transformConsultData(data.lastUpcomingConsult),
-            upcomingConsult: transformConsultData(data.upcomingConsult),
-          };
-          if (!!target) {
-            // 멘토시간표면 내 시간표 + 멘토시간표
-            // setMentorEvents({
-            //   lastUpcomingConsult: [
-            //     ...events.lastUpcomingConsult,
-            //     ...convertedData.lastUpcomingConsult,
-            //   ],
-            //   upcomingConsult: [
-            //     ...events.upcomingConsult,
-            //     ...convertedData.upcomingConsult,
-            //   ],
-            // });
-            const existingConsultIds = new Set(
-              events.lastUpcomingConsult.map((consult) => consult.consultId)
-            );
+  const [events, setEvents] = useState(menteeEvent);
+  const [mentorEvents, setMentorEvents] = useState(mentorEvent);
 
-            const filteredLastUpcomingConsult =
-              convertedData.lastUpcomingConsult.filter(
-                (consult) => !existingConsultIds.has(consult.consultId)
-              );
-
-            return setMentorEvents({
-              lastUpcomingConsult: [
-                ...events.lastUpcomingConsult,
-                ...filteredLastUpcomingConsult,
-              ],
-              upcomingConsult: [
-                ...events.upcomingConsult,
-                ...convertedData.upcomingConsult,
-              ],
-            });
-          } else {
-            setEvents({ ...convertedData });
-          }
-        },
-      }
-    );
-  };
-
-  const { isLoading, refetch } = useFetchConsultData(target);
+  useEffect(() => {
+    setEvents(menteeEvent);
+    setMentorEvents(mentorEvent);
+  }, [menteeEvent, mentorEvent]);
 
   useEffect(() => {
     if (isDetailOpen) document.body.style.overflow = "hidden";
@@ -113,14 +47,8 @@ const MenteeSchedule = () => {
       <MenteeCalendar
         target={target}
         setTarget={setTarget}
-        lastUpcomingConsult={
-          !!target
-            ? mentorEvents.lastUpcomingConsult
-            : events.lastUpcomingConsult
-        }
-        upcomingConsult={
-          !!target ? mentorEvents.upcomingConsult : events.upcomingConsult
-        }
+        consultList={!!target ? mentorEvents : events}
+        setConsultList={!!target ? setMentorEvents : setEvents}
         refetch={refetch}
         setDetailObject={setDetailObject}
         setIsDetailOpen={setIsDetailOpen}

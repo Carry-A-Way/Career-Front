@@ -41,9 +41,13 @@ const DetailedModal = (props) => {
         handleCancelConsult(result);
       }
     } else if (type === PENDING_CONSULT_TYPE) {
-      result = window.prompt("상담을 거절하시겠습니까? 사유를 적어주세요.");
+      if (isMentor)
+        result = window.prompt("상담을 거절하시겠습니까? 사유를 적어주세요.");
+      else
+        result = window.prompt("상담을 취소하시겠습니까? 사유를 적어주세요.");
       if (result !== null) {
-        alert("상담이 거절되었습니다.");
+        if (isMentor) alert("상담이 거절되었습니다.");
+        else alert("상담이 취소되었습니다.");
         setModalOpen(false);
         handleCancelConsult(result);
       }
@@ -108,8 +112,13 @@ const DetailedModal = (props) => {
     <ModalWrapper onClick={() => setModalOpen(false)}>
       <DetailModal onClick={(e) => e.stopPropagation()}>
         <Header type={type}>
-          <div className="header-img" img={item.student.profileImg}></div>
-          <span className="header-name">{item.student.nickname}</span>
+          <div
+            className="header-img"
+            img={isMentor ? item.student.profileImg : item.mentor.profileImg}
+          ></div>
+          <span className="header-name">
+            {isMentor ? item.student.nickname : item.mentor.nickname}
+          </span>
           <div className="header-date">
             상담 예정 시간 : {dateTimeParse(item.startTime)} ~{" "}
             {dateTimeParse(item.endTime)}
@@ -120,6 +129,9 @@ const DetailedModal = (props) => {
             onClick={() => setModalOpen(false)}
           />
         </Header>
+        <p style={{ fontSize: "1.2rem", fontWeight: "600" }}>
+          상담 전공 : {item.major}
+        </p>
         <Main type={type}>
           <div className="detail-main detail-consult">
             <div className="detail-main__title">상담 내용</div>
