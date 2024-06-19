@@ -6,6 +6,7 @@ import { ScheduleLayout } from "../../styles/common/Layout";
 import { useQuery } from "react-query";
 import { fetchUserConsult } from "../../api/consult/fetchConsult";
 import DetailedModal from "../../components/Modal/DetailedModal";
+import { transformConsultData } from "../../utils/transformConsultData";
 
 const MentorSchedule = () => {
   const [events, setEvents] = useState({
@@ -15,31 +16,29 @@ const MentorSchedule = () => {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [detailObject, setDetailObject] = useState({});
 
-  const transformConsultData = (consultData) => {
-    return consultData.map((item) => ({
-      ...item,
-      id: item.consultId,
-      title: `[${item.major}]\n${item.student.nickname}`,
-      start: new Date(item.startTime),
-      end: new Date(item.endTime),
-      status: item.status,
-    }));
-  };
-
-  const useFetchConsultData = () => {
-    return useQuery(["mentee-schedule"], () => fetchUserConsult(), {
+  const { isLoading, refetch } = useQuery(
+    ["mentee-schedule"],
+    fetchUserConsult,
+    {
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
+        console.log("onSuccess", data);
         const convertedData = {
-          lastUpcomingConsult: transformConsultData(data.lastUpcomingConsult),
-          upcomingConsult: transformConsultData(data.upcomingConsult),
+          lastUpcomingConsult: transformConsultData(
+            data.lastUpcomingConsult,
+            false,
+            true
+          ),
+          upcomingConsult: transformConsultData(
+            data.upcomingConsult,
+            false,
+            true
+          ),
         };
         setEvents({ ...convertedData });
       },
-    });
-  };
-
-  const { isLoading, refetch } = useFetchConsultData();
+    }
+  );
 
   useEffect(() => {
     if (isDetailOpen) document.body.style.overflow = "hidden";

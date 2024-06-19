@@ -6,7 +6,6 @@ import styled from "styled-components";
 import { SV_LOCAL } from "../constants";
 import axios from "axios";
 import { getCookie } from "../cookie";
-import { USER_CONSULT_LIST } from "../api/api";
 
 const localizer = momentLocalizer(moment);
 const MentorCalendar = (props) => {
@@ -113,7 +112,7 @@ const MentorCalendar = (props) => {
       style.opacity = "0.8";
       style.borderColor = "white";
       style.color = isPastDate ? "#3b3b3b" : "white";
-      style.borderStyle = "dashed";
+      style.border = "1.5px dashed white";
     }
 
     style.class = !event.status ? "reserved-event" : "regular-event";
@@ -219,6 +218,7 @@ const MentorCalendar = (props) => {
 
   return (
     <CalendarContainer>
+      <Header>내 시간표</Header>
       <Calendar
         localizer={localizer}
         events={events}
@@ -279,6 +279,16 @@ export default MentorCalendar;
 
 const CalendarContainer = styled.div`
   width: 60%;
+`;
+
+const Header = styled.header`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
 `;
 
 const DeleteWrapper = styled.div`

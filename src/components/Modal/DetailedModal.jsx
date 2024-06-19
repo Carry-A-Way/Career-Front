@@ -20,11 +20,11 @@ const DetailedModal = (props) => {
   const { setModalOpen, item, type, refetch } = props;
   const isMentor = useSelector((state) => state.isMentor.value);
 
-  const handleCancelConsult = (reason) => {
+  const handleCancelConsult = async (reason) => {
     if (isMentor) {
-      mentorCancelConsult(reason, item.consultId);
+      await mentorCancelConsult(reason, item.consultId);
     } else {
-      menteeCancelConsult(reason, item.consultId);
+      await menteeCancelConsult(reason, item.consultId);
     }
   };
 
@@ -32,13 +32,14 @@ const DetailedModal = (props) => {
     window.open(`${item.zoomLink}`, "_blank");
   };
 
-  const onClickLeftFooterButton = () => {
+  const onClickLeftFooterButton = async () => {
     if (type === UPCOMING_CONSULT_TYPE) {
       var result = window.prompt("상담을 취소하시겠습니까? 사유를 적어주세요.");
       if (result !== null) {
         alert("상담이 취소되었습니다.");
         setModalOpen(false);
-        setTimeout(() => handleCancelConsult(result), 1000);
+        await handleCancelConsult(result);
+        refetch();
       }
     } else if (type === PENDING_CONSULT_TYPE) {
       if (isMentor)
@@ -49,13 +50,13 @@ const DetailedModal = (props) => {
         if (isMentor) alert("상담이 거절되었습니다.");
         else alert("상담이 취소되었습니다.");
         setModalOpen(false);
-        handleCancelConsult(result);
+        await handleCancelConsult(result);
+        refetch();
       }
     }
-    refetch();
   };
 
-  const onClickRightFooterButton = () => {
+  const onClickRightFooterButton = async () => {
     if (type === UPCOMING_CONSULT_TYPE) {
       var result = window.confirm("상담 링크에 접속하시겠습니까?");
       if (result) {
@@ -67,10 +68,10 @@ const DetailedModal = (props) => {
       if (result) {
         alert("상담이 수락되었습니다.");
         setModalOpen(false);
-        mentorAcceptConsult(item.consultId);
+        await mentorAcceptConsult(item.consultId);
+        refetch();
       }
     }
-    refetch();
   };
 
   const leftButton = () => {

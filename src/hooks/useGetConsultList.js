@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "react-query";
 import { fetchUserConsult } from "../api/consult/fetchConsult";
 import { fetchMentorCalendar } from "../api/calendar";
-import { transformConsultData } from "../utils/TransformConsultData";
+import { transformConsultData } from "../utils/transformConsultData";
 
 export const useGetConsultList = (target) => {
   const [menteeEvent, setMenteeEvent] = useState({
@@ -30,7 +30,6 @@ export const useGetConsultList = (target) => {
         if (!!target) {
           fetchUserConsult()
             .then((menteeData) => {
-              console.log(menteeData);
               const convertedMenteeData = {
                 lastUpcomingConsult: transformConsultData(
                   menteeData.lastUpcomingConsult,
@@ -52,11 +51,6 @@ export const useGetConsultList = (target) => {
                 convertedData.lastUpcomingConsult.filter(
                   (consult) => !existingConsultIds.has(consult.consultId)
                 );
-
-              console.log(
-                filteredLastUpcomingConsult,
-                convertedMenteeData.lastUpcomingConsult
-              );
               return setMentorEvent({
                 lastUpcomingConsult: [
                   ...convertedMenteeData.lastUpcomingConsult,
@@ -72,7 +66,6 @@ export const useGetConsultList = (target) => {
               console.error(error);
             });
         } else {
-          console.log(convertedData);
           setMenteeEvent({ ...convertedData });
         }
       },

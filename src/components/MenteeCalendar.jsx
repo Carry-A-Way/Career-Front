@@ -125,7 +125,7 @@ const MenteeCalendar = (props) => {
       style.opacity = "0.8";
       style.borderColor = "white";
       style.color = isPastDate ? "#3b3b3b" : "white";
-      style.borderStyle = "dashed";
+      style.border = "1.5px dashed white";
     }
     if (!!event.target) {
       // 멘토 상담이면

@@ -1,5 +1,5 @@
-export const transformConsultData = (consultData, isMentor) => {
-  if (!!isMentor) {
+export const transformConsultData = (consultData, target, isMentor = false) => {
+  if (!!target) {
     return consultData.map((item) => ({
       ...item,
       id: item.consultId,
@@ -13,7 +13,9 @@ export const transformConsultData = (consultData, isMentor) => {
     return consultData.map((item) => ({
       ...item,
       id: item.consultId,
-      title: `[${item.major}]\n${item.mentor.nickname}`,
+      title: isMentor
+        ? `[${item.major}]\n${item.student.nickname}`
+        : `[${item.major}]\n${item.mentor.nickname}`,
       start: new Date(item.startTime),
       end: new Date(item.endTime),
       status: item.status,
