@@ -38,7 +38,7 @@ const DetailedModal = (props) => {
       if (result !== null) {
         alert("상담이 취소되었습니다.");
         setModalOpen(false);
-        handleCancelConsult(result);
+        setTimeout(() => handleCancelConsult(result), 1000);
       }
     } else if (type === PENDING_CONSULT_TYPE) {
       if (isMentor)

@@ -7,16 +7,8 @@ import PointBox from "../../components/Box/PointBox";
 import WageBox from "../../components/Wage/WageBox";
 import { ScheduleLayout } from "../../styles/common/Layout";
 import RecommendMentorList from "../../components/List/Recommend/RecommendMentorList";
-import { useQuery } from "react-query";
-import { fetchUserConsult } from "../../api/consult/fetchConsult";
-import { fetchMentorCalendar } from "../../api/calendar";
 import DetailedModal from "../../components/Modal/DetailedModal";
-import {
-  useFetchConsultList,
-  useGetConsultList,
-} from "../../hooks/useGetConsultList";
-import { transformConsultData } from "../../utils/TransformConsultData";
-// import { colors } from "../../styles/common/Theme";
+import { useGetConsultList } from "../../hooks/useGetConsultList";
 
 const MenteeSchedule = () => {
   const [target, setTarget] = useState(null); // 타겟 시간표. 디폴트는 본인
@@ -28,8 +20,14 @@ const MenteeSchedule = () => {
   const { menteeEvent, mentorEvent, isLoading, refetch } =
     useGetConsultList(target);
 
-  const [events, setEvents] = useState(menteeEvent);
-  const [mentorEvents, setMentorEvents] = useState(mentorEvent);
+  const [events, setEvents] = useState({
+    lastUpcomingConsult: [],
+    upcomingConsult: [],
+  });
+  const [mentorEvents, setMentorEvents] = useState({
+    lastUpcomingConsult: [],
+    upcomingConsult: [],
+  });
 
   useEffect(() => {
     setEvents(menteeEvent);

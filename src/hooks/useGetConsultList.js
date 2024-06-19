@@ -30,6 +30,7 @@ export const useGetConsultList = (target) => {
         if (!!target) {
           fetchUserConsult()
             .then((menteeData) => {
+              console.log(menteeData);
               const convertedMenteeData = {
                 lastUpcomingConsult: transformConsultData(
                   menteeData.lastUpcomingConsult,
@@ -52,6 +53,10 @@ export const useGetConsultList = (target) => {
                   (consult) => !existingConsultIds.has(consult.consultId)
                 );
 
+              console.log(
+                filteredLastUpcomingConsult,
+                convertedMenteeData.lastUpcomingConsult
+              );
               return setMentorEvent({
                 lastUpcomingConsult: [
                   ...convertedMenteeData.lastUpcomingConsult,
@@ -67,6 +72,7 @@ export const useGetConsultList = (target) => {
               console.error(error);
             });
         } else {
+          console.log(convertedData);
           setMenteeEvent({ ...convertedData });
         }
       },

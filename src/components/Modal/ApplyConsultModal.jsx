@@ -45,7 +45,7 @@ const ApplyConsultModal = (props) => {
     setIsInputFocused(false);
   };
 
-  const onApplyConsult = () => {
+  const onApplyConsult = async () => {
     if (consultMajor === "") {
       setErrorMessage("상담할 전공을 선택하세요.");
     } else {
@@ -58,10 +58,10 @@ const ApplyConsultModal = (props) => {
         flow: "#" + consultFlow.replace(", ", ",").split(",").join("#"),
         questions: consultQuestion,
       };
-      applyConsult(data);
+      const response = await applyConsult(data);
       setModalClose();
-      window.alert("상담 신청이 완료되었습니다.");
-      refetch();
+      window.alert(response.message);
+      if (response.status === 200) refetch();
     }
   };
 
