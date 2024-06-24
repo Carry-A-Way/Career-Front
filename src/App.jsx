@@ -55,11 +55,13 @@ import {
   COMMUNITY_POST,
   COMMUNITY_WRITE,
   CONSULT_MENTOR_INFO,
+  KAKAO_OAUTH,
   MENTEE_SCHEDULE,
   MENTOR_SCHEDULE,
   USER_CARD_INFO,
 } from "./settings/url";
 import { setupAxiosInterceptors } from "./utils/axiosInterceptors";
+import KakaoRedirect from "./pages/kakao/KakaoRedirect";
 
 function App() {
   const isLogin = useSelector((state) => state.isLogin.value);
@@ -79,6 +81,7 @@ function App() {
     <BrowserRouter>
       <Menubar />
       <Routes>
+        <Route path={`${KAKAO_OAUTH}`} element={<KakaoRedirect />} />
         <Route path="/restricted" element={<Restricted />} />
         {isLogin ? (
           <>

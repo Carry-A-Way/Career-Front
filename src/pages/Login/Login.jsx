@@ -12,6 +12,9 @@ import VerticalLine from "../../components/Line/VerticalLine";
 import { handleLogin } from "../../api/login";
 import { getNicknameFromToken } from "../../auth/jwtFunctions";
 import { SIGNUP_MENTEE, SIGNUP_MENTOR } from "../../api/api";
+import { KAKAO_REDIRECT_URI } from "../../settings/url";
+const K_REST_API_KEY = process.env.REACT_APP_K_REST_API_KEY;
+const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${K_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
 
 function Login() {
   const [id, setId] = useState("");
@@ -39,6 +42,9 @@ function Login() {
     } else window.alert("로그인 정보가 없습니다.");
   };
 
+  const handleKakaoLogin = () => {
+    window.location.href = kakaoURL;
+  };
   return (
     <LoginLayout>
       <FormWrapper>
@@ -74,6 +80,7 @@ function Login() {
               backgroundColor: "#fee501",
               color: "black",
             }}
+            onClick={handleKakaoLogin}
           >
             카카오로 시작하기
           </ColorButton>

@@ -1,2 +1,7 @@
 node_modules/
 .github/ISSUE_TEMPLATE/
+
+# env
+.env
+.env.local
+.env.develop
