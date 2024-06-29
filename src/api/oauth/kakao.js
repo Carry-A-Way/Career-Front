@@ -1,16 +1,16 @@
 import axios from "axios";
-import {
-  KAKAO_GET_TOKEN,
-  KAKAO_GET_USER_INFO,
-  KAKAO_REDIRECT_URI,
-} from "../../settings/url";
 import { getCookie, setCookie } from "../../cookie";
+import { KAKAO_SNS_ID_CHECK } from "../api";
+import { SV_LOCAL } from "../../constants";
 
 const K_REST_API_KEY = process.env.REACT_APP_K_REST_API_KEY;
 const K_SECRET_KEY = process.env.REACT_APP_K_SECRET_KEY;
 
+const KAKAO_GET_TOKEN = "https://kauth.kakao.com/oauth/token";
+const KAKAO_GET_USER_INFO = "https://kapi.kakao.com/v2/user/me";
+const KAKAO_REDIRECT_URI = "http://localhost:3002/oauth";
+
 export const getKakaoOauthToken = async (code) => {
-  console.log(code);
   try {
     const params = new URLSearchParams();
     params.append("grant_type", "authorization_code");
@@ -43,10 +43,26 @@ export const getKakaoOauthToken = async (code) => {
 };
 
 export const getKakaoUserInfo = async () => {
-  const res = await axios.get(KAKAO_GET_USER_INFO, {
-    headers: {
-      Authorization: `Bearer ${getCookie("kakao_token")}`,
-    },
-  });
-  console.log(res);
+  try {
+    const res = await axios.get(KAKAO_GET_USER_INFO, {
+      headers: {
+        Authorization: `Bearer ${getCookie("kakao_token")}`,
+      },
+    });
+    console.log(res);
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const checkRegisterWithSnsId = async (snsId) => {
+  try {
+    const res = await axios.post(`${SV_LOCAL}/${KAKAO_SNS_ID_CHECK}`, {
+      snsId: snsId,
+    });
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
 };

@@ -1,8 +1,7 @@
 //
 export const KAKAO_OAUTH = "oauth";
-export const KAKAO_REDIRECT_URI = "http://localhost:3002/oauth";
-export const KAKAO_GET_TOKEN = "https://kauth.kakao.com/oauth/token";
-export const KAKAO_GET_USER_INFO = "https://kapi.kakao.com/v2/user/me";
+export const OAUTH_KAKAO_MENTOR_SIGNUP = "oauth/kakao/signup/mentor";
+
 // Profile
 export const VALID_USERNAME = "user/valid/username";
 export const VALID_NICKNAME = "user/valid/nickname";

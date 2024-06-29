@@ -12,9 +12,9 @@ import VerticalLine from "../../components/Line/VerticalLine";
 import { handleLogin } from "../../api/login";
 import { getNicknameFromToken } from "../../auth/jwtFunctions";
 import { SIGNUP_MENTEE, SIGNUP_MENTOR } from "../../api/api";
-import { KAKAO_REDIRECT_URI } from "../../settings/url";
 const K_REST_API_KEY = process.env.REACT_APP_K_REST_API_KEY;
-const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${K_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
+const KAKAO_REDIRECT_URI = "http://localhost:3002/oauth";
+const KAKAO_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${K_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
 
 function Login() {
   const [id, setId] = useState("");
@@ -43,7 +43,7 @@ function Login() {
   };
 
   const handleKakaoLogin = () => {
-    window.location.href = kakaoURL;
+    window.location.href = KAKAO_URL;
   };
   return (
     <LoginLayout>

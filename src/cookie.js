@@ -11,7 +11,6 @@ export const setCookie = (name, value, option = {}, expiresIn = null) => {
     expires.setSeconds(expires.getSeconds() + expiresIn);
     cookieOptions.expires = expires;
   }
-  console.log("expires in : ", expiresIn);
   return cookies.set(name, value, cookieOptions);
 };
 

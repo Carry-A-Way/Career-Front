@@ -1,3 +1,6 @@
+// oauth
+export const KAKAO_SNS_ID_CHECK = "oauth/kakao/check-register";
+
 // Profile
 export const VALID_USERNAME = "user/valid/username";
 export const VALID_NICKNAME = "user/valid/nickname";
