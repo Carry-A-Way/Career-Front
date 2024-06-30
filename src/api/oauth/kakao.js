@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getCookie, setCookie } from "../../cookie";
-import { KAKAO_SNS_ID_CHECK } from "../api";
+import { KAKAO_CALLBACK, KAKAO_SIGNUP, KAKAO_SNS_ID_CHECK } from "../api";
 import { SV_LOCAL } from "../../constants";
 
 const K_REST_API_KEY = process.env.REACT_APP_K_REST_API_KEY;
@@ -61,6 +61,31 @@ export const checkRegisterWithSnsId = async (snsId) => {
     const res = await axios.post(`${SV_LOCAL}/${KAKAO_SNS_ID_CHECK}`, {
       snsId: snsId,
     });
+    return res.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const kakaoSignup = async (user) => {
+  try {
+    console.log(user);
+    const res = await axios.post(`${SV_LOCAL}/${KAKAO_SIGNUP}`, user);
+    console.log(res);
+    return res;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const kakaoCallback = async (code) => {
+  try {
+    const res = await axios.get(`${SV_LOCAL}/${KAKAO_CALLBACK}`, {
+      params: {
+        code: code,
+      },
+    });
+    console.log("callback res", res);
     return res.data;
   } catch (err) {
     console.error(err);

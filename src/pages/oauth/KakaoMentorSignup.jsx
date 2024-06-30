@@ -1,5 +1,3 @@
-import React from "react";
-import axios from "axios";
 import { useState } from "react";
 import { ButtonDiv } from "../../components/Button/Button";
 import MenuLine from "../../components/Line/MenuLine";
@@ -7,10 +5,8 @@ import HorizontalLine from "../../components/Line/HorizontalLine";
 import Input from "../../components/Input/Input";
 import "react-datepicker/dist/react-datepicker.css";
 import styled from "styled-components";
-import { SV_LOCAL } from "../../constants";
 import { colors } from "../../styles/common/Theme";
-import { useNavigate } from "react-router-dom";
-import { checkValidNickname, checkValidUsername } from "../../api/checkValid";
+import { checkValidNickname } from "../../api/checkValid";
 import TitleWithBar from "../../components/Input/InputWithTitle";
 import {
   Label,
@@ -20,72 +16,62 @@ import {
 } from "../../styles/common/FormComponents";
 import { phoneNumberParse } from "../../utils/ParseFormat";
 import { useSelector } from "react-redux";
-function KakaoMentorSignup(props) {
-  const navigator = useNavigate();
+import { kakaoSignup } from "../../api/oauth/kakao";
+import { setCookie } from "../../cookie";
+import { useNavigate } from "react-router-dom";
+function KakaoMentorSignup() {
+  const navigate = useNavigate();
   const kakaoInfo = useSelector((state) => state.kakaoInfo);
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [validUsername, setValidUsername] = useState(true);
+  const validUsername = true;
   const [validNickname, setValidNickname] = useState(false);
   const [numberCode, setNumberCode] = useState("");
-  console.log(kakaoInfo);
   const [user, setUser] = useState({
-    name: kakaoInfo.profile.nickname, //필수
+    name: kakaoInfo.name, //필수
     username: kakaoInfo.email, //필수
     nickname: "", //필수
     password: "", //필수
-    birth: `2024${kakaoInfo.birthday}` || "", //필수
+    birth: "", //필수
     gender: kakaoInfo.gender === "male" ? true : false, //필수
-    introduce: "",
     telephone: "",
-    consultMajor1: "",
-    consultMajor2: "",
-    consultMajor3: "",
-    plan: "",
-    hobby: "",
-    // profileImg:
-    //   "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-    schoolList: [],
-    careerList: [],
-    tagList: [],
     email: kakaoInfo.email,
-    // activeImg: [],
   });
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-
     if (!validUsername) window.alert("아이디 중복확인이 필요합니다.");
     else if (!validNickname) window.alert("닉네임 중복확인이 필요합니다.");
-    else if (!confirmPassword) window.alert("비밀번호가 일치하지 않습니다.");
     else {
       setUser((user) => ({
         ...user,
       }));
 
-      const formData = new FormData();
-
       const jsonData = {
         name: user.name, //필수
         username: user.username, //필수
         nickname: user.nickname, //필수
-        password: user.password, //필수
         telephone: user.telephone,
         birth: user.birth.replace(/-/g, ""), //필수
         gender: user.gender, //필수
         isTutor: true,
         email: user.email,
+        snsId: kakaoInfo.snsId,
       };
-      formData.append("json", JSON.stringify(jsonData));
-      axios
-        .post(`${SV_LOCAL}/user/signup/mentor`, jsonData)
-        .then(() => {
-          window.alert("멘토 회원가입이 완료되었습니다.");
-          navigator("/login");
-        })
-        .catch((err) => {
-          console.error(err);
-          window.alert("회원가입에 실패하였습니다. 다시 시도해 주세요.");
+      console.log(jsonData);
+      const response = await kakaoSignup(jsonData);
+      console.log("response ", response);
+      if (response.status === 200) {
+        window.alert("카카오 회원가입이 완료되었습니다.");
+        const jwtToken = response.data;
+        console.log("jwtToken", jwtToken);
+        setCookie("jwtToken", jwtToken, {
+          path: "/",
+          secure: false,
+          sameSite: "lax",
         });
+      } else {
+        window.alert("오류가 발생했습니다. 다시 시도해 주세요.");
+        navigate("/login");
+      }
     }
   };
   return (
@@ -156,41 +142,6 @@ function KakaoMentorSignup(props) {
               )}
               {validNickname === true && <span>사용가능한 닉네임입니다.</span>}
             </ValidWrapper>
-          </Wrapper>
-          <Wrapper>
-            <TitleWithBar size="small" title="비밀번호" required={true} />
-            <InputForm>
-              <Input
-                required={true}
-                type="password"
-                placeholder="비밀번호를 입력하세요."
-                value={user.password}
-                onChange={(e) =>
-                  setUser((user) => ({ ...user, password: e.target.value }))
-                }
-              />
-            </InputForm>
-          </Wrapper>
-          <Wrapper>
-            <TitleWithBar size="small" title="비밀번호 확인" required={true} />
-            <InputForm>
-              <Input
-                required={true}
-                type="password"
-                placeholder="비밀번호를 다시 입력하세요."
-                value={confirmPassword}
-                onChange={(e) => {
-                  setConfirmPassword(e.target.value);
-                }}
-              />
-            </InputForm>
-            {confirmPassword !== "" &&
-              confirmPassword !== user.password &&
-              user.password && (
-                <ValidWrapper>
-                  <span>비밀번호가 일치하지 않습니다.</span>
-                </ValidWrapper>
-              )}
           </Wrapper>
           <Wrapper>
             <TitleWithBar size="small" title="생년월일" required={true} />

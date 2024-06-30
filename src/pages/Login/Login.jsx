@@ -13,7 +13,7 @@ import { handleLogin } from "../../api/login";
 import { getNicknameFromToken } from "../../auth/jwtFunctions";
 import { SIGNUP_MENTEE, SIGNUP_MENTOR } from "../../api/api";
 const K_REST_API_KEY = process.env.REACT_APP_K_REST_API_KEY;
-const KAKAO_REDIRECT_URI = "http://localhost:3002/oauth";
+const KAKAO_REDIRECT_URI = "http://localhost:3002/oauth/kakao";
 const KAKAO_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${K_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
 
 function Login() {

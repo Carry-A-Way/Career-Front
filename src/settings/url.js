@@ -1,5 +1,5 @@
 //
-export const KAKAO_OAUTH = "oauth";
+export const KAKAO_OAUTH = "oauth/kakao";
 export const OAUTH_KAKAO_MENTOR_SIGNUP = "oauth/kakao/signup/mentor";
 
 // Profile

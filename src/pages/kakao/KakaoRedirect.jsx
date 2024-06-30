@@ -4,6 +4,7 @@ import {
   checkRegisterWithSnsId,
   getKakaoOauthToken,
   getKakaoUserInfo,
+  kakaoCallback,
 } from "../../api/oauth/kakao";
 import styled from "styled-components";
 import { colors } from "../../styles/common/Theme";
@@ -37,14 +38,18 @@ const KakaoRedirect = () => {
   useEffect(() => {
     setIsLoading(true);
     const fetchData = async () => {
-      await getKakaoOauthToken(code); // 첫 번째 비동기 함수 실행
-      const data = await getKakaoUserInfo(); // 두 번째 비동기 함수 실행
-      //setUserInfo(JSON.stringify(data));
-      dispatch(setKakaoInfo(data.kakao_account));
-      const isUser = await checkRegisterWithSnsId(data.id);
-      if (isUser) {
-        navigate("/");
-      }
+      const kakaoInfo = await kakaoCallback(code);
+      dispatch(setKakaoInfo(kakaoInfo));
+      // await getKakaoOauthToken(code); // 첫 번째 비동기 함수 실행
+
+      // const data = await getKakaoUserInfo(); // 두 번째 비동기 함수 실행
+      // // //setUserInfo(JSON.stringify(data));
+      // const kakao_info = { snsId: data.id, ...data.kakao_account };
+      // dispatch(setKakaoInfo(kakao_info));
+      // const isUser = await checkRegisterWithSnsId(data.id);
+      // if (isUser) {
+      //   navigate("/");
+      // }
       setIsLoading(false);
     };
 
