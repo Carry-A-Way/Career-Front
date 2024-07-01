@@ -15,12 +15,16 @@ import {
   ValidWrapper,
 } from "../../styles/common/FormComponents";
 import { phoneNumberParse } from "../../utils/ParseFormat";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { kakaoSignup } from "../../api/oauth/kakao";
 import { setCookie } from "../../cookie";
 import { useNavigate } from "react-router-dom";
+import { setIsLogin } from "../../store/isLoginSlice";
+import { setIsMentor } from "../../store/isMentorSlice";
+import { getNicknameFromToken } from "../../auth/jwtFunctions";
 function KakaoMentorSignup() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const kakaoInfo = useSelector((state) => state.kakaoInfo);
   const validUsername = true;
   const [validNickname, setValidNickname] = useState(false);
@@ -54,20 +58,24 @@ function KakaoMentorSignup() {
         gender: user.gender, //필수
         isTutor: true,
         email: user.email,
-        snsId: kakaoInfo.snsId,
+        snsId: kakaoInfo.id,
       };
-      console.log(jsonData);
       const response = await kakaoSignup(jsonData);
-      console.log("response ", response);
       if (response.status === 200) {
         window.alert("카카오 회원가입이 완료되었습니다.");
-        const jwtToken = response.data;
-        console.log("jwtToken", jwtToken);
+        const jwtToken = response.data.token;
+        const parts = jwtToken.split(".");
+        const payload = JSON.parse(atob(parts[1]));
+        dispatch(setIsLogin(true));
+        dispatch(setIsMentor(payload.isTutor));
         setCookie("jwtToken", jwtToken, {
           path: "/",
           secure: false,
           sameSite: "lax",
         });
+        window.alert(`${getNicknameFromToken(jwtToken)}님 환영합니다!`);
+        if (payload.isTutor) navigate("/mentor");
+        else navigate("/mentee");
       } else {
         window.alert("오류가 발생했습니다. 다시 시도해 주세요.");
         navigate("/login");

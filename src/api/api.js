@@ -1,7 +1,6 @@
 // oauth
-export const KAKAO_SNS_ID_CHECK = "oauth/kakao/check-register";
-export const KAKAO_SIGNUP = "oauth/kakao_signup";
-export const KAKAO_CALLBACK = "oauth/kakao_callback";
+export const KAKAO_SIGNUP = "oauth/kakao/signup";
+export const KAKAO_CALLBACK = "oauth/kakao/callback";
 
 // Profile
 export const VALID_USERNAME = "user/valid/username";

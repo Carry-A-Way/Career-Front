@@ -1,36 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import {
-  checkRegisterWithSnsId,
-  getKakaoOauthToken,
-  getKakaoUserInfo,
-  kakaoCallback,
-} from "../../api/oauth/kakao";
+import { kakaoCallback } from "../../api/oauth/kakao";
 import styled from "styled-components";
 import { colors } from "../../styles/common/Theme";
 import { FRONT_URL } from "../../constants";
-import { SIGNUP_MENTEE, SIGNUP_MENTOR } from "../../api/api";
+import { SIGNUP_MENTEE } from "../../api/api";
 import { OAUTH_KAKAO_MENTOR_SIGNUP } from "../../settings/url";
 import { useDispatch } from "react-redux";
 import { setKakaoInfo } from "../../store/kakaoInfoSlice";
+import { setIsLogin } from "../../store/isLoginSlice";
+import { setIsMentor } from "../../store/isMentorSlice";
+import { setCookie } from "../../cookie";
+import { getNicknameFromToken } from "../../auth/jwtFunctions";
 
 const KakaoRedirect = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const code = searchParams.get("code");
   const [isLoading, setIsLoading] = useState(false);
-  const [userInfo, setUserInfo] = useState({
-    // "name" : "",
-    // "username" : "",
-    // "nickname" : "",
-    // "telephone": "",
-    // "birth" : "",
-    // "gender" : false,
-    // "isTutor" : false,
-    // "email" : "",
-    // "snsId" : ""
-  });
-
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -38,18 +25,25 @@ const KakaoRedirect = () => {
   useEffect(() => {
     setIsLoading(true);
     const fetchData = async () => {
-      const kakaoInfo = await kakaoCallback(code);
-      dispatch(setKakaoInfo(kakaoInfo));
-      // await getKakaoOauthToken(code); // 첫 번째 비동기 함수 실행
-
-      // const data = await getKakaoUserInfo(); // 두 번째 비동기 함수 실행
-      // // //setUserInfo(JSON.stringify(data));
-      // const kakao_info = { snsId: data.id, ...data.kakao_account };
-      // dispatch(setKakaoInfo(kakao_info));
-      // const isUser = await checkRegisterWithSnsId(data.id);
-      // if (isUser) {
-      //   navigate("/");
-      // }
+      const res = await kakaoCallback(code);
+      if (res.statusCode === 409) {
+        const jwtToken = res.data;
+        const parts = jwtToken.split(".");
+        const payload = JSON.parse(atob(parts[1]));
+        dispatch(setIsLogin(true));
+        dispatch(setIsMentor(payload.isTutor));
+        setCookie("jwtToken", jwtToken, {
+          path: "/",
+          secure: false,
+          sameSite: "lax",
+        });
+        window.alert(`${getNicknameFromToken(jwtToken)}님 환영합니다!`);
+        if (payload.isTutor) navigate("/mentor");
+        else navigate("/mentee");
+      } else {
+        const kakaoInfo = res.data;
+        dispatch(setKakaoInfo(kakaoInfo));
+      }
       setIsLoading(false);
     };
 
