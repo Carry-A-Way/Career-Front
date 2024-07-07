@@ -6,7 +6,7 @@ import { colors } from "../../styles/common/Theme";
 import { FRONT_URL } from "../../constants";
 import { SIGNUP_MENTEE } from "../../api/api";
 import { OAUTH_KAKAO_MENTOR_SIGNUP } from "../../settings/url";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setKakaoInfo } from "../../store/kakaoInfoSlice";
 import { setIsLogin } from "../../store/isLoginSlice";
 import { setIsMentor } from "../../store/isMentorSlice";
@@ -17,14 +17,16 @@ const KakaoRedirect = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const code = searchParams.get("code");
+  const currentCode = useSelector((state) => state.kakaoInfo.code);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
+  console.log("current ", currentCode);
   useEffect(() => {
-    setIsLoading(true);
     const fetchData = async () => {
+      setIsLoading(true);
       const res = await kakaoCallback(code);
       if (res.statusCode === 409) {
         const jwtToken = res.data;
@@ -41,14 +43,14 @@ const KakaoRedirect = () => {
         if (payload.isTutor) navigate("/mentor");
         else navigate("/mentee");
       } else {
-        const kakaoInfo = res.data;
+        const kakaoInfo = { code: code, ...res.data };
         dispatch(setKakaoInfo(kakaoInfo));
       }
       setIsLoading(false);
     };
 
-    fetchData();
-  }, [code]);
+    if (currentCode !== code) fetchData();
+  }, []);
 
   // 카카오 유저가 기존 회원인지 신규 회원인지 확인하고 신규 회원이면 멘토/멘티 회원가입 페이지, 기존 회원이면 홈
 

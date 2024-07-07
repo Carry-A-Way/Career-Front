@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const kakaoInfoSlice = createSlice({
   name: "oauthInfo",
   initialState: {
+    code: "",
     ageRange: "",
     ageRangeNeedsAgreement: false,
     birthday: "",
